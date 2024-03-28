@@ -1,0 +1,24 @@
+{
+    "addressShort": "Na Zakolu Wisły 16",
+    "addressFull": "Na Zakolu Wisły 16, 30-729 Kraków",
+    "contactNumber": "666-666-666",
+    "businessLocationUrl": "https://maps.google.com/maps?ll=50.054342,19.983851&z=19&t=m&hl=ru&gl=US&mapclient=apiv3&cid=5483489582511447560",
+    "businessLocation": { "lat": 50.0545539855957, "lng": 19.983287811279297 },
+    "localesMetadata": {
+        "en": {
+            "name": "Enlgish",
+            "label": "EN",
+            "code": "us"
+        },
+        "pl": {
+            "name": "Polski",
+            "label": "PL",
+            "code": "pl"
+        },
+        "ru": {
+            "name": "Русский",
+            "label": "RU",
+            "code": "ru"
+        }
+    }
+}

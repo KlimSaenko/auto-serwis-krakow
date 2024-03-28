@@ -1,0 +1,54 @@
+.fi.flag-icon-rounded {
+    border-radius: 50%;
+    height: 1em;
+    width: 1em;
+    background-size: cover;
+}
+
+header .nav-button {
+    position: relative;
+}
+
+header .nav-button::after {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    background: red;
+    height: 4px;
+    width: 0;
+    transition: all .2s ease-in-out;
+}
+
+header .nav-button:hover::after, header .nav-button.active::after {
+    width: 100%;
+}
+
+.card .post-card-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    -webkit-box-shadow: inset 0px -130px 80px -60px rgba(44, 36, 30, 0.8);
+    -moz-box-shadow: inset 0px -130px 80px -60px rgba(44, 36, 30, 0.8);
+    box-shadow: inset 0 -130px 80px -60px rgba(44, 36, 30, 0.8);
+}
+
+.text-reveal::before {
+    content: "";
+    position: absolute;
+    right: 100% ;
+    height: 100%;
+    width: 1rem;
+    background-color: red;
+    transform-origin: center center;
+    
+    animation: line-animation 2s cubic-bezier(0.33, 1, 0.68, 1) alternate;
+}
+
+@keyframes line-animation {
+    0% { right: 0; height: 0; }
+    30% { right: 0; height: 100%; }
+    100% { right: 100% ; }
+}

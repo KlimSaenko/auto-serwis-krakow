@@ -1,0 +1,36 @@
+{
+    "localesMetadata": {
+        "en": {
+            "name": "Angielski",
+            "label": "EN",
+            "code": "us"
+        },
+        "pl": {
+            "name": "Polski",
+            "label": "PL",
+            "code": "pl"
+        },
+        "ru": {
+            "name": "Rosyjski",
+            "label": "RU",
+            "code": "ru"
+        }
+    },
+    "header": {
+        "home": "Główna",
+        "workingTime": "Pon - Pt: 8:00 - 18:00"
+    },
+    "home": {
+        "goToAbout": "About Us",
+        "aboutTitle": "About Us",
+        "postsTitle": "Latest Posts",
+        "mainBannerTitle": "Best Service in Krakow"
+    },
+    "googleMap": {
+        "markerTitle": "Auto Serwis Kraków",
+        "addressLabel": "Address",
+        "contactsLabel": "Contacts",
+        "telLabel": "Tel",
+        "viewOnGoogleMaps": "View on Google Maps"
+    }
+}

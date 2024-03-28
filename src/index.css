@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Jost-SemiBold";
+    src: url("/fonts/Jost/static/Jost-SemiBold.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Jost-Regular";
+    src: url("/fonts/Jost/static/Jost-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Jost-Medium";
+    src: url("/fonts/Jost/static/Jost-Medium.ttf");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Jost-Light";
+    src: url("/fonts/Jost/static/Jost-Light.ttf");
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Jost-Thin";
+    src: url("/fonts/Jost/static/Jost-Thin.ttf");
+    font-weight: lighter;
+    font-style: normal;
+}
