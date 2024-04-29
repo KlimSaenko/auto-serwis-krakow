@@ -18,8 +18,12 @@
 </script>
 
 <template>
-  <div :style="{ translate: `0 ${scrollOffset}` }">
+  <div class="max-md:hidden" :style="{ translate: `0 ${scrollOffset}` }">
     <slot>
+    </slot>
+  </div>
+  <div class="md:hidden">
+    <slot >
     </slot>
   </div>
 </template>

@@ -24,7 +24,8 @@
         "goToAbout": "About Us",
         "aboutTitle": "About Us",
         "postsTitle": "Latest Posts",
-        "mainBannerTitle": "Best Service in Krakow"
+        "mainBannerTitle": "Best Service in Krakow",
+        "whatPeopleSayTitle": "What People Say"
     },
     "googleMap": {
         "markerTitle": "Auto Serwis Kraków",

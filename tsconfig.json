@@ -12,8 +12,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@logos/*": ["./public/logos/*"],
-      "@config/*": ["./config/*"]
+      "@car-brands/*": ["./public/car-brands/*"],
+      "@config/*": ["./config/*"],
+      "@helpers/*": ["./src/vue-helpers/*"]
     }
   }
 }

@@ -16,8 +16,9 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: [
         { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
-        { find: '@logos', replacement: fileURLToPath(new URL('./public/logos', import.meta.url)) },
-        { find: '@config', replacement: fileURLToPath(new URL('./config', import.meta.url)) }
+        { find: '@car-brands', replacement: fileURLToPath(new URL('./public/car-brands', import.meta.url)) },
+        { find: '@config', replacement: fileURLToPath(new URL('./config', import.meta.url)) },
+        { find: '@helpers', replacement: fileURLToPath(new URL('./src/vue-helpers', import.meta.url)) }
       ]
     }
   }

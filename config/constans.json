@@ -4,6 +4,9 @@
     "contactNumber": "666-666-666",
     "businessLocationUrl": "https://maps.google.com/maps?ll=50.054342,19.983851&z=19&t=m&hl=ru&gl=US&mapclient=apiv3&cid=5483489582511447560",
     "businessLocation": { "lat": 50.0545539855957, "lng": 19.983287811279297 },
+    "corporateInfo": {
+        "email": "krakowservicetest@gmail.com"
+    },
     "localesMetadata": {
         "en": {
             "name": "Enlgish",

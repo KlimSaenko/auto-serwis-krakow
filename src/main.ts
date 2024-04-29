@@ -16,6 +16,8 @@ import GoogleMap from './components/GoogleMap.vue';
 import Footer from './components/Footer.vue';
 import MainBannerCards from './components/MainBannerCards.vue';
 import ScrollParallax from './components/ScrollParallax.vue';
+import CustomerReview from './components/cards/CustomerReview.vue';
+import ReviewsList from './components/ReviewsList.vue';
 
 const defaultLocale = Translations.guessDefaultLocale();
 
@@ -30,6 +32,8 @@ app.component('GoogleMap', GoogleMap);
 app.component('Footer', Footer);
 app.component('MainBannerCards', MainBannerCards);
 app.component('ScrollParallax', ScrollParallax);
+app.component('CustomerReview', CustomerReview);
+app.component('ReviewsList', ReviewsList);
 
 app.use(router);
 app.use(VueScrollTo);

@@ -13,7 +13,7 @@
 
 <template>
     <div class="inline-flex my-3 h-12 flex-nowrap w-full">
-        <ul :style="`width: ${imgSrcList.length * 12}rem`" class="flex items-center justify-center absolute pl-12 space-x-12 animate-loop-scroll">
+        <ul :style="`width: ${imgSrcList.length * 15}rem`" :class="reversed ? 'animate-loop-scroll-reverse' : 'animate-loop-scroll'" class="flex items-center justify-center absolute pl-10 space-x-10">
             <li v-for="imgSrc in imgSrcList">
                 <img :src="imgSrc" alt="car logo" />
             </li>

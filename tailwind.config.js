@@ -8,15 +8,16 @@ export default {
     extend: {
       animation: {
         'loop-scroll': 'loop-scroll 12s linear infinite',
-        'bounce-h': 'bounce-h 1s infinite',
+        'loop-scroll-reverse': 'loop-scroll 12s linear infinite reverse',
+        'bounce-x': 'bounce-x 1s infinite',
         'text-reveal': 'text-reveal 2s cubic-bezier(0.33, 1, 0.68, 1) alternate'
       },
       keyframes: {
         'loop-scroll': {
-          from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-50%)' }
+          from: { transform: 'translateX(-25%)' },
+          to: { transform: 'translateX(-75%)' }
         },
-        'bounce-h': {
+        'bounce-x': {
           '0%, 100%': {
               transform: 'none',
               animationTimingFunction: 'cubic-bezier(0.8,0,1,1)'
