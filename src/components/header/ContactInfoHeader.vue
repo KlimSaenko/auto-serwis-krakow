@@ -35,8 +35,8 @@
         </ul>
       </div>
     </div>
-    <div :aria-expanded="menuExpanded" class='flex flex-wrap items-center md:relative max-md:aria-expanded:bottom-0 left-0 right-0 py-4 justify-between md:gap-x-2 lg:gap-x-4 mx-auto px-5 md:px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl text-gray-500'>
-      <button v-on:click="menuExpanded = !menuExpanded" class="relative inline-flex items-center w-10 h-10 justify-center text-sm text-[red] rounded-lg md:hidden" aria-controls="navbar-default" aria-expanded="false">
+    <div class='flex flex-wrap items-center left-0 right-0 py-4 justify-between md:gap-x-2 lg:gap-x-4 mx-auto px-5 md:px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl text-gray-500'>
+      <button v-on:click="menuExpanded = !menuExpanded" class="relative inline-flex items-center w-10 h-10 justify-center text-sm text-[red] rounded-lg md:hidden">
         <span class="sr-only">Open main menu</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" stroke="#eee" stroke-width=".7" fill="rgba(0,0,0,0)" stroke-linecap="round">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7">
@@ -57,41 +57,45 @@
         <img src="../../assets/service-logo-256.jpg" alt="logo" class='h-12' />
       </a>
 
-      <div :aria-expanded="menuExpanded" class='items-stretch md:!flex md:flex-auto aria-expanded:bg-white max-md:absolute right-0 left-0 aria-expanded:bottom-0 md:ml-6 md:mr-3 max-md:top-16 max-md:p-4 font-bold text-[17px]'>
-        <ul class='md:flex space-x-7 lg:space-x-9'>
-          <li class='max-md:border-b max-md:py-2'>
-            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 text-gray-800 active leading-8'>
+      <nav :aria-expanded="menuExpanded" class='items-stretch md:!flex md:flex-auto bg-white max-md:fixed right-0 left-0 top-16 bottom-full aria-expanded:bottom-0 duration-500 md:ml-6 md:mr-3 font-bold text-[17px] max-md:text-xl max-md:overflow-hidden'>
+        <div class="md:hidden border-b border-zinc-400 mx-20 mt-4 mb-2"></div>
+        
+        <ul class='max-md:py-4 max-md:px-3 md:flex max-md:space-y-2 space-x-7 lg:space-x-9'>
+          <li class='max-md:py-2 ml-7'>
+            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 text-gray-800 active leading-6 md:leading-8'>
               {{ $t("header.home") }}
             </a>
           </li>
 
-          <li class='max-md:border-b max-md:py-2'>
-            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 leading-8'>
-              {{ $t("header.home") }}
+          <li class='max-md:py-2'>
+            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 leading-6 md:leading-8'>
+              {{ $t("header.services") }}
             </a>
           </li>
 
-          <li class='max-md:border-b max-md:py-2'>
-            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 leading-8'>
-              {{ $t("header.home") }}
+          <li class='max-md:py-2'>
+            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 leading-6 md:leading-8'>
+              {{ $t("header.media") }}
             </a>
           </li>
 
         </ul>
-        <ul class='md:flex md:items-center ml-auto max-md:block md:space-x-8'>
-          <li class='max-md:border-b max-md:py-2 max-md:mt-2'>
-            <RouterLink to="#map" v-scroll-to="'map'" class='flex items-center nav-button fill-gray-500 md:hover:text-gray-800 md:hover:fill-gray-800 leading-8'>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
+        <ul class='max-md:py-4 max-md:px-3 md:flex md:items-center ml-auto max-md:block md:space-x-8 max-md:ml-7'>
+          <li class='max-md:py-2 max-md:mt-2'>
+            <RouterLink to="#map" v-scroll-to="'map'" class='flex items-center nav-button fill-gray-500 md:hover:text-gray-800 md:hover:fill-gray-800 leading-6 md:leading-8'>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
                 <g transform="scale(2.81 2.81)" >
                     <path d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
                 </g>
               </svg>
-              <p class="max-lg:hidden ml-3">{{ getConfigConst("addressShort") }}</p>
+              <p class="hidden max-md:block lg:block ml-3">{{ getConfigConst("addressShort") }}</p>
             </RouterLink>
           </li>
         </ul>
-      </div>
+      </nav>
+
       <div class="border-l border-[#333] h-6 max-md:hidden"></div>
+
       <LanguageSelector />
     </div>
   </header>

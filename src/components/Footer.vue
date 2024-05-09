@@ -5,8 +5,8 @@
 <template>
     <footer class="border-box bg-zinc-800">
         <div class="pb-5 pt-10 mx-auto text-lg px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl font-jost">
-            <div class="grid text-gray-300 md:grid-cols-3 grid-cols-1">
-                <div class="col-span-1">
+            <div class="grid text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div class="col-span-1 px-3 mb-8">
                     <h1 class="font-jost-bold mb-3">
                         Contacts
                     </h1>
@@ -50,41 +50,43 @@
                         </span>
                     </div>
                 </div>
-                <div class="px-3 col-span-1">
+                <div class="px-3 col-span-1 mb-8">
                     <div class="flex p-5 border-2 border-[red] rounded-md justify-center">
                         <div>
                             <h1 class="mb-3 text-xl text-gray-100 font-jost-bold">
-                                Open now!
+                                {{ $t('footer.openNow') }}
                             </h1>
                             <div class='flex items-center mb-2'>
                                 <span class='font-normal'>
-                                {{ $t("header.workingTime") }}
+                                    {{ $t("header.workingTime") }}
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-span-1">
-                    <h1 class="mb-3 font-jost-bold text-right">Quick links</h1>
-                    <ul>
-                        <li class='flex py-2 justify-end'>
-                            <a href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
-                                {{ $t("header.home") }}
-                            </a>
-                        </li>
+                <div class="col-span-1 px-3 flex md:justify-center">
+                    <div>
+                        <h1 class="mb-4 font-jost-bold">Quick links</h1>
+                        <ul>
+                            <li class='flex mb-3'>
+                                <a href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
+                                    {{ $t("header.home") }}
+                                </a>
+                            </li>
 
-                        <li class='flex py-2 justify-end'>
-                            <a href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
-                                {{ $t("header.home") }}
-                            </a>
-                        </li>
+                            <li class='flex mb-3'>
+                                <a href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
+                                    {{ $t("header.services") }}
+                                </a>
+                            </li>
 
-                        <li class='flex py-2 justify-end'>
-                            <a href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
-                                {{ $t("header.home") }}
-                            </a>
-                        </li>
-                    </ul>
+                            <li class='flex mb-3'>
+                                <a href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
+                                    {{ $t("header.media") }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <hr class="my-6 border-gray-500 sm:mx-auto" />

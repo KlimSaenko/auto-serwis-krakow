@@ -2,21 +2,41 @@ header .nav-button {
     position: relative;
 }
 
-header .nav-button::after {
-    display: block;
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    right: 0;
-    background: red;
-    height: 4px;
-    width: 0;
-    transition: all .2s ease-in-out;
+@media (min-width: 768px) {
+    nav .nav-button::after {
+        display: block;
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        background: red;
+        height: 4px;
+        width: 0;
+        transition: all .2s ease-in-out;
+    }
+
+    nav .nav-button:hover::after, nav .nav-button.active::after {
+        width: 100%;
+    }
 }
 
-header .nav-button:hover::after, header .nav-button.active::after {
-    width: 100%;
+@media (max-width: 768px) {
+    nav .nav-button::after {
+        display: block;
+        content: "";
+        position: absolute;
+        left: -12px;
+        top: 0;
+        bottom: 0;
+        background: red;
+        height: 0;
+        width: 4px;
+    }
+
+    nav .nav-button.active::after {
+        height: 100%;
+    }
 }
 
 .card .post-card-image::after {
@@ -51,4 +71,15 @@ header .nav-button:hover::after, header .nav-button.active::after {
 
         animation: line-animation 2s cubic-bezier(0.33, 1, 0.68, 1) alternate;
     }
+}
+
+.tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(63 63 70) transparent transparent transparent;
 }

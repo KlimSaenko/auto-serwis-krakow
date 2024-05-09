@@ -5,7 +5,7 @@
                 <div class="flex h-full items-center text-white">
                     <div class="flex w-full justify-center">
                         <div class="relative bottom-6 max-md:max-w-96 md:bottom-16 text-reveal">
-                            <h1 class="text-5xl md:text-6xl leading-[3rem] relative pl-10 pr-12 py-6 font-jost-bold bg-zinc-950/50 sm:animate-text-reveal">{{ $t('home.mainBannerTitle') }}</h1>
+                            <h1 class="text-4xl md:text-6xl leading-[3rem] relative pl-10 pr-12 py-6 font-jost-bold bg-zinc-950/55 sm:animate-text-reveal">{{ $t('home.mainBannerTitle') }}</h1>
                         </div>
                     </div>
                 </div>
