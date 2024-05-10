@@ -5,9 +5,9 @@
 <template>
     <footer class="border-box bg-zinc-800">
         <div class="pb-5 pt-10 mx-auto text-lg px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl font-jost">
-            <div class="grid text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                <div class="col-span-1 px-3 mb-8">
-                    <h1 class="font-jost-bold mb-3">
+            <div class="grid mt-3 text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="col-span-1 px-3 mb-5">
+                    <h1 class="font-jost-bold mb-4">
                         Contacts
                     </h1>
 
@@ -50,13 +50,13 @@
                         </span>
                     </div>
                 </div>
-                <div class="px-3 col-span-1 mb-8">
+                <div class="px-3 col-span-1 mb-5">
                     <div class="flex p-5 border-2 border-[red] rounded-md justify-center">
-                        <div>
+                        <div class="leading-9 my-2">
                             <h1 class="mb-3 text-xl text-gray-100 font-jost-bold">
                                 {{ $t('footer.openNow') }}
                             </h1>
-                            <div class='flex items-center mb-2'>
+                            <div class='flex items-center'>
                                 <span class='font-normal'>
                                     {{ $t("header.workingTime") }}
                                 </span>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-1 px-3 flex md:justify-center">
+                <div class="col-span-1 px-3 flex lg:justify-center">
                     <div>
                         <h1 class="mb-4 font-jost-bold">Quick links</h1>
                         <ul>

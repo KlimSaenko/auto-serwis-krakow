@@ -16,12 +16,12 @@
 </script>
 
 <template>
-    <div class="w-full h-96 lg:h-[30rem] xl:h-[38rem]">
+    <div class="w-full h-96 lg:h-[30rem] xl:h-[38rem] mt-40">
         <GoogleMap
             :center="center"
             :zoom="14"
             map-type-id="roadmap"
-            class="w-full h-full mt-36"
+            class="w-full h-full"
         >
             <Marker :options="markerOptions">
                 <InfoWindow>

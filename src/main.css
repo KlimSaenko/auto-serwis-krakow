@@ -83,3 +83,15 @@ header .nav-button {
     border-style: solid;
     border-color: rgb(63 63 70) transparent transparent transparent;
 }
+
+.image-shadow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-box-shadow: inset 0px -63px 85px -54px rgb(65, 65, 73);
+    -moz-box-shadow: inset 0px -63px 85px -54px rgba(65, 65, 73);
+    box-shadow: inset 0px -63px 85px -54px rgba(65, 65, 73);
+}
