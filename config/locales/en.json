@@ -18,7 +18,8 @@
     },
     "header": {
         "home": "Home",
-        "workingTime": "Mon - Fri: 8am - 6pm"
+        "workingTime": "Mon - Fri: 8am - 6pm",
+        "onlineAppointment": "Online appointment"
     },
     "home": {
         "goToAbout": "About Us",

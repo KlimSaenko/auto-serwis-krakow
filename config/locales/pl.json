@@ -18,7 +18,8 @@
     },
     "header": {
         "home": "Główna",
-        "workingTime": "Pon - Pt: 8:00 - 18:00"
+        "workingTime": "Pon - Pt: 8:00 - 18:00",
+        "onlineAppointment": "Online appointment"
     },
     "home": {
         "goToAbout": "About Us",

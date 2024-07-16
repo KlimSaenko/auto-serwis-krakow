@@ -40,7 +40,7 @@ export default {
         "jost-thin": ["Jost-Thin", "sans-serif"],
       },
       backgroundImage: {
-        'service-banner': "url('@/assets/car-service-banner.jpg')",
+        'service-banner': "url('@/assets/car-service-banner-dark.jpg')",
       },
       aspectRatio: {
         '4/3': '4 / 3',

@@ -20,6 +20,12 @@ export default defineConfig(({ command, mode }) => {
         { find: '@config', replacement: fileURLToPath(new URL('./config', import.meta.url)) },
         { find: '@helpers', replacement: fileURLToPath(new URL('./src/vue-helpers', import.meta.url)) }
       ]
+    },
+    css: {
+      modules: {
+        localsConvention: "camelCase",
+        generateScopedName: "[local]"
+      }
     }
   }
 });

@@ -25,7 +25,7 @@
       <LatestPosts />
     </div>
     
-    <GoogleMap id="map" />
+    <GoogleMap class="-scroll-mt-96" id="map" />  
   </main>
 
   <Footer />

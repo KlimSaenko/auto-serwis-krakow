@@ -18,6 +18,7 @@ import MainBannerCards from './components/MainBannerCards.vue';
 import ScrollParallax from './components/ScrollParallax.vue';
 import CustomerReview from './components/cards/CustomerReview.vue';
 import ReviewsList from './components/ReviewsList.vue';
+import AppointmentModal from './components/AppointmentModal.vue';
 
 const defaultLocale = Translations.guessDefaultLocale();
 
@@ -34,6 +35,7 @@ app.component('MainBannerCards', MainBannerCards);
 app.component('ScrollParallax', ScrollParallax);
 app.component('CustomerReview', CustomerReview);
 app.component('ReviewsList', ReviewsList);
+app.component('AppointmentModal', AppointmentModal);
 
 app.use(router);
 app.use(VueScrollTo);

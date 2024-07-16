@@ -6,9 +6,9 @@
 </script>
 
 <template>
-    <div class="grid relative -top-28 gap-8 md:-top-24 xl:gap-10 md:grid-cols-2 lg:grid-cols-3 max-md:block text-lg leading-7">
-        <Card class="relative lg:-top-24 max-md:mb-7 shadow-xl mb-auto">
-          <div class="mx-2 my-2 text-zinc-800">
+    <div class="grid relative -top-28 gap-8 md:-top-24 xl:gap-10 md:grid-cols-2 lg:grid-cols-3 max-md:block text-lg leading-[1.65rem]">
+        <Card class="max-md:mb-9 shadow-xl mb-auto">
+          <div class="m-2 text-zinc-800">
             <h1 class="text-2xl mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.centerCardTitle') }}</h1>
             <p>{{ $t('home.centerCardContent_1') }}</p>
           </div>
@@ -18,8 +18,27 @@
           <LoopScroll v-bind:imgSrcList="servicedCars.slice(Math.floor(servicedCars.length / 2))" :reversed="true" class="mt-6 mb-4" />
         </Card>
 
-        <Card class="relative shadow-xl mb-auto !p-0 lg:-order-1">
-          <div class="mx-2 my-2 text-zinc-800 p-4 lg:p-5 2xl:p-6 !pb-2">
+        <Card class="relative lg:-top-24 shadow-xl !p-0 max-lg:hidden mb-auto image-shadow cursor-pointer after:!shadow-none hover:after:!shadow-[inset_0_0_25px_10px_rgba(0,0,0,0.5)] after:duration-200">
+          <div class="relative left-0 right-0 top-0">
+            <div class="image-shadow after:!shadow-[inset_0_0_22px_15px_rgba(255,255,255)] after:bg-gradient-to-b after:from-white/0 after:from-50% after:to-white">
+              <img class="object-cover" src="../assets/map-thumbnail.png" />
+            </div>
+            <div class="flex items-center absolute left-5 top-6 z-10 rounded-full bg-white shadow-md px-4 py-1 text-zinc-800">
+              <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
+                <g transform="scale(2.6 2.6)" >
+                  <path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
+                </g>
+              </svg>
+              <span class="font-jost">Krakow</span>
+            </div>
+          </div>
+          <div class="mx-2 text-zinc-800 !pt-0 p-4 lg:p-5 2xl:p-6">
+            <p>{{ $t('home.rightCardContent_1') }}</p>
+          </div>
+        </Card>
+
+        <Card class="shadow-xl mb-auto !pb-[6.5rem]">
+          <div class="m-2 text-zinc-800">
             <h1 class="text-2xl mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.leftCardTitle') }}</h1>
             <p>{{ $t('home.leftCardContent_1') }}</p>
             <ul class="my-2">
@@ -36,7 +55,7 @@
                 </li>
             </ul>
           </div>
-          <div>
+          <div class="absolute bottom-0 left-0 right-0">
             <a class="group relative flex text-white max-md:bg-[red] md:text-[red] md:hover:text-white md:hover:bg-[red] duration-[250ms] h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
               <p class="text-lg uppercase font-jost-medium">{{ $t('home.leftCardShowAll') }}</p>
               <svg class="ml-3" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,38 +66,6 @@
               <div class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
                 <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
                   {{ $t('home.leftCardShowAllTooltip') }} 
-                  <svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </p>
-              </div>
-            </a>
-          </div>
-        </Card>
-
-        <Card class="shadow-xl !p-0 max-lg:hidden mb-auto">
-          <div class="relative left-0 right-0 top-0">
-            <div class="image-shadow after:!shadow-[inset_0_63px_110px_-54px_rgba(65,65,73)]">
-              <img class="group-hover:scale-[1.08] aspect-[5/3] object-cover duration-[250ms]" src="https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-            </div>
-            <div class="absolute text-white z-10 top-0 mx-2 my-2 p-4 lg:p-5 2xl:p-6">
-              <h1 class="text-2xl mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.rightCardTitle') }}</h1>
-            </div>
-          </div>
-          <div class="mx-2 text-zinc-800 p-4 lg:p-5 2xl:p-6">
-            <p>{{ $t('home.rightCardContent_1') }}</p>
-          </div>
-          <div>
-            <a class="group relative flex text-white max-md:bg-[red] md:text-[red] md:hover:text-white md:hover:bg-[red] duration-[250ms] h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
-              <p class="text-lg uppercase font-jost-medium">{{ $t('home.rightCardShowAll') }}</p>
-              <svg class="ml-3" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 7.94189L4.486 4.47089L1 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M7 7.94189L10.486 4.47089L7 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-
-              <div class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
-                <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
-                  {{ $t('home.rightCardShowAllTooltip') }} 
                   <svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
