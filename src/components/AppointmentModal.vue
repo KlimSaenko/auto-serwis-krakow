@@ -1,8 +1,11 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, onMounted, watch } from 'vue';
     import { getConfigConst } from '../vue-helpers/configValues';
+    import { CountryProperty, type CountryData, findOne as findCountry, all as getAllCountries } from 'country-codes-list';
+    import Translations from '../vue-helpers/translations';
+    import useClickOutside from '../vue-helpers/useClickOutside';
 
-    const props = defineProps({ 
+    defineProps({ 
         appointmentFormOpened: {
             type: Boolean,
             required: false
@@ -10,7 +13,50 @@
     });
 
     const isLocationSelectorOpen = ref(false);
-    const currentLocation = ref('us');
+    const currentLocation = ref<CountryData | null>(findCountry('countryCode' as CountryProperty, Translations.defaultLocale.region));
+
+    const phoneCodeInput = ref<string>(currentLocation.value?.countryCallingCode ?? '');
+    watch(phoneCodeInput, code => phoneCodeInput.value = code.replace(/\D/g, '').substring(0, 4));
+
+    const phoneInput = ref<string>('');
+    watch(phoneInput, phone => phoneInput.value = phone.replace(/\D/g, ''));
+
+    const allCountries = getAllCountries().filter(value => value.region == 'Europe');
+
+    const componentRef = ref();
+    const excludeRef = ref();
+
+    watch(currentLocation, () => {
+      if (currentLocation.value?.countryCallingCode){
+        phoneCodeInput.value = currentLocation.value.countryCallingCode;
+      }
+    });
+
+    onMounted(async () => {
+      const localeInfo = await Translations.getUserLocaleInfo();
+      currentLocation.value = findCountry('countryCode' as CountryProperty, localeInfo.region);
+
+      phoneCodeInput.value = currentLocation.value.countryCallingCode;
+    });
+
+    useClickOutside(
+      componentRef,
+      closeCountrySelector,
+      excludeRef
+    );
+
+    function closeCountrySelector(){
+      isLocationSelectorOpen.value = false;
+
+      if (currentLocation.value?.countryCallingCode == phoneCodeInput.value)
+        return;
+
+      currentLocation.value = findCountry('countryCallingCode' as CountryProperty, phoneCodeInput.value!);
+    }
+
+    function validateForm(){
+
+    }
 </script>
 
 <style>
@@ -27,57 +73,76 @@
 
 <template>
   <Transition name="fade" appear>
-    <div v-if="appointmentFormOpened" class="fixed overflow-hidden left-0 right-0 top-0 bottom-0 p-0 m-0 bg-zinc-900/60 z-[100] flex">
-      <div class="m-auto w-[52rem] tracking-wide bg-white rounded-3xl shadow-xl shadow-black/40 font-jost-light relative overflow-hidden grid grid-cols-5">
-        <div class="col-span-3 p-10">
-          <form class="ml-2">
-            <h1 class="text-4xl mb-4">{{ $t("modal.appointmentTitle") }}</h1>
+    <div v-if="appointmentFormOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-900/60 z-[999] flex">
+      <div class="m-auto md:w-[56rem] tracking-wide bg-white rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
+        <div class="col-span-3 p-8 xl:p-10">
+          <form v-on:submit.prevent="validateForm">
+            <h1 class="text-4xl text-zinc-800">{{ $t("modal.appointmentTitle") }}</h1>
 
-            <p class="my-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, optio <a class="hover:underline cursor-pointer text-blue-600 lowercase">repudiandae distinctio</a>.
-            </p>
+            <i18n-t class="my-6" keypath="modal.appointmentDescription" scope="global" tag="p">
+              <template #privacyPolicyLabel>
+                <a href="" target="_blank" class="hover:underline cursor-pointer text-blue-600/80 lowercase">{{ $t('modal.privacyPolicyLabel') }}</a>  
+              </template>
+            </i18n-t>
 
             <div class="my-6">
-              <label class="block mb-2 font-medium text-gray-900">{{ $t("modal.customerNameLabel") }} <span class="text-[red] font-jost-medium">*</span></label>
+              <label class="block mb-2">{{ $t("modal.customerNameLabel") }} <span class="text-[red] font-jost-medium">*</span></label>
               <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                   <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
                   </svg>
                 </div>
-                <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 " placeholder="Your Name">
+                <input type="text" class="bg-gray-50 border tracking-wide border-gray-300 text-black rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2 pr-3" placeholder="Your Name">
               </div>
             </div>
 
             <div class="my-6">
-              <label class="block mb-2 text-gray-900">{{ $t("modal.customerNumberLabel") }} <span class="text-[red] font-jost-medium">*</span></label>
+              <label class="block mb-2">{{ $t("modal.customerNumberLabel") }}</label>
               <div class="flex relative">
-                  <button @click="isLocationSelectorOpen = !isLocationSelectorOpen" class="flex-shrink-0 inline-flex items-center py-2.5 px-3.5 text-sm font-jost font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-3 focus:outline-none focus:ring-gray-100 " type="button">
-                      <span :class="`fi-${ currentLocation }`" class="fi !bg-cover rounded-full h-4 !w-4 mr-3 ring-1 ring-black ring-opacity-5"></span>
-                          +1
-                      <svg class="w-2.5 h-2.5 ms-2.5 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
-                  </button>
+                <div ref="componentRef" v-on:focusin="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg hover:bg-gray-200">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                    <span :class="currentLocation ? `fi-${ currentLocation.countryCode.toLowerCase() }` : ''" class="fi bg-white h-4 !w-4 !bg-cover rounded-full ring-1 ring-black ring-opacity-5"></span>
+                  </div>
+                  
+                  <span>+</span>
+                  <input type="tel" :size="phoneCodeInput.length" v-model="phoneCodeInput" maxlength="4" class="tracking-wide cursor-text shadow-none ring-0 border-0 outline-none bg-transparent" />
+                  
+                  <div class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none">
+                    <svg class="w-2.5 h-2.5 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+                  </div>
+                </div>
 
-                  <div v-if="isLocationSelectorOpen" class="absolute h-44 left-0 top-full overflow-y-auto z-10 mt-1 text-sm text-[0.9rem] w-max rounded-md shadow-md bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1">
-                    <ul class="font-jost">
-                      <li v-for="loc in ['pl', 'ru', 'pl', 'ru', 'pl', 'ru', 'pl', 'ru']" href="#" aria-current="false" class="flex items-center px-3 py-2 align-baseline text-gray-700 aria-[current]:bg-zinc-200/60 max-md:focus:text-[red] md:hover:bg-zinc-200/60 cursor-pointer rounded-md">
-                        <span :class="`fi-${ loc }`" class="fi !bg-cover rounded-full h-4 !w-4 mr-3 ring-1 ring-black ring-opacity-5"></span>
-                        <!-- <span>{{ getConfigConst(`localesMetadata.${loc}.name`) }}</span> -->
-                        <span>Польский (+48)</span>
-                      </li>
-                    </ul>
+                <div v-if="isLocationSelectorOpen" ref="excludeRef" class="absolute font-jost max-h-52 left-0 top-full overflow-y-auto z-10 mt-1 text-[0.9rem] w-max rounded-md shadow-md bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1">
+                  <ul class="grid grid-flow-row gap-1">
+                    <li v-for="loc of allCountries.filter(value => value.countryCallingCode.startsWith(phoneCodeInput ?? ''))" @click="currentLocation = loc" :aria-checked="currentLocation?.countryCode == loc.countryCode" class="flex items-center tracking-wide px-3 py-2 align-baseline text-gray-700 aria-checked:bg-zinc-200/60 aria-checked:text-zinc-800 md:hover:bg-zinc-200/60 md:hover:text-zinc-800 cursor-pointer rounded-md">
+                      <span :class="`fi-${ loc.countryCode.toLowerCase() }`" class="fi !bg-cover bg-white rounded-full h-4 !w-4 mr-3 ring-1 ring-black ring-opacity-5"></span>
+                      <span>{{ `${loc.countryNameLocal} (+${loc.countryCallingCode})` }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="relative w-full">
+                  <input type="tel" v-model="phoneInput" maxlength="11" class="block tracking-wide p-2 pr-3 w-full text-black bg-gray-50 rounded-e-lg border-s-0 border border-gray-300" placeholder="123-456-7890" />
+                </div>
+              </div>
+            </div>
+
+            <div class="my-6">
+              <label class="block mb-2">{{ $t("modal.customerTelegramLabel") }}</label>
+              <div class="flex relative">
+                  <div class="relative flex text-gray-700 text-lg font-jost items-center pl-4 pr-4 font-medium text-center bg-gray-100 border border-gray-300 rounded-s-lg">
+                    <span>@</span>
                   </div>
 
-                  <label for="phone-input" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Phone number:</label>
-
                   <div class="relative w-full">
-                      <input type="text" id="phone-input" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="123-456-7890" />
+                    <input type="text" class="block tracking-wide p-2 pr-3 w-full text-black bg-gray-50 rounded-e-lg border-s-0 border border-gray-300" placeholder="YourTelegram" />
                   </div>
               </div>
             </div>
             
             <div class="my-6">
-              <label class="block mb-2 text-gray-900">{{ $t("modal.customerEmailLabel") }}</label>
+              <label class="block mb-2">{{ $t("modal.customerEmailLabel") }}</label>
               <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                   <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
@@ -85,29 +150,30 @@
                     <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
                   </svg>
                 </div>
-                <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 " placeholder="your@email.com">
+                <input type="email" class="bg-gray-50 tracking-wide border border-gray-300 text-black rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2 pr-3" placeholder="your@email.com">
               </div>
             </div>
 
             <div class="my-6">
-              <label class="block mb-2 text-gray-900">{{ $t("modal.customerMessageLabel") }}</label>
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+              <label class="block mb-2">{{ $t("modal.customerMessageLabel") }}</label>
+              <textarea rows="4" class="block tracking-wide px-3 py-2 w-full text-black bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
             </div>
 
-            <button class="my-[2px] mt-2 tracking-wide text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white font-bold py-2 px-3 md:px-4 rounded-md inline-flex items-center">
+            <button type="submit" class="mt-2 tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white font-jost-medium py-2 px-3 md:px-4 rounded-md inline-flex items-center">
                 <span>{{ $t("header.onlineAppointment") }}</span>
             </button>
           </form>
         </div>
 
-        <div class="relative col-span-2 px-7 py-10 bg-gray-200">
-          <h1 class="text-4xl mb-4">{{ $t("modal.appointmentTitle") }}</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, optio repudiandae distinctio mollitia vero quam iusto quia, alias qui sequi quis, repellendus rem aut.
+        <div class="relative max-md:hidden col-span-2 px-4 lg:px-7 py-10 bg-gray-200">
+          <h1 class="text-4xl text-zinc-800">{{ $t("modal.contactsTitle") }}</h1>
+
+          <p class="my-6">
+            {{ $t('modal.contactsDescription') }}
           </p>
 
-          <ul class="">
-            <li class="mt-6 inline-flex items-center">
+          <ul class="my-6">
+            <li class="my-6 flex items-center">
               <svg class="mr-3 min-w-5 text-zinc-700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
                   <g transform="scale(2.6 2.6)" >
                       <path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
@@ -115,25 +181,31 @@
               </svg>
               <span>{{ getConfigConst('corporateInfo.addressFull') }}</span>
             </li>
-            <li class="mt-6 inline-flex items-center">
-              <svg class="mr-3 min-w-5 text-zinc-700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
-                  <g transform="scale(2.6 2.6)" >
-                      <path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
-                  </g>
+
+            <li class="my-6 flex items-center">
+              <svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="m17.4 22a15.42 15.42 0 0 1 -15.4-15.4 4.6 4.6 0 0 1 4.6-4.6 3.94 3.94 0 0 1 .77.07 3.79 3.79 0 0 1 .72.18 1 1 0 0 1 .65.75l1.37 6a1 1 0 0 1 -.26.92c-.13.14-.14.15-1.37.79a9.91 9.91 0 0 0 4.87 4.89c.65-1.24.66-1.25.8-1.38a1 1 0 0 1 .92-.26l6 1.37a1 1 0 0 1 .72.65 4.34 4.34 0 0 1 .19.73 4.77 4.77 0 0 1 .06.76 4.6 4.6 0 0 1 -4.64 4.53z"/>
               </svg>
               <span>{{ getConfigConst('corporateInfo.contactNumber') }}</span>
             </li>
-            <li class="mt-6 inline-flex items-center">
-              <svg class="mr-3 min-w-5 text-zinc-700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
-                  <g transform="scale(2.6 2.6)" >
-                      <path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
-                  </g>
+
+            <li class="my-6 flex items-center">
+              <svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z"/>
+              </svg>
+              <span>{{ getConfigConst("corporateInfo.telegramLink") }}</span>
+            </li>
+
+            <li class="my-6 flex items-center">
+              <svg class="mr-3 min-w-5 text-zinc-700" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
               </svg>
               <span>{{ getConfigConst('corporateInfo.email') }}</span>
             </li>
           </ul>
 
-          <div class="absolute bottom-[-20rem] right-0 w-full p-4">
+          <div class="absolute bottom-0 right-0 w-full md:px-4">
             <img src="../assets/car-top.png" alt="">
           </div>
         </div>

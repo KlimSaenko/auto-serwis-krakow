@@ -15,13 +15,21 @@
 </script>
 
 <template>
-    <div class="w-full h-[26rem] lg:h-[30rem] xl:h-[38rem] mt-40">
-        <iframe width="100%"
-                height="100%"
-                frameborder="0"
-                scrolling="no"
-                marginheight="0"
-                marginwidth="0"
-                :src="googleMapsApiUrl"></iframe>
-    </div>
+    <section class="w-full">
+        <div class="flex mt-36 mb-20 justify-center text-center">
+            <h1 class="text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('home.weAreHere') }}</h1>
+        </div>
+
+        <div class="relative h-[26rem] lg:h-[30rem] xl:h-[38rem]">
+            <div id="map" class="absolute -top-[20vh] h-0"></div>
+
+            <iframe width="100%"
+                    height="100%"
+                    frameborder="0"
+                    scrolling="no"
+                    marginheight="0"
+                    marginwidth="0"
+                    :src="googleMapsApiUrl"></iframe>
+        </div>
+    </section>
 </template>

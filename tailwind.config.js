@@ -23,7 +23,7 @@ export default {
               animationTimingFunction: 'cubic-bezier(0.8,0,1,1)'
           },
           '50%': {
-              transform: 'translateX(-50%)',
+              transform: 'translateX(50%)',
               animationTimingFunction: 'cubic-bezier(0,0,0.2,1)'
           }
         },
@@ -40,7 +40,7 @@ export default {
         "jost-thin": ["Jost-Thin", "sans-serif"],
       },
       backgroundImage: {
-        'service-banner': "url('@/assets/car-service-banner-dark.jpg')",
+        'service-banner': "url('@/assets/car-service-banner-dark.webp')",
       },
       aspectRatio: {
         '4/3': '4 / 3',

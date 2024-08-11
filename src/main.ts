@@ -19,8 +19,9 @@ import ScrollParallax from './components/ScrollParallax.vue';
 import CustomerReview from './components/cards/CustomerReview.vue';
 import ReviewsList from './components/ReviewsList.vue';
 import AppointmentModal from './components/AppointmentModal.vue';
+import Gallery from './components/Gallery.vue';
 
-const defaultLocale = Translations.guessDefaultLocale();
+const defaultLocale = await Translations.guessDefaultLocale();
 
 const i18nPromise = Translations.loadLocaleMessages(defaultLocale);
 
@@ -36,6 +37,7 @@ app.component('ScrollParallax', ScrollParallax);
 app.component('CustomerReview', CustomerReview);
 app.component('ReviewsList', ReviewsList);
 app.component('AppointmentModal', AppointmentModal);
+app.component('Gallery', Gallery);
 
 app.use(router);
 app.use(VueScrollTo);

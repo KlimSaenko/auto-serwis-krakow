@@ -39,15 +39,6 @@ header .nav-button {
     }
 }
 
-.card .post-card-image::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    -webkit-box-shadow: inset 0px -130px 80px -60px rgba(44, 36, 30, 0.8);
-    -moz-box-shadow: inset 0px -130px 80px -60px rgba(44, 36, 30, 0.8);
-    box-shadow: inset 0 -130px 80px -60px rgba(44, 36, 30, 0.8);
-}
-
 .text-reveal::before {
     content: "";
     position: absolute;
@@ -91,7 +82,20 @@ header .nav-button {
     bottom: 0;
     left: 0;
     right: 0;
-    -webkit-box-shadow: inset 0px -63px 85px -54px rgb(65, 65, 73);
-    -moz-box-shadow: inset 0px -63px 85px -54px rgba(65, 65, 73);
-    box-shadow: inset 0px -63px 85px -54px rgba(65, 65, 73);
+    -webkit-box-shadow: inset 0px -63px 85px -54px rgb(0, 0, 0, 0.8);
+    -moz-box-shadow: inset 0px -63px 85px -54px rgb(0, 0, 0, 0.8);
+    box-shadow: inset 0px -63px 85px -54px rgb(0, 0, 0, 0.8);
+}
+
+.image-shadow.hoverable-card::after {
+    transition-duration: 0.25s;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.image-shadow.hoverable-card:hover::after {
+    -webkit-box-shadow: inset 0px 0px 34px 0px rgba(0, 0, 0, 0.8);
+    -moz-box-shadow: inset 0px 0px 34px 0px rgba(0, 0, 0, 0.8);
+    box-shadow: inset 0px 0px 34px 0px rgba(0, 0, 0, 0.8);
 }

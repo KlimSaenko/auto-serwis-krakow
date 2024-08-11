@@ -77,6 +77,14 @@
         "openNow": "Сейчас открыты!"
     },
     "modal": {
-        "appointmentTitle": "Онлайн запись"
+        "appointmentTitle": "Онлайн запись",
+        "appointmentDescription": "Вы можете записаться к нам онлайн, заполните для этого необходимые поля. Перед отправкой ознакомьтесь с {privacyPolicyLabel}.",
+        "privacyPolicyLabel": "политикой обработки данных",
+        "contactsTitle": "Контакты",
+        "contactsDescription": "Здесь перечислены наши контакты, вы можете записаться к нам написав на наш телеграмм или набрав по номеру.",
+        "customerNameLabel": "Ваше имя",
+        "customerNumberLabel": "Ваш номер телефона",
+        "customerEmailLabel": "Ваша почта",
+        "customerMessageLabel": "Описание проблемы"
     }
 }

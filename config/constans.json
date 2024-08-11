@@ -5,7 +5,8 @@
         "email": "krakowservicetest@gmail.com",
         "addressShort": "Na Zakolu Wisły 14, Kraków",
         "addressFull": "Na Zakolu Wisły 14, 30-729 Kraków",
-        "contactNumber": "666-666-666"
+        "contactNumber": "666-666-666",
+        "telegramLink": "@STO_KRAKOW"
     },
     "localesMetadata": {
         "en": {

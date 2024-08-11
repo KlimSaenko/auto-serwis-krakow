@@ -1,11 +1,13 @@
 <template>
-    <div class="overflow-hidden">
-        <ScrollParallax :speed="0.5">
-            <div class="bg-cover bg-center bg-service-banner w-screen h-[24rem] md:h-[30rem] lg:h-[36rem] 2xl:h-[42rem] min-h-80 md:min-h-96">
+    <div class="overflow-hidden w-full">
+        <ScrollParallax :speed="0.5" class="bg-service-banner bg-cover aspect-square md:aspect-[8/3] min-h-80 md:min-h-96">
+            <!-- <div class="bg-cover bg-no-repeat bg-center bg-service-banner h-[24rem] md:h-[30rem] lg:h-[36rem] 2xl:h-[42rem] min-h-80 md:min-h-96"> -->
                 <div class="flex h-full justify-center items-center">
-                    <div class="text-gray-100 text-center pb-[8em] lg:max-w-screen-sm xl:max-w-screen-md 2xl:max-w-screen-lg [text-shadow:_0_0_10px_rgb(0_0_0_/_25%)]">
-                        <h1 class="my-5 text-5xl md:text-7xl 2xl:text-7xl font-jost-medium">Front Auto</h1>
-                        <p class="my-3 text-2xl font-jost-light">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo magni porro nobis amet repellat vero cumque, architecto blanditiis?</p>
+                    <div class="text-gray-100 text-center pb-[8em] lg:max-w-screen-sm xl:max-w-screen-md 2xl:max-w-screen-lg">
+                        <h1 class="text-6xl md:text-7xl 2xl:text-8xl font-jost-medium [text-shadow:_0_0_10px_rgb(0_0_0_/_25%)]"><span class="text-[red]">Front</span> Auto</h1>
+                        <div class="mt-8 rounded-full bg-white shadow-md shadow-black/50 [shadow] px-5 md:px-7 py-2 text-zinc-700">
+                            <p class="text-lg md:text-xl 2xl:text-2xl font-jost">Lorem ipsum dolor, sit amet consectetur</p>
+                        </div>
                     </div>
                 </div>
 
@@ -23,7 +25,7 @@
                         </div>
                     </div>
                 </div> -->
-            </div>
+            <!-- </div> -->
         </ScrollParallax>
     </div>
 </template>

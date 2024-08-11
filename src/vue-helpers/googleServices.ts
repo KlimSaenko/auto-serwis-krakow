@@ -86,9 +86,10 @@ class GoogleServices {
 
     private createHtmlContainerRuntime(): HTMLDivElement | google.maps.Map {
         const newContainer = document.createElement('div');
-        newContainer.id = 'googleServiceHtmlContainer';
+        newContainer.id = 'googleServiceContainer';
 
-        document.body.appendChild(newContainer);
+        const parent = document.querySelector('#app') ?? document.body;
+        parent.appendChild(newContainer);
 
         return newContainer;
     }
