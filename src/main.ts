@@ -21,11 +21,9 @@ import ReviewsList from './components/ReviewsList.vue';
 import AppointmentModal from './components/AppointmentModal.vue';
 import Gallery from './components/Gallery.vue';
 
-const defaultLocale = await Translations.guessDefaultLocale();
-
-const i18nPromise = Translations.loadLocaleMessages(defaultLocale);
-
 const app = createApp(App);
+
+const setupLocalePromise = setupLocale();
 
 app.component('ContactInfoHeader', ContactInfoHeader);
 app.component('LanguageSelector', LanguageSelector);
@@ -42,18 +40,22 @@ app.component('Gallery', Gallery);
 app.use(router);
 app.use(VueScrollTo);
 
-i18nPromise.then(messages => {
+setupLocalePromise.then(_ => app.mount('#app'));
+
+async function setupLocale() {
+    const defaultLocale = await Translations.guessDefaultLocale();
+
+    const i18nMessages = await Translations.loadLocaleMessages(defaultLocale);
+
     const i18n = createI18n({
         legacy: false,
         locale: defaultLocale,
         fallbackLocale: import.meta.env.VITE_FALLBACK_LOCALE,
         availableLocales: import.meta.env.VITE_SUPPORTED_LOCALES.split(","),
         globalInjection: true,
-        messages: { [defaultLocale]: messages }
+        messages: { [defaultLocale]: i18nMessages }
     });
     Translations.switchHtmlLanguage(defaultLocale);
 
     app.use(i18n);
-
-    app.mount('#app');
-});
+}

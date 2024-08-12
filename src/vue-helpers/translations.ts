@@ -32,12 +32,23 @@ class Translations {
 
     public static async getUserLocaleInfo(): Promise<{ locale: string, region: string }> {
         const locale = Intl.DateTimeFormat().resolvedOptions().locale || window.navigator.language || import.meta.env.VITE_DEFAULT_LOCALE;
-        const region = await fetch('https://api.country.is');
-        const regionJson = await region.json();
+
+        const regionPromise = fetch('https://api.country.is');
+
+        let timer: number;
+        const region = await Promise.race([
+            regionPromise,
+            new Promise((_, rej) => timer = setTimeout(rej, 3000))
+        ]).finally(() => clearTimeout(timer)) as Response;
+
         const localeInfo = this.stringLocaleToObject(locale)
         
-        if (regionJson.country)
-            localeInfo.region = regionJson.country;
+        if (region?.ok){
+            const regionJson = await region.json();
+
+            if (regionJson.country)
+                localeInfo.region = regionJson.country;
+        }
 
         return localeInfo;
     };

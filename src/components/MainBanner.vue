@@ -4,9 +4,9 @@
             <!-- <div class="bg-cover bg-no-repeat bg-center bg-service-banner h-[24rem] md:h-[30rem] lg:h-[36rem] 2xl:h-[42rem] min-h-80 md:min-h-96"> -->
                 <div class="flex h-full justify-center items-center">
                     <div class="text-gray-100 text-center pb-[8em] lg:max-w-screen-sm xl:max-w-screen-md 2xl:max-w-screen-lg">
-                        <h1 class="text-6xl md:text-7xl 2xl:text-8xl font-jost-medium [text-shadow:_0_0_10px_rgb(0_0_0_/_25%)]"><span class="text-[red]">Front</span> Auto</h1>
-                        <div class="mt-8 rounded-full bg-white shadow-md shadow-black/50 [shadow] px-5 md:px-7 py-2 text-zinc-700">
-                            <p class="text-lg md:text-xl 2xl:text-2xl font-jost">Lorem ipsum dolor, sit amet consectetur</p>
+                        <h1 class="text-6xl sm:text-7xl 2xl:text-8xl font-jost-medium [text-shadow:_0_0_10px_rgb(0_0_0_/_25%)]"><span class="text-[red]">Front</span> Auto</h1>
+                        <div class="mt-8 rounded-full bg-white shadow-md shadow-black/50 [shadow] px-5 sm:px-6 md:px-7 py-1.5 sm:py-2 text-zinc-700">
+                            <p class="text-lg sm:text-xl 2xl:text-2xl font-jost">Lorem ipsum dolor, sit amet consectetur</p>
                         </div>
                     </div>
                 </div>
