@@ -20,7 +20,7 @@
       </Card>
 
       <Card class="relative lg:-top-24 shadow-xl !p-0 max-lg:hidden mb-auto">
-        <RouterLink to="#map" v-scroll-to="{ el: '#map', cancelable: true, offset: 10 }" class="image-shadow group hoverable-card">
+        <router-link to="#map" v-scroll-to="{ el: '#map', cancelable: true, offset: 10 }" class="image-shadow group hoverable-card">
           <div class="relative left-0 right-0 top-0">
             <div class="image-shadow after:!shadow-[inset_0_0_22px_15px_rgba(255,255,255)] after:bg-gradient-to-b after:from-white/0 after:from-50% after:to-white">
               <img class="object-cover" src="../assets/map-thumbnail.png" />
@@ -47,7 +47,7 @@
               </p>
             </div>
           </div>
-        </RouterLink>
+        </router-link>
       </Card>
 
       <Card class="shadow-xl mb-auto !pb-[6.5rem]">
@@ -69,7 +69,7 @@
           </ul>
         </div>
         <div class="absolute bottom-0 left-0 right-0">
-          <a class="group relative flex text-white max-md:bg-[red] md:text-[red] md:hover:text-white md:hover:bg-[red] duration-[250ms] h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
+          <router-link :to="{ name: 'services' }" class="group relative flex text-white max-md:bg-[red] md:text-[red] md:hover:text-white md:hover:bg-[red] duration-[250ms] h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
             <p class="text-lg uppercase font-jost-medium">{{ $t('home.leftCardShowAll') }}</p>
             <svg class="ml-3" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 7.94189L4.486 4.47089L1 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -78,13 +78,13 @@
 
             <div class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
               <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
-                {{ $t('home.leftCardShowAllTooltip') }} 
+                {{ $t('home.leftCardShowAllTooltip') }}
                 <svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </p>
             </div>
-          </a>
+          </router-link>
         </div>
       </Card>
     </div>

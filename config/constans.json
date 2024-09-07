@@ -24,5 +24,29 @@
             "label": "RU",
             "code": "ru"
         }
+    },
+    "application": {
+        "galleryImages": [
+            [3, 2, 3, 4, 4, 3, 2, 3],
+            [2, 3, 3, 4, 4, 3, 2, 3],
+            [3, 2, 3, 4, 4, 3, 2, 3]
+        ],
+        "socialMedia": {
+            "facebook": {
+
+            },
+            "instagram": {
+
+            },
+            "linkedin": {
+
+            },
+            "telegram": {
+
+            },
+            "x": {
+
+            }
+        }
     }
 }

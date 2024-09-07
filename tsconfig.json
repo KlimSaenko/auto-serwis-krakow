@@ -13,6 +13,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@car-brands/*": ["./public/car-brands/*"],
+      "@icons/*": ["./public/icons/*"],
       "@config/*": ["./config/*"],
       "@helpers/*": ["./src/vue-helpers/*"]
     }

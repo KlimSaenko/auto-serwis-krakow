@@ -29,7 +29,7 @@
 
 <template>
     <div class="m-2 md:m-5 !mt-8 max-h-96 font-jost text-zinc-500">
-        <a :href="authorUrl" target="_blank" class="flex group hover:bg-zinc-200/60 py-3 px-2 cursor-pointer rounded-xl relative">
+        <a :href="authorUrl" target="_blank" class="flex group hover:bg-zinc-200 py-3 px-2 cursor-pointer rounded-xl relative">
             <div class="flex relative">
                 <div class="flex rounded-full ring-1 ring-black ring-opacity-10 bg-zinc-300 w-11">
                     <img :src="authorPhotoSrc" :srcset="authorPhotoSrc" :alt="authorName" loading="lazy" class="h-11 w-11" >

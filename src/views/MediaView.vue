@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import Gallery from '../components/Gallery.vue';
-  import Blog from '../components/Blog.vue';
+  	import Gallery from '../components/Gallery.vue';
+  	import Blog from '../components/Blog.vue';
 </script>
 
 <template>
-    <main class="py-16 bg-zinc-100 text-zinc-700">
-        <Gallery />
+	<div class="pt-12 pb-16">
+		<Gallery />
 
-        <Blog class="mt-20" />
-    </main>
+		<Blog class="mt-20" />
+	</div>
 </template>

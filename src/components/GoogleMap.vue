@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import GoogleServices from '../vue-helpers/googleServices';
+    import GoogleServices from '@/vue-helpers/googleServices';
     import { useI18n } from 'vue-i18n';
     import { ref, watchEffect } from 'vue';
 

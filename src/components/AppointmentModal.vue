@@ -1,9 +1,9 @@
 <script setup lang="ts">
     import { ref, onMounted, watch } from 'vue';
-    import { getConfigConst } from '../vue-helpers/configValues';
+    import { getConfigConst } from '@/vue-helpers/configValues';
     import { CountryProperty, type CountryData, findOne as findCountry, all as getAllCountries } from 'country-codes-list';
-    import Translations from '../vue-helpers/translations';
-    import useClickOutside from '../vue-helpers/useClickOutside';
+    import Translations from '@/vue-helpers/translations';
+    import useClickOutside from '@/vue-helpers/useClickOutside';
 
     defineProps({ 
         appointmentFormOpened: {
@@ -60,19 +60,19 @@
 </script>
 
 <style>
-  .fade-enter-active,
-  .fade-leave-active {
+  .modal-fade-enter-active,
+  .modal-fade-leave-active {
     transition: opacity .25s;
   }
 
-  .fade-enter-from,
-  .fade-leave-to {
+  .modal-fade-enter-from,
+  .modal-fade-leave-to {
     opacity: 0;
   }
 </style>
 
 <template>
-  <Transition name="fade" appear>
+  <Transition name="modal-fade" appear>
     <div v-if="appointmentFormOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-900/60 z-[999] flex">
       <div class="m-auto md:w-[56rem] tracking-wide bg-white rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
         <div class="col-span-3 p-8 xl:p-10">

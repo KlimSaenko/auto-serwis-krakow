@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import GoogleServices from '../vue-helpers/googleServices';
+    import GoogleServices from '@/vue-helpers/googleServices';
     import CustomerReview from './cards/CustomerReview.vue';
     import { useI18n } from 'vue-i18n';
     import { ref, onMounted, watch } from 'vue';

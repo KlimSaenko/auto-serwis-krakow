@@ -24,7 +24,7 @@
         "onlineAppointment": "Онлайн запись"
     },
     "home": {
-        "goToAbout": "About Us",
+        "goToAbout": "О Нас",
         
         "postsTitle": "Последние Посты",
         "mainBannerTitle": "Лучший Сервис в Кракове",
@@ -60,13 +60,6 @@
             "Только опытные сотрудники."
         ]
     },
-    "googleMap": {
-        "markerTitle": "Auto Serwis Kraków",
-        "addressLabel": "Address",
-        "contactsLabel": "Contacts",
-        "telLabel": "Tel",
-        "viewOnGoogleMaps": "View on Google Maps"
-    },
     "customerReview": {
         "goToComment": "Открыть комментарий"
     },
@@ -86,5 +79,15 @@
         "customerNumberLabel": "Ваш номер телефона",
         "customerEmailLabel": "Ваша почта",
         "customerMessageLabel": "Описание проблемы"
+    },
+    "customerServices": {
+        "ourServicesTitle": "Наши сервисы",
+        "diagnosisTitle": "Диагностика систем автомобиля",
+        "diagnosisDescriptionShort": "Комплексная услуга, направленная на оценку технического состояния транспортного средства.",
+        "unitsReplacementTitle": "Замена агрегатов и деталей",
+        "unitsReplacementDescriptionShort": "Регулярное обслуживание и своевременная замена изношенных компонентов позволяют избежать серьезных поломок и дорогого ремонта."
+    },
+    "blog": {
+        "blogTitle": "Блог"
     }
 }

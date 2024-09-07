@@ -1,6 +1,7 @@
 <script setup lang="ts">
+  import AppointmentModal from '../AppointmentModal.vue';
   import LanguageSelector from './LanguageSelector.vue';
-  import { getConfigConst } from '../../vue-helpers/configValues';
+  import { getConfigConst } from '@/vue-helpers/configValues';
   import { ref, watch } from 'vue';
 
   const menuExpanded = ref(false);
@@ -81,28 +82,28 @@
         
         <ul class='max-md:py-4 max-md:px-3 md:flex mb-1 max-md:space-y-2 space-x-7 lg:space-x-9'>
           <li class='max-md:py-2 ml-7 content-center'>
-            <RouterLink to="home" active-class="active text-gray-800" class='nav-button block md:hover:text-gray-800 leading-6 md:leading-8'>
+            <router-link :to="{ name: 'home' }" active-class="active text-gray-800" class='nav-button relative block md:hover:text-gray-800 leading-6 md:leading-8'>
               {{ $t("header.home") }}
-            </RouterLink>
+            </router-link>
           </li>
 
           <li class='max-md:py-2 content-center'>
-            <a href='javascript:void(0)' class='nav-button block md:hover:text-gray-800 leading-6 md:leading-8'>
+            <router-link :to="{ name: 'services' }" active-class="active text-gray-800" class='nav-button relative block md:hover:text-gray-800 leading-6 md:leading-8'>
               {{ $t("header.services") }}
-            </a>
+            </router-link>
           </li>
 
           <li class='max-md:py-2 content-center'>
-            <RouterLink to="media" active-class="active text-gray-800" class='nav-button block md:hover:text-gray-800 leading-6 md:leading-8'>
+            <router-link :to="{ name: 'media' }" active-class="active text-gray-800" class='nav-button relative block md:hover:text-gray-800 leading-6 md:leading-8'>
               {{ $t("header.media") }}
-            </RouterLink>
+            </router-link>
           </li>
 
         </ul>
 
         <ul class='max-md:py-4 max-md:px-3 md:flex md:items-center ml-auto max-md:block md:space-x-8 max-md:ml-7'>
           <li class='max-md:py-2 max-md:mt-2 inline-flex h-full'>
-            <button @click="appointmentFormOpened = true" class="my-[2px] tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-2 px-3 md:px-4 rounded-md inline-flex items-center">
+            <button @click="appointmentFormOpened = true" class="my-[2px] tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-2 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
                 <span>{{ $t("header.onlineAppointment") }}</span>
             </button>
           </li>

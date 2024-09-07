@@ -4,6 +4,11 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
+  safelist: [
+    {
+      pattern: /col-span-./,
+    }
+  ],
   theme: {
     extend: {
       animation: {
@@ -41,6 +46,7 @@ export default {
       },
       backgroundImage: {
         'service-banner': "url('@/assets/car-service-banner-dark.webp')",
+        'service-banner-1': "url('@/assets/default-service-1.jpg')",
       },
       aspectRatio: {
         '4/3': '4 / 3',

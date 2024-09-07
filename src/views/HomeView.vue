@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <main class="bg-zinc-100 text-zinc-700">
+  <div>
     <MainBanner />
 
     <div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
@@ -21,6 +21,6 @@
       <LatestPosts />
     </div>
     
-    <GoogleMap />  
-  </main>
+    <GoogleMap />
+  </div>
 </template>

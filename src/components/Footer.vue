@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { getConfigConst } from '../vue-helpers/configValues';
+  import { getConfigConst } from '@/vue-helpers/configValues';
 </script>
 
 <template>

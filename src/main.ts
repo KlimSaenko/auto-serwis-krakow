@@ -1,11 +1,11 @@
-import './index.css';
+import './fonts.css';
 import './main.css';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
 import { createApp } from 'vue';
 import router from './router';
 import { createI18n } from 'vue-i18n';
-import Translations from './vue-helpers/translations';
+import Translations from '@/vue-helpers/translations';
 import VueScrollTo from 'vue-scrollto';
 
 import App from './App.vue';
@@ -20,6 +20,7 @@ import CustomerReview from './components/cards/CustomerReview.vue';
 import ReviewsList from './components/ReviewsList.vue';
 import AppointmentModal from './components/AppointmentModal.vue';
 import Gallery from './components/Gallery.vue';
+import PostCardSimpled from './components/cards/PostCardSimpled.vue';
 
 const app = createApp(App);
 
@@ -36,6 +37,7 @@ app.component('CustomerReview', CustomerReview);
 app.component('ReviewsList', ReviewsList);
 app.component('AppointmentModal', AppointmentModal);
 app.component('Gallery', Gallery);
+app.component('PostCardSimpled', PostCardSimpled);
 
 app.use(router);
 app.use(VueScrollTo);
