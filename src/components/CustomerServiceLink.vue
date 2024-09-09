@@ -2,7 +2,7 @@
     import CustomerService from '../types/customerService';
     import { ref, onMounted } from 'vue';
 
-    defineProps({ 
+    defineProps({
         сustomerService: {
             type: CustomerService,
             required: true
@@ -21,7 +21,7 @@
 
 <template>
     <section>
-        <div class="group w-full h-max rounded-xl relative overflow-hidden cursor-pointer shadow-lg hover:shadow-xl duration-200">
+        <router-link :to="{ name: 'customer-service', params: { serviceName: 'diagnosis' } }" class="group w-full h-max rounded-xl relative overflow-hidden block cursor-pointer shadow-lg hover:shadow-xl duration-200">
             <div class="w-full text-white h-max">
                 <div class="p-5 bg-no-repeat bg-center bg-service-banner-1 h-max bg-[length:106%] group-hover:bg-[length:100%] duration-200">
                     <div class="min-w-48 w-3/5">
@@ -51,7 +51,7 @@
                     </svg>
                 </div>
             </div>
-        </div>
+        </router-link>
 
         <div class="mt-8 ms-8 text-zinc-600 text-lg font-jost">
             <p>

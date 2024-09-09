@@ -15,8 +15,8 @@
 </script>
 
 <template>
-    <section class="w-full">
-        <div class="flex mt-36 mb-20 justify-center text-center">
+    <section class="mt-36 w-full">
+        <div class="flex mb-20 justify-center text-center">
             <h1 class="text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('home.weAreHere') }}</h1>
         </div>
 

@@ -3,37 +3,48 @@ import HomeView from '../views/HomeView.vue';
 import ServicesView from '../views/ServicesView.vue';
 import MediaView from '../views/MediaView.vue';
 import BlogPostView from '../views/BlogPostView.vue';
+import CustomerServiceView from '../views/CustomerServiceView.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      alias: '/home',
-      component: HomeView
-    },
-    {
-      path: '/services',
-      name: 'services',
-      component: ServicesView
-    },
-    {
-      path: '/media',
-      children: [
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
         {
-          path: '',
-          name: 'media',
-          component: MediaView
+            path: '/home',
+            name: 'home',
+            alias: '/',
+            component: HomeView
         },
         {
-          path: '/blog/:post',
-          name: 'blog-post',
-          component: BlogPostView
+            path: '/services',
+            children: [
+                {
+                    path: '',
+                    name: 'services',
+                    component: ServicesView
+                },
+                {
+                    path: ':serviceName',
+                    name: 'customer-service',
+                    component: CustomerServiceView
+                }
+            ]
+        },
+        {
+            path: '/media',
+            children: [
+                {
+                    path: '',
+                    name: 'media',
+                    component: MediaView
+                },
+                {
+                    path: '/blog/:post',
+                    name: 'blog-post',
+                    component: BlogPostView
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 });
 
 export default router;

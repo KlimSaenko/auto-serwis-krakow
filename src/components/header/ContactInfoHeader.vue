@@ -56,7 +56,7 @@
     </div>
 
     <div class='flex items-center left-0 right-0 py-3 2xl:py-3.5 justify-between md:gap-x-2 lg:gap-x-4 mx-auto px-5 md:px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl text-gray-500'>
-      <button v-on:click="menuExpanded = !menuExpanded" class="relative inline-flex items-center w-10 h-10 justify-center text-sm text-[red] rounded-lg md:hidden">
+      <button @click="menuExpanded = !menuExpanded" class="relative inline-flex items-center w-10 h-10 justify-center text-sm text-[red] rounded-lg md:hidden">
         <span class="sr-only">Open main menu</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" stroke="#eee" stroke-width=".7" fill="rgba(0,0,0,0)" stroke-linecap="round">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7">

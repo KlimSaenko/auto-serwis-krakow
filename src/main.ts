@@ -21,6 +21,7 @@ import ReviewsList from './components/ReviewsList.vue';
 import AppointmentModal from './components/AppointmentModal.vue';
 import Gallery from './components/Gallery.vue';
 import PostCardSimpled from './components/cards/PostCardSimpled.vue';
+import BenefitsList from './components/BenefitsList.vue';
 
 const app = createApp(App);
 
@@ -38,6 +39,7 @@ app.component('ReviewsList', ReviewsList);
 app.component('AppointmentModal', AppointmentModal);
 app.component('Gallery', Gallery);
 app.component('PostCardSimpled', PostCardSimpled);
+app.component('BenefitsList', BenefitsList);
 
 app.use(router);
 app.use(VueScrollTo);

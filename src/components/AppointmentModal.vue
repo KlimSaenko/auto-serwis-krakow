@@ -76,7 +76,7 @@
     <div v-if="appointmentFormOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-900/60 z-[999] flex">
       <div class="m-auto md:w-[56rem] tracking-wide bg-white rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
         <div class="col-span-3 p-8 xl:p-10">
-          <form v-on:submit.prevent="validateForm">
+          <form @submit.prevent="validateForm">
             <h1 class="text-4xl text-zinc-800">{{ $t("modal.appointmentTitle") }}</h1>
 
             <i18n-t class="my-6" keypath="modal.appointmentDescription" scope="global" tag="p">
@@ -100,7 +100,7 @@
             <div class="my-6">
               <label class="block mb-2">{{ $t("modal.customerNumberLabel") }}</label>
               <div class="flex relative">
-                <div ref="componentRef" v-on:focusin="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg hover:bg-gray-200">
+                <div ref="componentRef" @focusin="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg hover:bg-gray-200">
                   <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                     <span :class="currentLocation ? `fi-${ currentLocation.countryCode.toLowerCase() }` : ''" class="fi bg-white h-4 !w-4 !bg-cover rounded-full ring-1 ring-black ring-opacity-5"></span>
                   </div>

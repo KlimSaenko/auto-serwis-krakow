@@ -5,6 +5,7 @@
   import LatestPosts from '../components/LatestPosts.vue';
   import MainBannerCards from '../components/MainBannerCards.vue';
   import ReviewsList from '../components/ReviewsList.vue';
+  import BenefitsList from '../components/BenefitsList.vue';
 </script>
 
 <template>
@@ -15,6 +16,8 @@
       <MainBannerCards />
 
       <About />
+
+      <BenefitsList />
 
       <ReviewsList />
 

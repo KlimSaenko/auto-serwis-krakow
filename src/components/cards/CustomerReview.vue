@@ -29,7 +29,7 @@
 
 <template>
     <div class="m-2 md:m-5 !mt-8 max-h-96 font-jost text-zinc-500">
-        <a :href="authorUrl" target="_blank" class="flex group hover:bg-zinc-200 py-3 px-2 cursor-pointer rounded-xl relative">
+        <a :href="authorUrl" target="_blank" class="flex group hover:bg-zinc-200 py-3 px-2 cursor-pointer rounded-xl relative duration-150">
             <div class="flex relative">
                 <div class="flex rounded-full ring-1 ring-black ring-opacity-10 bg-zinc-300 w-11">
                     <img :src="authorPhotoSrc" :srcset="authorPhotoSrc" :alt="authorName" loading="lazy" class="h-11 w-11" >
@@ -47,7 +47,7 @@
                 <span class="text-[0.8rem] leading-5">{{ relativeTimeDescription }}</span>
             </div>
 
-            <div :class="authorUrl ? 'max-md:hidden' : 'hidden'" class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 group-hover:delay-300 duration-200 font-jost pointer-events-none">
+            <div :class="authorUrl ? 'max-md:hidden' : 'hidden'" class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 group-hover:delay-500 duration-200 font-jost pointer-events-none">
                 <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-64 mx-auto">
                     {{ $t('customerReview.goToComment') }} 
                     <svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

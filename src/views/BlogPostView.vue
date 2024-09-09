@@ -3,7 +3,7 @@
     import { onBeforeRouteUpdate } from 'vue-router';
 
     onBeforeRouteUpdate(async (to, from, next) => {
-        if (to.params.post === 'dodge-car'){
+        if (to.params.post && to.params.post === 'dodge-car'){
             next();
         } else {
             let query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath }
@@ -31,7 +31,7 @@
     <div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
         <article class="pt-8 pb-20 px-32">
             <div class="text-[2.5rem] mb-8 font-jost-bold flex justify-center text-center text-zinc-700">
-                <h2 class="border-l-[7px] border-[red] ps-3 leading-none">{{ $t('blog.blogTitle') }}</h2>
+                <h2 class="border-l-[7px] border-[red] ps-3 leading-none pr-2">{{ $t('blog.blogTitle') }}</h2>
             </div>
 
             <div class="text-5xl mb-4 font-jost-bold flex justify-center text-center text-zinc-700">
@@ -61,12 +61,20 @@
             </div>
 
             <div class="flex flex-row gap-6 justify-center">
-                <div v-for="socialMedia of socialMediaList" class="group p-3 hover:bg-zinc-300 rounded-full overflow-hidden duration-200 cursor-pointer">
-                    <div :style="{ 'mask-image': `url(${socialMedia.iconPath})`, '-webkit-mask-image': `url(${socialMedia.iconPath})` }" class="svg-icon w-8 h-8 bg-contain bg-center bg-no-repeat bg-zinc-600 group-hover:bg-zinc-700"></div>
+                <div v-for="socialMedia of socialMediaList" :key="socialMedia.name" class="relative group hover:bg-zinc-300 rounded-full duration-200">
+                    <div class="p-3 overflow-hidden cursor-pointer">
+                        <div :style="{ 'mask-image': `url(${socialMedia.iconPath})`, '-webkit-mask-image': `url(${socialMedia.iconPath})` }" class="svg-icon w-8 h-8 bg-contain bg-center bg-no-repeat bg-zinc-600 group-hover:bg-zinc-700"></div>
+                    </div>
+                    
+                    <div class="max-md:hidden absolute flex bottom-[calc(100%+0.5rem)] opacity-0 left-1/2 -translate-x-1/2 w-max z-10 invisible group-hover:visible group-hover:opacity-100 group-hover:delay-500 duration-200 font-jost pointer-events-none">
+                        <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-64 mx-auto">
+                            {{ $t('blog.shareInSocial') }} {{ socialMedia.name }}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="text-5xl mt-20 mb-10 font-jost-bold flex justify-center text-center text-zinc-700">
+            <div class="text-5xl mt-24 mb-12 font-jost-bold flex justify-center text-center text-zinc-700">
                 <h1>Lorem ipsum</h1>
             </div>
 
