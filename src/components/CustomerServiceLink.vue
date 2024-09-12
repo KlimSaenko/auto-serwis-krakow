@@ -1,10 +1,9 @@
 <script setup lang="ts">
-    import CustomerService from '../types/customerService';
     import { ref, onMounted } from 'vue';
 
     defineProps({
-        сustomerService: {
-            type: CustomerService,
+        serviceTag: {
+            type: String,
             required: true
         }
     });
@@ -25,9 +24,9 @@
             <div class="w-full text-white h-max">
                 <div class="p-5 bg-no-repeat bg-center bg-service-banner-1 h-max bg-[length:106%] group-hover:bg-[length:100%] duration-200">
                     <div class="min-w-48 w-3/5">
-                        <h2 class="text-2xl ms-4 md:text-4xl font-jost-medium drop-shadow-xl">{{ сustomerService.Title }}</h2>
+                        <h2 class="text-2xl ms-4 md:text-4xl font-jost-medium drop-shadow-xl">{{ $tm(`customerServices.${serviceTag}.title`) }}</h2>
                         <p class="mt-3 ms-4 text-lg font-jost text-zinc-100">
-                            {{ сustomerService.DescriptionShort }}
+                            {{ $t(`customerServices.${serviceTag}.descriptionShort`) }}
                         </p>
                     </div>
                 </div>
@@ -42,7 +41,7 @@
             <div :style="`width: ${ toPricelistPopupWidth };`" class="absolute right-0 duration-300 group-[:not(:hover)]:!w-0 top-0 z-10 h-full overflow-hidden bg-white flex justify-center items-center">
                 <div ref="toPricelistPopup" class="absolute right-0 flex items-center px-10 font-jost text-zinc-700">
                     <h3 class="text-2xl w-min text-wrap uppercase">
-                        Перейти к прайслисту
+                        {{ $t('customerServices.goToPricelist') }}
                     </h3>
                     <svg class="ms-8" fill="currentColor" height="64" width="64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
                         <path d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255

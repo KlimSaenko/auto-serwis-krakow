@@ -48,7 +48,7 @@
 </script>
 
 <template>
-    <section class="mt-36">
+    <section>
         <div class="flex mb-12 justify-center text-center">
             <h1 class="text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('home.whatPeopleSayTitle') }}</h1>
         </div>

@@ -1,8 +1,8 @@
 <template>
-    <section class="mt-12">
+    <section>
         <div class="mb-20 lg:grid grid-cols-3 gap-5 lg:gap-8 text-zinc-800">
             <div class="col-span-1 max-lg:hidden">
-                <img src="../assets/car-banner.jpg" class="object-cover rounded-xl max-h-[38rem] w-full" />
+                <img src="../assets/car-banner.jpg" class="object-cover rounded-xl h-full max-h-[38rem] w-full bg-zinc-200" />
             </div>
             <div class="pl-3 col-span-2 text-xl font-jost leading-8">
                 <h1 class="text-5xl mb-12 md:mb-9 font-jost-bold max-lg:text-center leading-[1.2]">{{ $t('home.aboutTitle') }}</h1>

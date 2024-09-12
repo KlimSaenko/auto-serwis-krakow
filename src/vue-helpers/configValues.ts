@@ -4,7 +4,7 @@ const constans: Record<string, any> = constansRaw;
 
 export function getConfigConst (
     constPath: string
-): Object | [] | string {
+): { [key: string]: any } | [any] | string {
     if (!constPath) {
         throw new Error('A target constant name has to be provided.');
     }

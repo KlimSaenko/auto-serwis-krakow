@@ -56,6 +56,7 @@ class GoogleServices {
 
     public async fetchPlace(placeId: string, htmlContainer: HTMLDivElement | google.maps.Map): Promise<google.maps.places.PlaceResult | null> {
         return new Promise(async resolve => {
+            
             const request: google.maps.places.PlaceDetailsRequest = {
                 placeId,
                 fields: ['reviews']
@@ -63,17 +64,24 @@ class GoogleServices {
             
             await this.placesLib;
             const placesService = new google.maps.places.PlacesService(htmlContainer);
-            
-            placesService.getDetails(request, (place: google.maps.places.PlaceResult | null, status: google.maps.places.PlacesServiceStatus) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    if (place && place.reviews) {
-                        resolve(place);
+
+            let timer = -1;
+            for(let i = 0; i < 100; i++) {
+                placesService.getDetails(request, (place: google.maps.places.PlaceResult | null, status: google.maps.places.PlacesServiceStatus) => {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        if (place && place.reviews) {
+                            clearTimeout(timer);
+                            resolve(place);
+                        }
+                    } else {
+                        console.error(`Error fetching place details: ${status}`);
+                        timer = setTimeout(resolve, 1000);
                     }
-                } else {
-                    console.error(`Error fetching place details: ${status}`);
-                }
-                resolve(null);
-            });
+                });
+            }
+            
+            clearTimeout(timer);
+            resolve(null);
         });
     };
 

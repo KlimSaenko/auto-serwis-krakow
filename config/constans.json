@@ -47,6 +47,10 @@
             "x": {
 
             }
+        },
+        "servicesTags": {
+            "diagnosis": "diagnosis",
+            "units-replacement": "unitsReplacement"
         }
     }
 }

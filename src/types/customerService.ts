@@ -1,36 +1,32 @@
+import ServiceOption from './serviceOption';
+
 class CustomerService {
     private title: string;
     private descriptionShort: string;
     private description: string;
+    private serviceOptions: ServiceOption[];
 
-    constructor(title: string, descriptionShort: string, description: string = descriptionShort){
+    constructor(title: string, descriptionShort: string, serviceOptions: ServiceOption[], description: string = descriptionShort){
         this.title = title;
         this.descriptionShort = descriptionShort;
         this.description = description;
+        this.serviceOptions = serviceOptions;
     }
 
     get Title() {
         return this.title;
     };
 
-    set Title(title: string) {
-        this.title = title;
-    };
-
     get DescriptionShort() {
         return this.descriptionShort;
-    };
-
-    set DescriptionShort(descriptionShort: string) {
-        this.descriptionShort = descriptionShort;
     };
 
     get Description() {
         return this.description;
     };
 
-    set Description(description: string) {
-        this.description = description;
+    get ServiceOptions() {
+        return this.serviceOptions;
     };
 }
 

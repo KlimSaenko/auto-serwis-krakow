@@ -6,7 +6,6 @@ import { createApp } from 'vue';
 import router from './router';
 import { createI18n } from 'vue-i18n';
 import Translations from '@/vue-helpers/translations';
-import VueScrollTo from 'vue-scrollto';
 
 import App from './App.vue';
 import ContactInfoHeader from './components/header/ContactInfoHeader.vue';
@@ -22,6 +21,7 @@ import AppointmentModal from './components/AppointmentModal.vue';
 import Gallery from './components/Gallery.vue';
 import PostCardSimpled from './components/cards/PostCardSimpled.vue';
 import BenefitsList from './components/BenefitsList.vue';
+import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 
 const app = createApp(App);
 
@@ -42,9 +42,13 @@ app.component('PostCardSimpled', PostCardSimpled);
 app.component('BenefitsList', BenefitsList);
 
 app.use(router);
-app.use(VueScrollTo);
 
-setupLocalePromise.then(_ => app.mount('#app'));
+TransitionWaiter.Add();
+
+setupLocalePromise.then(_ => {
+    app.mount('#app');
+    TransitionWaiter.Flush();
+});
 
 async function setupLocale() {
     const defaultLocale = await Translations.guessDefaultLocale();

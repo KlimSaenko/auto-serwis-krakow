@@ -75,7 +75,7 @@
             </div>
 
             <div class="text-5xl mt-24 mb-12 font-jost-bold flex justify-center text-center text-zinc-700">
-                <h1>Lorem ipsum</h1>
+                <h2>Lorem ipsum</h2>
             </div>
 
             <div class="grid grid-cols-3 gap-4">
