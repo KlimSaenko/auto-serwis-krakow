@@ -105,7 +105,7 @@
 			customerNameValid.value = false;
 		}
 		
-		if (!form.phone.value.trim() && !form.phone.value.trim() && !form.phone.value.trim()){
+		if (!form.phone.value.trim() && !form.telegram.value.trim() && !form.email.value.trim()){
 			customerContactInfoValid.value = false;
 		}
 
@@ -131,7 +131,7 @@
 
 <template>
 	<Transition name="modal-fade" appear>
-		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-900/60 z-[999] flex overflow-y-auto overflow-x-hidden">
+		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[999] flex overflow-y-auto overflow-x-hidden">
 			<div class="m-auto md:w-[56rem] tracking-wide bg-white rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
 					<form @submit.prevent="validateForm">
@@ -222,9 +222,9 @@
 								<span class="whitespace-nowrap">{{ $t("header.onlineAppointment") }}</span>
 							</button>
 
-							<p class="ms-5 -mb-1 text-[red] font-jost">
-								<span v-if="!customerNameValid">{{ $t('modal.customerNameMissingError') + " " }}</span>
-								<span v-if="!customerContactInfoValid">{{ $t('modal.customerContactInfoMissingError') }}</span>
+							<p class="ms-5 -mb-1 text-[red] font-jost leading-5 text-[0.95rem]">
+								<span v-if="!customerNameValid">{{ $t('modal.customerNameMissingError')}}&nbsp;</span>
+								<span v-if="!customerContactInfoValid"> {{ $t('modal.customerContactInfoMissingError') }}</span>
 							</p>
 						</div>
 					</form>

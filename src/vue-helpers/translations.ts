@@ -19,8 +19,14 @@ class Translations {
     };
 
     public static async loadLocaleMessages(locale: string) {
-        const messages = await Translations.messagesAllImports[`../../config/locales/${locale}.json`]();
-        return messages;
+        const promise = Translations.messagesAllImports[`../../config/locales/${locale}.json`];
+
+        if (Object.prototype.toString.call(promise) == '[object Function]'){
+            const messages = await Translations.messagesAllImports[`../../config/locales/${locale}.json`]();
+            return messages;
+        }
+
+        console.error(`Cannot load messages for locale: ${locale}`);
     };
 
     public static isLocaleSupported(locale: string | null): boolean {

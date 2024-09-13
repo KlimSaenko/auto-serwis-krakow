@@ -61,7 +61,7 @@ async function setupLocale() {
         fallbackLocale: import.meta.env.VITE_FALLBACK_LOCALE,
         availableLocales: import.meta.env.VITE_SUPPORTED_LOCALES.split(","),
         globalInjection: true,
-        messages: { [defaultLocale]: i18nMessages }
+        messages: { [defaultLocale]: i18nMessages ?? {} }
     });
     Translations.switchHtmlLanguage(defaultLocale);
 

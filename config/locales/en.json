@@ -14,6 +14,11 @@
             "name": "Rosyjski",
             "label": "Русский",
             "code": "ru"
+        },
+        "ua": {
+            "name": "Українська",
+            "label": "UA",
+            "code": "ua"
         }
     },
     "header": {

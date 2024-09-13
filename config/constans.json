@@ -23,6 +23,11 @@
             "name": "Русский",
             "label": "RU",
             "code": "ru"
+        },
+        "ua": {
+            "name": "Українська",
+            "label": "UA",
+            "code": "ua"
         }
     },
     "application": {

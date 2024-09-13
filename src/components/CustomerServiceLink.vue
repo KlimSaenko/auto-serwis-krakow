@@ -30,7 +30,6 @@
                     <div class="min-w-48 w-3/5">
                         <h2 class="text-2xl ms-4 md:text-4xl font-jost-medium drop-shadow-xl">{{ $tm(`customerServices.${serviceTag}.title`) }}</h2>
                         <p class="mt-3 ms-4 text-lg font-jost text-zinc-100">
-                            {{ serviceTag }}
                             {{ $t(`customerServices.${serviceTag}.descriptionShort`) }}
                         </p>
                     </div>

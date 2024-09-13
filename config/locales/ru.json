@@ -14,6 +14,11 @@
             "name": "Rosyjski",
             "label": "RU",
             "code": "ru"
+        },
+        "ua": {
+            "name": "Українська",
+            "label": "UA",
+            "code": "ua"
         }
     },
     "header": {
@@ -90,14 +95,22 @@
         "privacyPolicyLabel": "политикой обработки данных",
         "contactsTitle": "Контакты",
         "contactsDescription": "Здесь перечислены наши контакты, вы можете записаться к нам написав на наш телеграмм или набрав по номеру.",
+
         "customerNameLabel": "Как вас зовут?",
         "customerNameFieldPlaceholder": "Ваше имя",
+
         "customerNumberLabel": "Ваш номер телефона",
+
         "customerTelegramLabel": "Ваш телеграмм",
         "customerTelegramFieldPlaceholder": "mytelegram",
+
         "customerEmailLabel": "Ваша почта",
+
         "customerMessageLabel": "Описание проблемы",
-        "customerMessageFieldPlaceholder": "Опишите вашу проблему тут"
+        "customerMessageFieldPlaceholder": "Опишите вашу проблему тут",
+
+        "customerNameMissingError": "Пожалуйста, напишите ваше имя.",
+        "customerContactInfoMissingError": "Заполните хотя бы одно поле для обратной связи."
     },
     "customerServices": {
         "ourServicesTitle": "Наши сервисы",

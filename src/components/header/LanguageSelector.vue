@@ -21,7 +21,11 @@
     
     async function onClickChangeLanguage(newLang: string){
         if (!availableLocales.includes(newLang)){
-            setLocaleMessage(newLang, await Translations.loadLocaleMessages(newLang));
+            const localeMessage = await Translations.loadLocaleMessages(newLang);
+
+            if (localeMessage){
+                setLocaleMessage(newLang, localeMessage);
+            }
         }
 
         Translations.switchHtmlLanguage(newLang);
