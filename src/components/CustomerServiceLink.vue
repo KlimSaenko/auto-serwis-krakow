@@ -2,6 +2,10 @@
     import { ref, onMounted } from 'vue';
 
     defineProps({
+        serviceUrlName: {
+            type: String,
+            required: true
+        },
         serviceTag: {
             type: String,
             required: true
@@ -20,12 +24,13 @@
 
 <template>
     <section>
-        <router-link :to="{ name: 'customer-service', params: { serviceName: 'diagnosis' } }" class="group w-full h-max rounded-xl relative overflow-hidden block cursor-pointer shadow-lg hover:shadow-xl duration-200">
+        <router-link :to="{ name: 'customer-service', params: { serviceName: serviceUrlName } }" class="group w-full h-max rounded-xl relative overflow-hidden block cursor-pointer shadow-lg hover:shadow-xl duration-200">
             <div class="w-full text-white h-max">
                 <div class="p-5 bg-no-repeat bg-center bg-service-banner-1 h-max bg-[length:106%] group-hover:bg-[length:100%] duration-200">
                     <div class="min-w-48 w-3/5">
                         <h2 class="text-2xl ms-4 md:text-4xl font-jost-medium drop-shadow-xl">{{ $tm(`customerServices.${serviceTag}.title`) }}</h2>
                         <p class="mt-3 ms-4 text-lg font-jost text-zinc-100">
+                            {{ serviceTag }}
                             {{ $t(`customerServices.${serviceTag}.descriptionShort`) }}
                         </p>
                     </div>
@@ -59,7 +64,7 @@
             <ul class="my-4">
                 <li v-for="content in $tm('home.aboutAdvantages')" class="flex items-center py-2">
                     <img src="/public/icons/verified-badge.svg" width="22" height="22" class="m-1 !ml-0" />
-                    <p class="ml-3">
+                    <p class="ms-4">
                         {{ content }}
                     </p>
                 </li>

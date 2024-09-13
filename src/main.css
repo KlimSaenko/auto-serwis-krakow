@@ -1,5 +1,11 @@
-html {
-    overflow-x: hidden;
+body {
+    overflow-y: scroll;
+}
+
+body.no-scroll {
+    position: fixed;
+    width: 100%;
+    top: var(--st, 0);
 }
 
 ::-webkit-scrollbar {

@@ -42,9 +42,11 @@
             <article class="pt-6 pb-20 px-32">
 
                 <div class="my-8 text-xl font-jost text-zinc-700">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, ratione vel. Odit quis possimus dolorem, dicta tempore corporis laboriosam eaque esse. Consectetur accusamus in soluta consequuntur officia, sint natus amet!
-                    </p>
+                    <i18n-t :keypath="`customerServices.${serviceTag}.description_1`" scope="global" tag="p">
+                        <template #newLine>
+                            <br><br>
+                        </template>
+                    </i18n-t>
 
                     <ul class="my-6">
                         <li v-for="content in $tm(`customerServices.${serviceTag}.checkReasons`)" class="flex items-start py-2">
@@ -53,7 +55,7 @@
                                     <path d="M15.273 19.469c-.662-.662-1.582-1.002-2.514-.931-1.767.137-3.58-.47-4.931-1.821-1.223-1.224-1.83-2.824-1.83-4.426 0-.604.086-1.208.258-1.792l3.771 3.771c1.912.417 4.652-2.353 4.242-4.242l-3.769-3.771c.583-.171 1.187-.257 1.79-.257 1.603 0 3.202.606 4.428 1.83 1.35 1.351 1.957 3.164 1.82 4.93-.072.933.268 1.853.93 2.514l2.843 2.843c1.066-1.793 1.689-3.88 1.689-6.117 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.236 0 4.323-.623 6.115-1.688l-2.842-2.843z"/>
                                 </svg>
                             </div>
-                            <p class="ml-3 leading-8">
+                            <p class="ms-4 leading-8">
                                 {{ content }}
                             </p>
                         </li>
@@ -75,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody v-for="(option, id) in $tm(`customerServices.${serviceTag}.options`)" :aria-expanded="optionExpanded === id" class="group divide-gray-200 font-jost-medium text-lg bg-white">
-                                    <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="hover:bg-zinc-200 cursor-pointer border-t border-b-0 duration-150">
+                                    <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="hover:bg-zinc-200 hover:text-zinc-800 cursor-pointer border-t border-b-0 duration-150">
                                         <td class="px-6 py-4 whitespace-nowrap">{{ option['name'] }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="flex justify-between items-center">
@@ -90,10 +92,10 @@
                                         <td colspan="2" class="relative p-0 overflow-hidden group-aria-[expanded='false']:!h-0 duration-300">
                                             <div ref="toPricelistPopup" class="absolute top-0 px-6 py-4 w-full">
                                                 <p>
-                                                    {{ option['problem'] }}
+                                                    {{ option['description'] }}
                                                 </p>
                                                 
-                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-4 mb-2 tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-1.5 px-2 md:px-4 rounded-md inline-flex items-center duration-150">
+                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-1.5 px-2 md:px-4 rounded-md inline-flex items-center duration-150">
                                                     <span>{{ $t('customerServices.currentOptionAppoinment') }}</span>
                                                 </button>
                                             </div>

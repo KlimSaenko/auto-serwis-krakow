@@ -46,7 +46,8 @@ export default {
       },
       backgroundImage: {
         'service-banner': "url('@/assets/car-service-banner-dark.webp')",
-        'service-banner-1': "url('@/assets/default-service-1.jpg')"
+        'service-banner-1': "url('@/assets/default-service-1.jpg')",
+        'red-car-top': "url('@/assets/car-top.png')"
       },
       aspectRatio: {
         '4/3': '4 / 3',

@@ -4,7 +4,7 @@
 
 <template>
     <section class="relative">
-        <div id="blog" class="absolute top-[calc(-5rem-10vh)] h-0"></div>
+        <div id="blog" class="absolute top-[calc(-4rem-10vh)] h-0"></div>
 
         <div class="flex mb-14 justify-center text-center">
             <h1 class="text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.ourBlogTitle') }}</h1>
