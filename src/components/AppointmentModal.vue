@@ -30,12 +30,16 @@
 			const body = document.body;
 
 			if (opened){
-				scrollTop = document.documentElement.scrollTop;
-				body.style.setProperty('--st', -(scrollTop) + "px");
-				body.classList.add('no-scroll');
+				// scrollTop = document.documentElement.scrollTop;
+				// body.style.setProperty('--st', -(scrollTop) + "px");
+				// body.classList.add('no-scroll');
+
+				body.style.overflow = 'hidden';
 			} else {
-				body.classList.remove('no-scroll');
-				window.scrollTo(0, scrollTop);
+				// body.classList.remove('no-scroll');
+				// window.scrollTo(0, scrollTop);
+
+				body.style.overflow = 'auto';
 			};
 
 			customerNameValid.value = true;
@@ -52,7 +56,7 @@
     watch(form.phoneCode, code => form.phoneCode.value = code.replace(/\D/g, '').substring(0, 4));
     watch(form.phone, phone => {
 		form.phone.value = phone.replace(/\D/g, '');
-		if (!customerContactInfoValid.value && form.phone.value.trim()){
+		if (!customerContactInfoValid.value && phone.trim()){
 			customerContactInfoValid.value = true;
 		}
 	});
@@ -131,8 +135,8 @@
 
 <template>
 	<Transition name="modal-fade" appear>
-		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[999] flex overflow-y-auto overflow-x-hidden">
-			<div class="m-auto md:w-[56rem] tracking-wide bg-white rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
+		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[999] flex overflow-auto">
+			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
 					<form @submit.prevent="validateForm">
 						<h2 class="text-4xl text-zinc-800">{{ $t("modal.appointmentTitle") }}</h2>
@@ -217,7 +221,7 @@
 							<textarea id="problemDescription" rows="4" v-model="preDescription" class="block tracking-wide px-3 py-2 w-full text-zinc-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" :placeholder="$t('modal.customerMessageFieldPlaceholder')"></textarea>
 						</div>
 
-						<div class="mt-2 flex items-end">
+						<div class="mt-7 flex items-end">
 							<button type="submit" class="tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center">
 								<span class="whitespace-nowrap">{{ $t("header.onlineAppointment") }}</span>
 							</button>
@@ -230,7 +234,7 @@
 					</form>
 				</div>
 
-				<div class="relative max-md:hidden col-span-2 px-4 lg:px-7 py-10 bg-gray-200">
+				<div class="relative col-span-2 px-8 md:px-4 lg:px-7 py-10 max-md:pb-52 bg-gray-200 bg-red-car-top bg-bottom [background-position-y:21rem] bg-no-repeat">
 					<h2 class="text-4xl text-zinc-800">{{ $t("modal.contactsTitle") }}</h2>
 
 					<p class="my-6">
@@ -270,10 +274,12 @@
 						</li>
 					</ul>
 
-					<div class="absolute bottom-0 right-6 left-6 bg-red-car-top bg-cover bg-center aspect-square bg-no-repeat"></div>
+					<div class="absolute bottom-5 left-0 w-full flex justify-center">
+						<span class="block text-sm text-white text-center">© 2024 Front Auto. {{ $t('footer.allRightsReserved') }}.</span>
+					</div>
 				</div>
 
-				<button @click="closeAppointmentModal" class="absolute right-5 top-5 w-8 h-8 text-gray-500 hover:text-gray-900">
+				<button @click="closeAppointmentModal" class="fixed md:absolute right-6 top-6 w-12 h-12 p-2 text-gray-500 md:hover:text-gray-900 md:hover:bg-zinc-300 rounded-full max-md:bg-white/80 ">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
 					</svg>

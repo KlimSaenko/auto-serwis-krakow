@@ -15,15 +15,15 @@
 		<div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
 			<MainBannerCards />
 
-			<About class="mt-12" />
+			<About class="md:mt-12" />
 
-			<BenefitsList class="mt-36" />
+			<BenefitsList class="mt-24 md:mt-36" />
 
-			<ReviewsList class="mt-40" />
+			<ReviewsList class="mt-32 md:mt-40" />
 
-			<LatestPosts />
+			<LatestPosts class="mt-28 md:mb-32" />
 		</div>
 		
-		<GoogleMap class="mt-36" />
+		<GoogleMap class="mt-24 md:mt-36" />
 	</div>
 </template>

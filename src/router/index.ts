@@ -58,7 +58,7 @@ const router = createRouter({
         }
     ],
     async scrollBehavior(to, from, savedPosition) {
-        
+
         await TransitionWaiter.Promise;
         
         const behavior: ScrollOptions['behavior'] = 'smooth';

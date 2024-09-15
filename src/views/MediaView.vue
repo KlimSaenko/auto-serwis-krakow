@@ -4,9 +4,9 @@
 </script>
 
 <template>
-	<div class="pt-12 pb-16">
+	<div class="pt-10 md:pt-12 pb-14 md:pb-16">
 		<Gallery />
 
-		<Blog class="mt-20" />
+		<Blog class="mt-16 md:mt-20" />
 	</div>
 </template>

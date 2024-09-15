@@ -34,15 +34,15 @@
         <div class="w-full h-64 md:h-44 lg:h-52 xl:h-56 2xl:h-60 bg-service-banner-1 bg-cover bg-center flex justify-center items-center">
             <div class="m-8">
                 <hr class="border-gray-200 border-[1px]" />
-                <h1 class="px-6 md:px-10 my-4 xl:my-6 text-4xl xl:text-5xl text-white font-jost-medium drop-shadow-xl text-center">{{ $t(`customerServices.${serviceTag}.title`) }}</h1>
+                <h1 class="px-2 md:px-6 xl:px-10 my-4 xl:my-6 text-4xl xl:text-5xl text-white font-jost-medium drop-shadow-xl text-center">{{ $t(`customerServices.${serviceTag}.title`) }}</h1>
                 <hr class="border-gray-200 border-[1px]" />
             </div>
         </div>
         <div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
-            <article class="pt-6 pb-20 px-32">
+            <article class="md:py-4 pl-1 md:px-16 xl:px-32">
 
                 <div class="my-8 text-xl font-jost text-zinc-700">
-                    <i18n-t :keypath="`customerServices.${serviceTag}.description_1`" scope="global" tag="p">
+                    <i18n-t :keypath="`customerServices.${serviceTag}.descriptionShort`" scope="global" tag="p">
                         <template #newLine>
                             <br><br>
                         </template>
@@ -62,7 +62,7 @@
                     </ul>
                 </div>
 
-                <div class="text-5xl mt-24 mb-14 font-jost-bold text-center text-zinc-800 leading-[1.2]">
+                <div class="text-[2.5rem] md:text-5xl mt-16 md:mt-24 mb-10 md:mb-14 font-jost-bold text-center text-zinc-800 leading-[1.2]">
                     <h2>{{ $t('customerServices.pricelistTitle') }}</h2>
                 </div>
 
@@ -77,15 +77,15 @@
                                     </tr>
                                 </thead>
                                 <tbody v-for="(option, id) in $tm(`customerServices.${serviceTag}.options`)" :aria-expanded="optionExpanded === id" class="group divide-gray-200 font-jost-medium text-lg bg-white">
-                                    <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="hover:bg-zinc-200 hover:text-zinc-800 cursor-pointer border-t border-b-0 duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ option['name'] }}</td>
+                                    <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="md:hover:bg-zinc-200 md:hover:text-zinc-800 active:bg-zinc-200 cursor-pointer border-t border-b-0 duration-150">
+                                        <td class="px-6 py-4 md:whitespace-nowrap">{{ option['name'] }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="flex justify-between items-center">
-                                                {{ option['price'] }}
-                                                <svg class="w-2.5 h-2.5 -rotate-90 group-aria-expanded:rotate-90 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <div class="flex justify-between items-center">
+                                                <span>{{ option['price'] }}</span>
+                                                <svg class="ms-3 w-2.5 h-2.5 -rotate-90 group-aria-expanded:rotate-90 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
                                                 </svg>
-                                            </span>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr class="border-t-0">
@@ -102,13 +102,33 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tbody class="group divide-gray-200 font-jost-medium text-lg text-white">
+                                    <tr>
+                                        <td colspan="2" class="p-0">
+                                            <button @click="openAppointmentModalWithDescription($t(`customerServices.${serviceTag}.commonProblemDescription`))" class="border border-[red]/95 rounded-b-xl w-full h-full justify-center tracking-wider text-gray-100 hover:text-[red] bg-[red] hover:bg-white py-4 inline-flex items-center duration-150">
+                                                <span>{{ $t(`customerServices.${serviceTag}.commonOptionAppoinment`) }}</span>
+                                                <svg class="ms-2 h-[1.6rem]" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+
+                <div class="mt-16 md:mt-20 mb-8 text-xl font-jost text-zinc-700">
+                    <i18n-t :keypath="`customerServices.${serviceTag}.description_1`" scope="global" tag="p">
+                        <template #newLine>
+                            <br><br>
+                        </template>
+                    </i18n-t>
+                </div>
             </article>
 
-            <BenefitsList class="mt-16" />
+            <BenefitsList class="mt-20" />
         </div>
     </div>
 </template>

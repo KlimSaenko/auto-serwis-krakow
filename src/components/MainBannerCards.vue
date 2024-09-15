@@ -37,8 +37,8 @@
           </div>
           
           <div class="relative mx-2 !pt-0 p-4 lg:p-5 2xl:p-6">
-			<h2 class="text-2xl text-zinc-800 mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.middleCardTitle') }}</h2>
-			<h4>{{ getConfigConst('corporateInfo.addressFull') }}</h4>
+        <h2 class="text-2xl text-zinc-800 mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.middleCardTitle') }}</h2>
+        <h4>{{ getConfigConst('corporateInfo.addressFull') }}</h4>
             <p class="mt-2">{{ $t('home.middleCardContent_1') }}</p>
 
             <div class="tooltip absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
@@ -75,7 +75,7 @@
 				</div>
 			
 				<div class="absolute bottom-0 left-0 right-0">
-					<router-link :to="{ name: 'services' }" class="group relative flex text-white max-md:bg-[red] md:text-[red] md:hover:text-white md:hover:bg-[red] duration-200 h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
+					<router-link :to="{ name: 'services' }" class="group relative flex text-white max-md:bg-[red]/90 md:text-[red] md:hover:text-white md:hover:bg-[red] duration-200 h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
 						<p class="text-lg uppercase font-jost-medium">{{ $t('home.rightCardShowAll') }}</p>
 						<svg class="ms-2 h-[1.6rem]" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>

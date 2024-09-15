@@ -6,8 +6,8 @@
     <section class="relative">
         <div id="blog" class="absolute top-[calc(-4rem-10vh)] h-0"></div>
 
-        <div class="flex mb-14 justify-center text-center">
-            <h1 class="text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.ourBlogTitle') }}</h1>
+        <div class="flex mb-11 md:mb-14 justify-center text-center">
+            <h1 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.ourBlogTitle') }}</h1>
         </div>
 
         <div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">

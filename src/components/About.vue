@@ -4,8 +4,8 @@
             <div class="col-span-1 max-lg:hidden">
                 <img src="../assets/car-banner.jpg" class="object-cover rounded-xl h-full max-h-[38rem] w-full bg-zinc-200" />
             </div>
-            <div class="pl-3 col-span-2 text-xl font-jost leading-8">
-                <h1 class="text-5xl mb-12 md:mb-9 font-jost-bold max-lg:text-center leading-[1.2]">{{ $t('home.aboutTitle') }}</h1>
+            <div class="pl-1 sm:pl-3 col-span-2 text-xl font-jost leading-8">
+                <h1 class="text-[2.5rem] md:text-5xl mb-9 font-jost-bold max-lg:text-center leading-[1.2]">{{ $t('home.aboutTitle') }}</h1>
 
                 <p class="text-zinc-600">{{ $t('home.aboutContent_1') }}</p>
                 <ul class="my-4 text-zinc-600">
@@ -18,7 +18,7 @@
                                 </g>
                             </svg>
                          </div>
-                        <p class="ms-4">
+                        <p class="ms-2 sm:ms-4">
                             {{ content }}
                         </p>
                     </li>

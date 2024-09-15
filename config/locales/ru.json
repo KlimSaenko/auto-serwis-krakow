@@ -133,6 +133,8 @@
                 "низкая мощность",
                 "увеличенное потребление топлива"
             ],
+            "commonProblemDescription": "Записаться ",
+            "commonOptionAppoinment": "Записаться на диагностику",
             "options": [
                 {
                     "name": "Диагностика двигателя",
@@ -215,8 +217,9 @@
     "blog": {
         "blogTitle": "Блог",
         "goToBlog": "Перейти к Блогу",
-        "shareInSocial": "Поделиться в",
-        "readAlsoTitle": "Читайте также"
+        "shareViaSocial": "Поделиться в",
+        "readAlsoTitle": "Читайте также",
+        "shareViaSocialLabel": "Поделиться в соцсетях"
     },
     "benefitsList": {
         "title": "Почему автосервис",
