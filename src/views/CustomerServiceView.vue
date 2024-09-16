@@ -91,11 +91,11 @@
                                     <tr class="border-t-0">
                                         <td colspan="2" class="relative p-0 overflow-hidden group-aria-[expanded='false']:!h-0 duration-300">
                                             <div ref="toPricelistPopup" class="absolute top-0 px-6 py-4 w-full">
-                                                <p>
+                                                <p class="font-jost">
                                                     {{ option['description'] }}
                                                 </p>
                                                 
-                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-1.5 px-2 md:px-4 rounded-md inline-flex items-center duration-150">
+                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-1.5 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
                                                     <span>{{ $t('customerServices.currentOptionAppoinment') }}</span>
                                                 </button>
                                             </div>

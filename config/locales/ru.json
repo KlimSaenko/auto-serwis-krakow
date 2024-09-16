@@ -219,7 +219,8 @@
         "goToBlog": "Перейти к Блогу",
         "shareViaSocial": "Поделиться в",
         "readAlsoTitle": "Читайте также",
-        "shareViaSocialLabel": "Поделиться в соцсетях"
+        "shareViaSocialLabel": "Поделиться в соцсетях",
+        "goBackToBlog": "Вернуться к Блогу"
     },
     "benefitsList": {
         "title": "Почему автосервис",

@@ -28,7 +28,7 @@
 
 <template>
     <div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
-        <article class="pt-8 pb-16 md:pb-20 pl-1 md:px-16 xl:px-32">
+        <article class="pt-8 pb-16 md:pb-20 md:px-16 xl:px-32">
             <div class="text-[2.5rem] mb-8 font-jost-bold flex justify-center text-center text-zinc-700">
                 <h2 class="border-l-[7px] border-[red] ps-3 leading-none pr-2">{{ $t('blog.blogTitle') }}</h2>
             </div>
@@ -85,6 +85,15 @@
                 <PostCardSimpled />
                 <PostCardSimpled />
                 <PostCardSimpled class="max-md:hidden" />
+            </div>
+
+            <div class="mt-6 md:mt-8 flex justify-center">
+                <router-link :to="{ name: 'media', hash: '#blog' }" class="px-7 py-3 flex items-center text-zinc-500 cursor-pointer rounded-full md:hover:bg-zinc-200 md:hover:text-zinc-700 active:bg-zinc-200 active:text-zinc-700 duration-150">
+                    <svg class="mr-4 rotate-180" width="32" height="32" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h4 class="flex font-jost-medium text-2xl">{{ $t('blog.goBackToBlog') }}</h4>
+                </router-link>
             </div>
         </article>
     </div>
