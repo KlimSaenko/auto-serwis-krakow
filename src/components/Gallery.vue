@@ -60,15 +60,15 @@
         </div>
 
         <div class="w-full">
-            <div class="flex w-full">
-                <button @click="prevImagesIndex" class="w-20 ml-auto text-zinc-500 sm:hover:text-zinc-600 sm:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-200">
+            <div class="flex w-full relative">
+                <button @click="prevImagesIndex" class="z-50 p-2.5 ml-auto text-zinc-500 max-sm:absolute top-1/2 -translate-y-1/2 left-2 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/80 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
                     <span class="sr-only">Previous</span>
-                    <svg class="w-10 h-10 mx-auto rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                    <svg class="w-8 sm:w-12 aspect-square rotate-180" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.04 1.96a1 1 0 0 0-1.497 1.32l.083.094L10.253 8l-4.627 4.626a1 1 0 0 0-.083 1.32l.083.094a1 1 0 0 0 1.32.084l.094-.084 5.334-5.333a1 1 0 0 0 .083-1.32l-.083-.094L7.04 1.96Z" />
                     </svg>
                 </button>
-
-                <div class="px-2 w-full md:px-4 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl max-md:rounded-2xl">
+                
+                <div class="max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl max-md:rounded-2xl">
                     <div v-for="(images, rowIndex) in paredImages" :aria-colspan="imagesIndex"
                         :class="rowIndex === 0 ?
                                 `md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] md:mb-3 xl:mb-4 rounded-t-2xl` :
@@ -94,15 +94,15 @@
                     </div>
                 </div>
 
-                <button @click="nextImagesIndex" class="w-20 mr-auto text-zinc-500 sm:hover:text-zinc-600 sm:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-200">
-                    <span class="sr-only">Previous</span>
-                    <svg class="w-10 h-10 mx-auto rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                <button @click="nextImagesIndex" class="z-50 p-2.5 mr-auto text-zinc-500 max-sm:absolute top-1/2 -translate-y-1/2 right-2 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/80 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
+                    <span class="sr-only">Next</span>
+                    <svg class="w-8 sm:w-12 aspect-square" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.04 1.96a1 1 0 0 0-1.497 1.32l.083.094L10.253 8l-4.627 4.626a1 1 0 0 0-.083 1.32l.083.094a1 1 0 0 0 1.32.084l.094-.084 5.334-5.333a1 1 0 0 0 .083-1.32l-.083-.094L7.04 1.96Z" />
                     </svg>
                 </button>
             </div>
             
-            <div class="flex justify-center mt-9">
+            <div class="flex justify-center mt-8 md:mt-9">
                 <div :aria-index="imagesIndex" class="group relative w-[9rem] h-[0.8rem] rounded-full bg-gray-200 border shadow-sm cursor-pointer">
                     <a @click="setImagesIndex(1)" class="absolute left-0 w-[3.4rem] h-full rounded-full hover:bg-zinc-300">
                     </a>
@@ -120,7 +120,7 @@
         </div>
 
         <transition name="fade-image" mode="out-in">
-			<div v-if="imagePreview" class="fixed inset-0 bg-zinc-950/65 z-40 flex items-center justify-center">
+			<div v-if="imagePreview" class="fixed inset-0 bg-zinc-950/65 z-[300] flex items-center justify-center">
                 <div class="flex content-center pt-16 m-8 md:m-16 flex-wrap flex-col">
                     <img :src="imagePreview.ImgUrl" loading="lazy" :alt="imagePreview.AltText" class="max-h-full max-w-full object-cover object-center rounded-2xl" />
                     <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label>

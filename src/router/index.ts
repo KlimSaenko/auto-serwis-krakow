@@ -70,7 +70,7 @@ const router = createRouter({
                 return { el: to.hash, behavior };
             }
 
-            return { left: 0, top: 0 };
+            return { left: 0, top: 0, behavior };
         }
     }
 });

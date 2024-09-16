@@ -24,6 +24,6 @@
 			<LatestPosts class="mt-28 md:mb-32" />
 		</div>
 		
-		<GoogleMap class="mt-24 md:mt-36" />
+		<GoogleMap class="mt-24 md:mt-32" />
 	</div>
 </template>

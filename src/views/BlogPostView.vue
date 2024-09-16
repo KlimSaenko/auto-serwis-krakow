@@ -15,12 +15,12 @@
     });
 
     const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
-    const iconPaths = import.meta.glob<string>(`@icons/social/all.svg`, { eager: true, import: 'default', query: '?url' });
-    
+    const iconsPath = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?url' }));
+    console.log(iconsPath);
     const socialMediaList = Object.entries(socialMediaConfig).map(([socialMediaName, socialMediaInfo]) => {
         return {
             name: socialMediaName,
-            iconPath: Object.values(iconPaths)[0] + "#" + socialMediaName,
+            iconPath: iconsPath[0] + "#" + socialMediaName,
             info: socialMediaInfo
         };
     });
@@ -66,7 +66,7 @@
                     <div v-for="socialMedia of socialMediaList" :key="socialMedia.name" class="relative group hover:bg-zinc-300 rounded-full duration-200">
                         <div class="p-3 overflow-hidden cursor-pointer">
                             <svg width="28" height="28" class="text-zinc-600 md:text-zinc-500 group-hover:text-zinc-700">
-                                <use :href="socialMedia.iconPath" />
+                                <use :href="socialMedia.iconPath"  />
                             </svg>
                         </div>
                         

@@ -5,7 +5,7 @@
     import Translations from '@/vue-helpers/translations';
     import useClickOutside from '@/vue-helpers/useClickOutside';
 
-	const isModalOpened = inject<Ref<boolean>>('isAppointmentModalOpened');
+	const isModalOpened = inject<Ref<boolean>>('isAppointmentModalOpened') ?? ref(false);
     const closeAppointmentModal = inject<() => void>('closeAppointmentModal');
 	const preDescription = inject<Ref<string>>('appointmentModalDescription');
 
@@ -23,29 +23,12 @@
 	const customerNameValid = ref(true);
 	const customerContactInfoValid = ref(true);
 	
-	if (isModalOpened){
-		let scrollTop = 0;
-
-		watch(isModalOpened, opened => {
-			const body = document.body;
-
-			if (opened){
-				// scrollTop = document.documentElement.scrollTop;
-				// body.style.setProperty('--st', -(scrollTop) + "px");
-				// body.classList.add('no-scroll');
-
-				body.style.overflow = 'hidden';
-			} else {
-				// body.classList.remove('no-scroll');
-				// window.scrollTo(0, scrollTop);
-
-				body.style.overflow = 'auto';
-			};
-
+	watch(isModalOpened, opened => {
+		if (opened){
 			customerNameValid.value = true;
 			customerContactInfoValid.value = true;
-		});
-	}
+		}
+	});
 
 	watch(form.customerName, customerName => {
 		if (!customerNameValid.value && customerName.trim()){
@@ -135,7 +118,7 @@
 
 <template>
 	<Transition name="modal-fade" appear>
-		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[999] flex overflow-auto">
+		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[999] flex overflow-x-hidden overflow-y-auto">
 			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
 					<form @submit.prevent="validateForm">
@@ -234,52 +217,56 @@
 					</form>
 				</div>
 
-				<div class="relative col-span-2 px-8 md:px-4 lg:px-7 py-10 max-md:pb-52 bg-gray-200 bg-red-car-top bg-bottom [background-position-y:21rem] bg-no-repeat">
-					<h2 class="text-4xl text-zinc-800">{{ $t("modal.contactsTitle") }}</h2>
+				<div class="col-span-2 bg-gray-200 flex flex-col">
+					<div class="relative px-8 md:px-5 lg:px-7 py-10 pb-0">
+						<h2 class="text-4xl text-zinc-800">{{ $t("modal.contactsTitle") }}</h2>
 
-					<p class="my-6">
-						{{ $t('modal.contactsDescription') }}
-					</p>
+						<p class="my-6">
+							{{ $t('modal.contactsDescription') }}
+						</p>
 
-					<ul class="my-6">
-						<li class="my-6 flex items-center">
-							<svg class="mr-3 min-w-5 text-zinc-700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
-								<g transform="scale(2.6 2.6)" >
-									<path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
-								</g>
-							</svg>
-							<span>{{ getConfigConst('corporateInfo.addressFull') }}</span>
-						</li>
+						<ul class="my-6">
+							<li class="mt-6 flex items-center">
+								<svg class="mr-3 min-w-5 text-zinc-700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
+									<g transform="scale(2.6 2.6)" >
+										<path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
+									</g>
+								</svg>
+								<span>{{ getConfigConst('corporateInfo.addressFull') }}</span>
+							</li>
 
-						<li class="my-6 flex items-center">
-							<svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-								<path fill="currentColor" d="m17.4 22a15.42 15.42 0 0 1 -15.4-15.4 4.6 4.6 0 0 1 4.6-4.6 3.94 3.94 0 0 1 .77.07 3.79 3.79 0 0 1 .72.18 1 1 0 0 1 .65.75l1.37 6a1 1 0 0 1 -.26.92c-.13.14-.14.15-1.37.79a9.91 9.91 0 0 0 4.87 4.89c.65-1.24.66-1.25.8-1.38a1 1 0 0 1 .92-.26l6 1.37a1 1 0 0 1 .72.65 4.34 4.34 0 0 1 .19.73 4.77 4.77 0 0 1 .06.76 4.6 4.6 0 0 1 -4.64 4.53z"/>
-							</svg>
-							<span>{{ getConfigConst('corporateInfo.contactNumber') }}</span>
-						</li>
+							<li class="mt-6 flex items-center">
+								<svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path fill="currentColor" d="m17.4 22a15.42 15.42 0 0 1 -15.4-15.4 4.6 4.6 0 0 1 4.6-4.6 3.94 3.94 0 0 1 .77.07 3.79 3.79 0 0 1 .72.18 1 1 0 0 1 .65.75l1.37 6a1 1 0 0 1 -.26.92c-.13.14-.14.15-1.37.79a9.91 9.91 0 0 0 4.87 4.89c.65-1.24.66-1.25.8-1.38a1 1 0 0 1 .92-.26l6 1.37a1 1 0 0 1 .72.65 4.34 4.34 0 0 1 .19.73 4.77 4.77 0 0 1 .06.76 4.6 4.6 0 0 1 -4.64 4.53z"/>
+								</svg>
+								<span>{{ getConfigConst('corporateInfo.contactNumber') }}</span>
+							</li>
 
-						<li class="my-6 flex items-center">
-							<svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-								<path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z"/>
-							</svg>
-							<span>{{ getConfigConst("corporateInfo.telegramLink") }}</span>
-						</li>
+							<li class="mt-6 flex items-center">
+								<svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+									<path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z"/>
+								</svg>
+								<span>{{ getConfigConst("corporateInfo.telegramLink") }}</span>
+							</li>
 
-						<li class="my-6 flex items-center">
-							<svg class="mr-3 min-w-5 text-zinc-700" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-								<path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-								<path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-							</svg>
-							<span>{{ getConfigConst('corporateInfo.email') }}</span>
-						</li>
-					</ul>
+							<li class="mt-6 flex items-center">
+								<svg class="mr-3 min-w-5 text-zinc-700" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+									<path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+									<path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+								</svg>
+								<span>{{ getConfigConst('corporateInfo.email') }}</span>
+							</li>
+						</ul>
+					</div>
 
-					<div class="absolute bottom-5 left-0 w-full flex justify-center">
-						<span class="block text-sm text-white text-center">© 2024 Front Auto. {{ $t('footer.allRightsReserved') }}.</span>
+					<div class="flex mt-auto aspect-square max-md:-mb-40 justify-center bg-red-car-top bg-bottom bg-[length:100%] max-md:bg-[length:120%] bg-no-repeat">
+						<div class="flex self-end max-w-[90%] md:max-w-[70%] max-md:mb-40">
+							<span class="block my-4 text-sm text-white text-center">© 2024 Front Auto. {{ $t('footer.allRightsReserved') }}.</span>
+						</div>
 					</div>
 				</div>
 
-				<button @click="closeAppointmentModal" class="fixed md:absolute right-6 top-6 w-12 h-12 p-2 text-gray-500 md:hover:text-gray-900 md:hover:bg-zinc-300 rounded-full max-md:bg-white/80 ">
+				<button @click="closeAppointmentModal" class="fixed md:absolute right-6 top-6 w-12 h-12 p-2 text-gray-500 md:hover:text-gray-900 md:hover:bg-zinc-300 rounded-full max-md:bg-white/85 ">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
 					</svg>
