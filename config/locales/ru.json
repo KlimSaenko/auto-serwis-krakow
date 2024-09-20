@@ -1,32 +1,12 @@
 {
-    "localesMetadata": {
-        "en": {
-            "name": "Angielski",
-            "label": "EN",
-            "code": "us"
-        },
-        "pl": {
-            "name": "Polski",
-            "label": "PL",
-            "code": "pl"
-        },
-        "ru": {
-            "name": "Rosyjski",
-            "label": "RU",
-            "code": "ru"
-        },
-        "ua": {
-            "name": "Українська",
-            "label": "UA",
-            "code": "ua"
-        }
-    },
     "header": {
         "home": "Главная",
         "services": "Услуги",
         "media": "Медиа",
         "workingTime": "Пн - Пт: 8:00 - 18:00",
-        "onlineAppointment": "Онлайн запись"
+        "onlineAppointment": "Онлайн запись",
+        "menu": "Меню",
+        "corporateInfo": "О нас"
     },
     "home": {
         "goToAbout": "О Нас",
@@ -170,6 +150,8 @@
                 "низкая мощность",
                 "увеличенное потребление топлива"
             ],
+            "commonProblemDescription": "Записаться ",
+            "commonOptionAppoinment": "Записаться на диагностику",
             "options": [
                 {
                     "name": "Двигатель",

@@ -1,26 +1,4 @@
 {
-    "localesMetadata": {
-        "en": {
-            "name": "Angielski",
-            "label": "Enlgish",
-            "code": "us"
-        },
-        "pl": {
-            "name": "Polski",
-            "label": "Polski",
-            "code": "pl"
-        },
-        "ru": {
-            "name": "Rosyjski",
-            "label": "Русский",
-            "code": "ru"
-        },
-        "ua": {
-            "name": "Українська",
-            "label": "UA",
-            "code": "ua"
-        }
-    },
     "header": {
         "home": "Home",
         "workingTime": "Mon - Fri: 8am - 6pm",

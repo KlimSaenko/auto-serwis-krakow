@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref, onMounted, watch, inject, type Ref } from 'vue';
     import { getConfigConst } from '@/vue-helpers/configValues';
+	import appointmentSender from '@/vue-helpers/appointmentSender';
     import { CountryProperty, type CountryData, findOne as findCountry, all as getAllCountries } from 'country-codes-list';
     import Translations from '@/vue-helpers/translations';
     import useClickOutside from '@/vue-helpers/useClickOutside';
@@ -17,8 +18,12 @@
 		phoneCode: ref<string>(currentLocation.value?.countryCallingCode ?? ''),
 		phone: ref<string>(''),
 		telegram: ref<string>(''),
-		email: ref<string>('')
+		email: ref<string>(''),
+		description: ref<string | undefined>(preDescription?.value)
 	};
+
+	const processingForm = ref(false);
+	const isFormSentModalOpened = ref(false);
 
 	const customerNameValid = ref(true);
 	const customerContactInfoValid = ref(true);
@@ -27,6 +32,8 @@
 		if (opened){
 			customerNameValid.value = true;
 			customerContactInfoValid.value = true;
+			form.description.value = preDescription?.value;
+			processingForm.value = false;
 		}
 	});
 
@@ -87,7 +94,17 @@
 		currentLocation.value = findCountry('countryCallingCode' as CountryProperty, form.phoneCode.value!);
     }
 
-    function validateForm(){
+	function openFormSentModal(){
+		isFormSentModalOpened.value = true;
+		
+		setTimeout(() => isFormSentModalOpened.value = false, 7000);
+    }
+
+    async function handleSubmit(){
+		if (processingForm.value){
+			return;
+		}
+
 		if (!form.customerName.value.trim()){
 			customerNameValid.value = false;
 		}
@@ -100,14 +117,35 @@
 			return;
 		}
 
-		console.log('Appointment has been requested');
+		processingForm.value = true;
+
+		const senderInfo = {
+			name: form.customerName.value,
+			contactLinks: {
+				tel: form.phoneCode.value + ' ' + form.phone.value,
+				telegram: form.telegram.value,
+				email: form.email.value
+			},
+			details: form.description.value
+		};
+
+		const result = await appointmentSender.SendMessage(senderInfo);
+
+		if (result){
+			openFormSentModal();
+			console.log('Appointment has been requested');
+		}
+
+		if (closeAppointmentModal){
+			closeAppointmentModal();
+		}
     }
 </script>
 
 <style lang="css">
 	.modal-fade-enter-active,
 	.modal-fade-leave-active {
-		transition: opacity .25s;
+		transition: opacity .3s;
 	}
 
 	.modal-fade-enter-from,
@@ -117,11 +155,11 @@
 </style>
 
 <template>
-	<Transition name="modal-fade" appear>
-		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[999] flex overflow-x-hidden overflow-y-auto">
+	<Transition name="modal-fade" appear @after-leave="processingForm = false">
+		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
 			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
-					<form @submit.prevent="validateForm">
+					<form @submit.prevent="handleSubmit">
 						<h2 class="text-4xl text-zinc-800">{{ $t("modal.appointmentTitle") }}</h2>
 
 						<i18n-t class="my-6" keypath="modal.appointmentDescription" scope="global" tag="p">
@@ -201,12 +239,20 @@
 
 						<div class="my-6">
 							<label for="problemDescription" class="block mb-2">{{ $t("modal.customerMessageLabel") }}</label>
-							<textarea id="problemDescription" rows="4" v-model="preDescription" class="block tracking-wide px-3 py-2 w-full text-zinc-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" :placeholder="$t('modal.customerMessageFieldPlaceholder')"></textarea>
+							<textarea id="problemDescription" rows="4" v-model="form.description.value" class="block tracking-wide px-3 py-2 w-full text-zinc-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" :placeholder="$t('modal.customerMessageFieldPlaceholder')"></textarea>
 						</div>
 
 						<div class="mt-7 flex items-end">
-							<button type="submit" class="tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center">
-								<span class="whitespace-nowrap">{{ $t("header.onlineAppointment") }}</span>
+							<button type="submit" class="relative tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center duration-150">
+								<span :aria-hidden="processingForm" class="whitespace-nowrap aria-hidden:invisible">{{ $t("header.onlineAppointment") }}</span>
+
+								<div v-if="processingForm" class="absolute left-1/2 -translate-x-1/2">
+									<svg class="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+										<path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+									</svg>
+									<span class="sr-only">Loading...</span>
+								</div>
 							</button>
 
 							<p class="ms-5 -mb-1 text-[red] font-jost leading-5 text-[0.95rem]">
@@ -246,7 +292,7 @@
 								<svg class="mr-3 min-w-5 text-zinc-700" height="20" width="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
 									<path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z"/>
 								</svg>
-								<span>{{ getConfigConst("corporateInfo.telegramLink") }}</span>
+								<span>{{ getConfigConst("corporateInfo.telegramTag") }}</span>
 							</li>
 
 							<li class="mt-6 flex items-center">
@@ -272,6 +318,24 @@
 					</svg>
 				</button>
 			</div>
+		</div>
+	</Transition>
+
+	<Transition name="modal-fade" appear>
+		<div v-if="isFormSentModalOpened" class="fixed right-8 bottom-8 max-sm:right-5 max-sm:left-5 z-[901] p-5 pr-9 sm:max-w-80 bg-white overflow-hidden rounded-lg shadow-lg shadow-black/15 border">
+			<div class="flex items-center">
+				<svg class="w-9 h-9 me-4 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+				</svg>
+
+				<p class="font-jost text-zinc-800">{{ $t('modal.apointmentSentMessage') }}</p>
+			</div>
+			
+			<button @click="isFormSentModalOpened = false" class="absolute right-1.5 top-1.5 w-6 h-6 p-1 text-gray-500 md:hover:text-gray-900 active:text-gray-900">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
+					<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
+				</svg>
+			</button>
 		</div>
 	</Transition>
 </template>

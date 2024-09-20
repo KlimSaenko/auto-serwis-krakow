@@ -1,14 +1,19 @@
 {
     "businessLocationUrl": "https://maps.google.com/maps?ll=50.054342,19.983851&z=19&t=m&hl=ru&gl=US&mapclient=apiv3&cid=5483489582511447560",
+    "businessLocationMap": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d20492.910685026545!2d19.95814177758789!3d50.056064899624445!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471645a19d4a2d67%3A0x4c1944b8f7265e08!2zQXV0byBTZXJ3aXMgS3Jha8OzdyDQodCi0J4g0JrRgNCw0LrQvtCy!5e0!3m2!1sru!2spl!4v1726751043550!5m2!1sru!2spl",
     "businessLocation": { "lat": 50.0545539855957, "lng": 19.983287811279297 },
+    "telegramAppointmentBotApiUrl": "https://api.telegram.org/bot{API_KEY}/sendMessage",
     "corporateInfo": {
         "email": "krakowservicetest@gmail.com",
         "addressShort": "Na Zakolu Wisły 14, Kraków",
         "addressFull": "Na Zakolu Wisły 14, 30-729 Kraków",
         "contactNumber": "666-666-666",
-        "telegramLink": "@STO_KRAKOW"
+        "telegramTag": "@STO_KRAKOW",
+        "telegramLink": "https://t.me/sto_krakow",
+        "instagramLink": "https://www.instagram.com/sto_krakow/",
+        "googleMapsLink": "https://maps.app.goo.gl/AyZE2T3Yb2GBSLyr6"
     },
-    "localesMetadata": {
+    "locales": {
         "en": {
             "name": "Enlgish",
             "label": "EN",

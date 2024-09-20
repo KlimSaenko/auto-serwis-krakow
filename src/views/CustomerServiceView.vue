@@ -73,13 +73,13 @@
                                 <thead class="font-jost-medium text-lg text-zinc-500">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-start uppercase tracking-wide">{{ $t('customerServices.tableNameLabel') }}</th>
-                                        <th scope="col" class="px-6 py-3 text-start uppercase tracking-wide">{{ $t('customerServices.tablePriceLabel') }}</th>
+                                        <th scope="col" class="px-6 py-3 max-md:pl-3 text-start uppercase tracking-wide">{{ $t('customerServices.tablePriceLabel') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody v-for="(option, id) in $tm(`customerServices.${serviceTag}.options`)" :aria-expanded="optionExpanded === id" class="group divide-gray-200 font-jost-medium text-lg bg-white">
                                     <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="md:hover:bg-zinc-200 md:hover:text-zinc-800 active:bg-zinc-200 cursor-pointer border-t border-b-0 duration-150">
-                                        <td class="px-6 py-4 md:whitespace-nowrap">{{ option['name'] }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4">{{ option['name'] }}</td>
+                                        <td class="px-6 py-4 max-md:pl-3 whitespace-nowrap">
                                             <div class="flex justify-between items-center">
                                                 <span>{{ option['price'] }}</span>
                                                 <svg class="ms-3 w-2.5 h-2.5 -rotate-90 group-aria-expanded:rotate-90 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">

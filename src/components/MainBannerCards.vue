@@ -21,7 +21,7 @@
 			</Card>
 
 			<Card class="relative lg:-top-24 shadow-xl !p-0 mb-auto max-md:mb-9">
-				<router-link to="#map" class="image-shadow group after:!shadow-[inset_0_0_10px_0_rgba(0,0,0,0)] lg:hover:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] active:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] after:duration-200">
+				<a :href="getConfigConst('corporateInfo.googleMapsLink') as string" target="_blank" class="image-shadow group cursor-pointer after:!shadow-[inset_0_0_10px_0_rgba(0,0,0,0)] lg:hover:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] active:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] after:duration-200">
 					<div class="relative left-0 right-0 top-0">
 						<div class="image-shadow after:!shadow-[inset_0_0_22px_15px_rgba(255,255,255)] after:bg-gradient-to-b after:from-white/0 after:from-50% after:to-white">
 							<img class="object-cover" src="../assets/map-thumbnail.png" />
@@ -42,25 +42,25 @@
 								<h2 class="text-2xl font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">
 									{{ $t('home.middleCardTitle') }}
 								</h2>
-								<svg class="ms-2 h-[1.6rem]" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+								<svg class="ms-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 								</svg>
 							</div>
 							
 							<h4>{{ getConfigConst('corporateInfo.addressFull') }}</h4>
 							<p class="mt-2">{{ $t('home.middleCardContent_1') }}</p>
 
-							<div class="tooltip absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
+							<div class="tooltip absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
 								<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
 									{{ $t('home.middleCardGoToMapTooltip') }} 
-									<svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<svg class="ms-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
 								</p>
 							</div>
 						</div>
 					</div>
-				</router-link>
+				</a>
 			</Card>
 
 			<Card class="shadow-xl mb-auto !pb-[6.5rem]">
