@@ -16,7 +16,7 @@
 
     const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
     const iconsPath = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?url' }));
-    console.log(iconsPath);
+    
     const socialMediaList = Object.entries(socialMediaConfig).map(([socialMediaName, socialMediaInfo]) => {
         return {
             name: socialMediaName,

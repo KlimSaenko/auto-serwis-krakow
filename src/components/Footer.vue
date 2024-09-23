@@ -67,20 +67,20 @@
                     <div>
                         <h2 class="mb-4 font-jost-bold">{{ $t('footer.quickLinks') }}</h2>
                         <ul>
-                            <li class='flex mb-3'>
-                                <router-link :to="{ name: 'home' }" href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
+                            <li class="flex mb-3">
+                                <router-link :to="{ name: 'home' }" class="hover:text-gray-100 leading-7">
                                     {{ $t("footer.home") }}
                                 </router-link>
                             </li>
 
-                            <li class='flex mb-3'>
-                                <router-link :to="{ name: 'services' }" href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
+                            <li class="flex mb-3">
+                                <router-link :to="{ name: 'services' }" class="hover:text-gray-100 leading-7">
                                     {{ $t("footer.services") }}
                                 </router-link>
                             </li>
 
-                            <li class='flex mb-3'>
-                                <router-link :to="{ name: 'media' }" href='javascript:void(0)' class='hover:text-gray-100 leading-7'>
+                            <li class="flex mb-3">
+                                <router-link :to="{ name: 'media' }" class="hover:text-gray-100 leading-7">
                                     {{ $t("footer.media") }}
                                 </router-link>
                             </li>

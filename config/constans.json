@@ -60,7 +60,12 @@
         },
         "servicesTags": {
             "diagnosis": "diagnosis",
-            "units-replacement": "unitsReplacement"
+            "units-replacement": "unitsReplacement",
+            "units-repair": "unitsRepair",
+            "units-installation": "unitsInstallation",
+            "car-care": "carCare",
+            "car-maintenance": "carMaintenance",
+            "car-share": "carShare"
         }
     }
 }
