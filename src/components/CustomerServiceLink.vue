@@ -24,14 +24,14 @@
 
 <template>
     <section>
-        <router-link :to="{ name: 'customer-service', params: { serviceName: serviceUrlName } }" class="group w-full h-max rounded-xl relative overflow-hidden block cursor-pointer shadow-lg hover:shadow-xl duration-200">
+        <router-link :to="{ name: 'customer-service', params: { serviceName: serviceUrlName } }" class="group w-full h-max rounded-xl relative overflow-hidden block cursor-pointer shadow-lg md:hover:shadow-xl duration-200">
             <div class="w-full text-white h-max">
                 <div class="flex p-5 bg-no-repeat bg-center bg-opacity-0 bg-service-banner-1 bg-cover lg:bg-[length:106%] lg:group-hover:bg-[length:100%] duration-200">
                     <div class="min-w-48 md:w-4/5">
                         <h2 class="text-[1.75rem] leading-9 md:ms-4 md:text-4xl font-jost-medium drop-shadow-xl">
                             {{ $tm(`customerServices.${serviceTag}.title`) }}
                         </h2>
-                        <p class="mt-3 text-base md:ms-4 md:text-lg font-jost text-zinc-100">
+                        <p class="max-md:hidden mt-3 text-base md:ms-4 md:text-lg font-jost text-zinc-100">
                             {{ $t(`customerServices.${serviceTag}.descriptionShort`) }}
                         </p>
                     </div>

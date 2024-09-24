@@ -30,19 +30,19 @@
                     </div>
 
                     <div class="inline-flex mt-5 gap-7 text-gray-400">
-                        <a :href="(getConfigConst('corporateInfo.instagramLink') as string)" target="_blank" class="h-7 w-7 group hover:text-gray-100 cursor-pointer">
+                        <a :href="(getConfigConst('corporateInfo.instagramLink') as string)" target="_blank" class="h-7 w-7 group md:hover:text-gray-100 active:text-gray-100 cursor-pointer">
                             <svg height="28" width="28" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512">
                                 <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
                             </svg>
                         </a>
                         
-                        <a :href="(getConfigConst('corporateInfo.googleMapsLink') as string)" target="_blank" class="h-7 w-7 hover:text-gray-100 cursor-pointer">
+                        <a :href="(getConfigConst('corporateInfo.googleMapsLink') as string)" target="_blank" class="h-7 w-7 md:hover:text-gray-100 active:text-gray-100 cursor-pointer">
                             <svg height="28" width="28" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 488 512">
                                 <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
                             </svg>
                         </a>
 
-                        <a :href="(getConfigConst('corporateInfo.telegramLink') as string)" target="_blank" class="h-7 w-7 hover:text-gray-100 cursor-pointer">
+                        <a :href="(getConfigConst('corporateInfo.telegramLink') as string)" target="_blank" class="h-7 w-7 md:hover:text-gray-100 active:text-gray-100 cursor-pointer">
                             <svg height="28" width="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z" />
                             </svg>
@@ -68,19 +68,19 @@
                         <h2 class="mb-4 font-jost-bold">{{ $t('footer.quickLinks') }}</h2>
                         <ul>
                             <li class="flex mb-3">
-                                <router-link :to="{ name: 'home' }" class="hover:text-gray-100 leading-7">
+                                <router-link :to="{ name: 'home' }" class="md:hover:text-gray-100 active:text-gray-100 leading-7">
                                     {{ $t("footer.home") }}
                                 </router-link>
                             </li>
 
                             <li class="flex mb-3">
-                                <router-link :to="{ name: 'services' }" class="hover:text-gray-100 leading-7">
+                                <router-link :to="{ name: 'services' }" class="md:hover:text-gray-100 active:text-gray-100 leading-7">
                                     {{ $t("footer.services") }}
                                 </router-link>
                             </li>
 
                             <li class="flex mb-3">
-                                <router-link :to="{ name: 'media' }" class="hover:text-gray-100 leading-7">
+                                <router-link :to="{ name: 'media' }" class="md:hover:text-gray-100 active:text-gray-100 leading-7">
                                     {{ $t("footer.media") }}
                                 </router-link>
                             </li>
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <hr class="my-6 border-gray-500 sm:mx-auto" />
-            <span class="block my-2 text-sm text-gray-300 text-center">© 2024 <router-link :to="{ name: 'home' }" class="hover:underline">Front Auto</router-link>. {{ $t('footer.allRightsReserved') }}.</span>
+            <span class="block my-2 text-sm text-gray-300 text-center">© 2024 <router-link :to="{ name: 'home' }" class="md:hover:underline">Front Auto</router-link>. {{ $t('footer.allRightsReserved') }}.</span>
         </div>
     </footer>
 </template>

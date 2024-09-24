@@ -164,7 +164,7 @@
 
 						<i18n-t class="my-6" keypath="modal.appointmentDescription" scope="global" tag="p">
 							<template #privacyPolicyLabel>
-								<a href="" target="_blank" class="hover:underline cursor-pointer text-blue-600/80 lowercase">{{ $t('modal.privacyPolicyLabel') }}</a>  
+								<a href="" target="_blank" class="md:hover:underline cursor-pointer text-blue-600/80 lowercase">{{ $t('modal.privacyPolicyLabel') }}</a>  
 							</template>
 						</i18n-t>
 
@@ -183,7 +183,7 @@
 						<div class="my-6">
 							<label for="phone" class="block mb-2">{{ $t("modal.customerNumberLabel") }}</label>
 							<div class="flex relative">
-								<div ref="componentRef" @focusin="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg hover:bg-gray-200">
+								<div ref="componentRef" @focusin="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg md:hover:bg-gray-200 active:bg-gray-200">
 									<div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
 										<span :class="currentLocation ? `fi-${ currentLocation.countryCode.toLowerCase() }` : ''" class="fi bg-white h-4 !w-4 !bg-cover rounded-full ring-1 ring-zinc-800 ring-opacity-5"></span>
 									</div>
@@ -198,7 +198,7 @@
 
 								<div v-if="isLocationSelectorOpen" ref="excludeRef" class="absolute font-jost max-h-52 left-0 top-full overflow-y-auto z-10 mt-1 text-[0.9rem] w-max rounded-md shadow-md bg-white ring-1 ring-zinc-800 ring-opacity-5 p-1 space-y-1">
 									<ul class="grid grid-flow-row gap-1">
-										<li v-for="loc of allCountries.filter(value => value.countryCallingCode.startsWith(form.phoneCode.value ?? ''))" @click="currentLocation = loc" :aria-checked="currentLocation?.countryCode == loc.countryCode" class="flex items-center tracking-wide px-3 py-2 align-baseline text-gray-700 aria-checked:bg-zinc-200/60 aria-checked:text-zinc-800 md:hover:bg-zinc-200/60 md:hover:text-zinc-800 cursor-pointer rounded-md">
+										<li v-for="loc of allCountries.filter(value => value.countryCallingCode.startsWith(form.phoneCode.value ?? ''))" @click="currentLocation = loc" :aria-checked="currentLocation?.countryCode == loc.countryCode" class="flex items-center tracking-wide px-3 py-2 align-baseline text-gray-700 aria-checked:bg-zinc-200/60 aria-checked:text-zinc-800 md:hover:bg-zinc-200/60 md:hover:text-zinc-800 active:bg-zinc-200/60 active:text-zinc-800 cursor-pointer rounded-md">
 											<span :class="`fi-${ loc.countryCode.toLowerCase() }`" class="fi !bg-cover bg-white rounded-full h-4 !w-4 mr-3 ring-1 ring-zinc-800 ring-opacity-5"></span>
 											<span>{{ `${loc.countryNameLocal} (+${loc.countryCallingCode})` }}</span>
 										</li>
@@ -243,7 +243,7 @@
 						</div>
 
 						<div class="mt-7 flex items-end">
-							<button type="submit" class="relative tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center duration-150">
+							<button type="submit" class="relative tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center duration-150">
 								<span :aria-hidden="processingForm" class="whitespace-nowrap aria-hidden:invisible">{{ $t("header.onlineAppointment") }}</span>
 
 								<div v-if="processingForm" class="absolute left-1/2 -translate-x-1/2">
@@ -312,7 +312,7 @@
 					</div>
 				</div>
 
-				<button @click="closeAppointmentModal" class="fixed md:absolute right-6 top-6 w-12 h-12 p-2 text-gray-500 md:hover:text-gray-900 md:hover:bg-zinc-300 rounded-full max-md:bg-white/85 ">
+				<button @click="closeAppointmentModal" class="fixed md:absolute right-6 top-6 w-12 h-12 p-2 text-gray-500 md:hover:text-gray-900 md:hover:bg-zinc-300 active:text-gray-900 active:bg-zinc-300 rounded-full max-md:bg-white/85 ">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
 					</svg>

@@ -102,13 +102,13 @@
             
             <div class="flex justify-center mt-8 md:mt-9">
                 <div :aria-index="imagesIndex" class="group relative w-[9rem] h-[0.8rem] rounded-full bg-neutral-200 border shadow-sm cursor-pointer">
-                    <a @click="setImagesIndex(1)" class="absolute left-0 w-[3.4rem] h-full rounded-full hover:bg-zinc-300">
+                    <a @click="setImagesIndex(1)" class="absolute left-0 w-[3.4rem] h-full rounded-full md:hover:bg-zinc-300 active:bg-zinc-300">
                     </a>
 
-                    <a @click="setImagesIndex(2)" class="absolute left-[2.8rem] w-[3.4rem] h-full rounded-full hover:bg-zinc-300">
+                    <a @click="setImagesIndex(2)" class="absolute left-[2.8rem] w-[3.4rem] h-full rounded-full md:hover:bg-zinc-300 active:bg-zinc-300">
                     </a>
 
-                    <a @click="setImagesIndex(3)" class="absolute right-0 w-[3.4rem] h-full rounded-full hover:bg-zinc-300">
+                    <a @click="setImagesIndex(3)" class="absolute right-0 w-[3.4rem] h-full rounded-full md:hover:bg-zinc-300 active:bg-zinc-300">
                     </a>
 
                     <div class="absolute group-aria-[index='1']:left-0 group-aria-[index='2']:left-[2.8rem] group-aria-[index='3']:left-[5.6rem] w-[3.4rem] h-full rounded-full bg-[red] duration-[400ms]">
@@ -124,7 +124,7 @@
                     <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label>
                 </div>
 
-                <button @click="imagePreview = undefined" class="absolute right-5 top-[5.5rem] md:top-[8.5rem] w-16 h-16 text-gray-200 md:hover:text-white rounded-full p-2.5 hover:bg-white/20 active:bg-white/20 duration-150">
+                <button @click="imagePreview = undefined" class="absolute right-5 top-[5.5rem] md:top-[8.5rem] w-16 h-16 text-gray-200 md:hover:text-white active:text-white rounded-full p-2.5 md:hover:bg-white/20 active:bg-white/20 duration-150">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
 					</svg>

@@ -23,29 +23,29 @@
             <nav class="flex justify-center mt-14 font-jost-medium text-zinc-500">
                 <ul class="flex -space-x-px text-md">
                     <li>
-                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square ms-0 leading-tight bg-white border border-e-0 border-zinc-300 rounded-s-lg hover:bg-zinc-100 hover:text-zinc-700">
+                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square ms-0 leading-tight bg-white border border-e-0 border-zinc-300 rounded-s-lg md:hover:bg-zinc-100 md:hover:text-zinc-700 active:bg-zinc-100 active:text-zinc-700">
                             <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
                             </svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700">1</a>
+                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 md:hover:bg-zinc-100 md:hover:text-zinc-700">1</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700">2</a>
+                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 md:hover:bg-zinc-100 md:hover:text-zinc-700">2</a>
                     </li>
                     <li>
-                        <a href="#" class="z-20 flex items-center justify-center px-3 h-11 aspect-square leading-tight text-zinc-700 border border-zinc-300 bg-zinc-100 hover:bg-zinc-200 hover:text-black">3</a>
+                        <a href="#" class="z-20 flex items-center justify-center px-3 h-11 aspect-square leading-tight text-zinc-700 border border-zinc-300 bg-zinc-100 md:hover:bg-zinc-200 md:hover:text-black">3</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700">4</a>
+                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 md:hover:bg-zinc-100 md:hover:text-zinc-700">4</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700">5</a>
+                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 md:hover:bg-zinc-100 md:hover:text-zinc-700">5</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 rounded-e-lg hover:bg-zinc-100 hover:text-zinc-700">
+                        <a href="#" class="flex items-center justify-center px-3 h-11 aspect-square leading-tight bg-white border border-zinc-300 rounded-e-lg md:hover:bg-zinc-100 md:hover:text-zinc-700 active:bg-zinc-100 active:text-zinc-700">
                             <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                             </svg>

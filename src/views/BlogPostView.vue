@@ -63,14 +63,14 @@
                 </div>
 
                 <div class="flex flex-row gap-6 justify-center">
-                    <div v-for="socialMedia of socialMediaList" :key="socialMedia.name" class="relative group hover:bg-zinc-300 rounded-full duration-200">
+                    <div v-for="socialMedia of socialMediaList" :key="socialMedia.name" class="relative group md:hover:bg-zinc-300 active:bg-zinc-300 rounded-full duration-200">
                         <div class="p-3 overflow-hidden cursor-pointer">
-                            <svg width="28" height="28" class="text-zinc-600 md:text-zinc-500 group-hover:text-zinc-700">
-                                <use :href="socialMedia.iconPath"  />
+                            <svg width="28" height="28" class="text-zinc-600 md:text-zinc-500 md:group-hover:text-zinc-700 group-active:text-zinc-700">
+                                <use :href="socialMedia.iconPath" />
                             </svg>
                         </div>
                         
-                        <div class="max-md:hidden absolute flex bottom-[calc(100%+0.5rem)] opacity-0 left-1/2 -translate-x-1/2 w-max z-10 invisible group-hover:visible group-hover:opacity-100 group-hover:delay-500 duration-200 pointer-events-none">
+                        <div class="max-md:hidden absolute flex bottom-[calc(100%+0.5rem)] opacity-0 left-1/2 -translate-x-1/2 w-max z-10 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-hover:delay-500 duration-200 pointer-events-none">
                             <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-64 mx-auto">
                                 {{ $t('blog.shareViaSocial') }} <span class="first-letter:uppercase">&nbsp;{{ socialMedia.name }}</span>
                             </p>

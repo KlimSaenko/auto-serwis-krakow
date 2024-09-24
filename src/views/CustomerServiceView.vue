@@ -77,12 +77,12 @@
                                     </tr>
                                 </thead>
                                 <tbody v-for="(option, id) in $tm(`customerServices.${serviceTag}.options`)" :aria-expanded="optionExpanded === id" class="group divide-gray-200 font-jost-medium text-lg bg-white">
-                                    <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="md:hover:bg-zinc-200 md:hover:text-zinc-800 active:bg-zinc-200 cursor-pointer border-t border-b-0 duration-150">
+                                    <tr @click="optionExpanded !== id ? optionExpanded = id : optionExpanded = -1" class="md:hover:bg-zinc-200 md:hover:text-zinc-800 active:bg-zinc-200 active:text-zinc-800 cursor-pointer border-t border-b-0 duration-150">
                                         <td class="px-6 py-4">{{ option['name'] }}</td>
                                         <td class="px-6 py-4 max-md:pl-3 whitespace-nowrap">
                                             <div class="flex justify-between items-center">
                                                 <span>{{ option['price'] }}</span>
-                                                <svg class="ms-3 w-2.5 h-2.5 -rotate-90 group-aria-expanded:rotate-90 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <svg class="ms-3.5 h-2.5 -rotate-90 group-aria-expanded:rotate-90 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
                                                 </svg>
                                             </div>
@@ -95,7 +95,7 @@
                                                     {{ option['description'] }}
                                                 </p>
                                                 
-                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 hover:text-[red] bg-[red] border border-[red] hover:bg-white py-1.5 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
+                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white py-1.5 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
                                                     <span>{{ $t('customerServices.currentOptionAppoinment') }}</span>
                                                 </button>
                                             </div>
@@ -105,8 +105,8 @@
                                 <tbody class="group divide-gray-200 font-jost-medium text-lg text-white">
                                     <tr>
                                         <td colspan="2" class="p-0">
-                                            <button @click="openAppointmentModalWithDescription($t(`customerServices.${serviceTag}.commonProblemDescription`))" class="border border-[red]/95 rounded-b-xl w-full h-full justify-center tracking-wider text-gray-100 hover:text-[red] bg-[red] hover:bg-white py-4 inline-flex items-center duration-150">
-                                                <span>{{ $t(`customerServices.${serviceTag}.commonOptionAppoinment`) }}</span>
+                                            <button @click="openAppointmentModalWithDescription($t(`customerServices.${serviceTag}.commonProblemDescription`))" class="border border-[red]/95 rounded-b-xl w-full h-full justify-center tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] md:hover:bg-white active:bg-white px-6 py-4 inline-flex items-center duration-150">
+                                                <span class="text-balance">{{ $t(`customerServices.${serviceTag}.commonOptionAppoinment`) }}</span>
                                                 <svg class="ms-2 h-[1.6rem]" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                                                 </svg>

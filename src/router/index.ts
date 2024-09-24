@@ -62,7 +62,7 @@ const router = createRouter({
         await TransitionWaiter.Promise;
         
         const behavior: ScrollOptions['behavior'] = 'smooth';
-
+        
         if (savedPosition) {
             return { ...savedPosition, behavior };
         } else {
@@ -70,7 +70,7 @@ const router = createRouter({
                 return { el: to.hash, behavior };
             }
 
-            return { left: 0, top: 0, behavior };
+            return { left: 0, top: 0 };
         }
     }
 });

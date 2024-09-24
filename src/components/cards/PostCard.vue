@@ -6,7 +6,7 @@
 </script>
 
 <template>
-    <Card class="group transition ease-in-out md:hover:-translate-y-2 duration-[250ms] !p-0 md:hover:shadow-xl md:hover:shadow-black/25">
+    <Card class="group transition ease-in-out md:hover:-translate-y-2 duration-[250ms] !p-0 md:hover:shadow-xl md:hover:shadow-black/25 active:shadow-xl active:shadow-black/25">
 		<router-link :to="{ name: 'blog-post', params: { post: 'dodge-car' } }" @mouseenter="mouseHover = true" @mouseleave="mouseHover = false" class="relative overflow-hidden aspect-4/3 cursor-pointer">
 			<div class="image-shadow">
 				<img class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-active:scale-[1.08] md:group-hover:scale-[1.08]" src="https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
@@ -21,7 +21,7 @@
 			<p class="font-jost text-zinc-500 leading-7 line-clamp-4 xl:line-clamp-5 mt-2">Revolutionizing the Road: Introducing the Next Generation of Electric Vehicles! Discover the latest advancements in eco-friendly transportation, promising sleek designs, extended battery life, and cutting-edge technology. Stay tuned as we unveil the future of driving.</p>
 
 			<div class="mt-4 inline-flex">
-				<router-link :to="{ name: 'blog-post', params: { post: 'dodge-car' } }" :aria-selected="mouseHover" class="flex text-zinc-500 group-hover:text-zinc-700 font-jost-medium cursor-pointer hover:!text-[red] max-md:text-zinc-700 aria-selected:!text-[red] items-baseline">
+				<router-link :to="{ name: 'blog-post', params: { post: 'dodge-car' } }" :aria-selected="mouseHover" class="flex text-zinc-500 md:group-hover:text-zinc-700 font-jost-medium cursor-pointer md:hover:!text-[red] max-md:text-zinc-700 aria-selected:!text-[red] items-baseline">
 					<span>{{ $t('postCard.readMore') }}</span>
 					<svg class="ml-2 md:group-hover:animate-bounce-x" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M1 7.94189L4.486 4.47089L1 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>

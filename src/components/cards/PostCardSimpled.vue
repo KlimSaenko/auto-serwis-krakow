@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <router-link :to="{ name: 'blog-post', params: { post: 'dodge-car' } }" class="md:p-4 rounded-2xl border border-transparent transition ease-in-out md:hover:border-gray-200 md:hover:-translate-y-2 duration-[250ms] overflow-hidden md:hover:shadow-xl active:shadow-xl">
+    <router-link :to="{ name: 'blog-post', params: { post: 'dodge-car' } }" class="md:p-4 rounded-2xl border border-transparent transition ease-in-out md:hover:border-gray-200 md:hover:-translate-y-2 duration-[250ms] overflow-hidden md:hover:shadow-xl active:border-gray-200 active:shadow-xl">
       <div>
         <div class="overflow-hidden aspect-4/3 rounded-xl">
           <img class="h-full w-full object-cover object-center transition duration-200" src="https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />

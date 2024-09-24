@@ -21,7 +21,7 @@
 			</Card>
 
 			<Card class="relative lg:-top-24 shadow-xl !p-0 mb-auto max-md:mb-9">
-				<a :href="getConfigConst('corporateInfo.googleMapsLink') as string" target="_blank" class="image-shadow group cursor-pointer after:!shadow-[inset_0_0_10px_0_rgba(0,0,0,0)] lg:hover:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] active:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] after:duration-200">
+				<a :href="(getConfigConst('corporateInfo.googleMapsLink') as string)" target="_blank" class="image-shadow group cursor-pointer after:!shadow-[inset_0_0_10px_0_rgba(0,0,0,0)] lg:hover:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] active:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] after:duration-200">
 					<div class="relative left-0 right-0 top-0">
 						<div class="image-shadow after:!shadow-[inset_0_0_22px_15px_rgba(255,255,255)] after:bg-gradient-to-b after:from-white/0 after:from-50% after:to-white">
 							<img class="object-cover" src="../assets/map-thumbnail.png" />
@@ -50,7 +50,7 @@
 							<h4>{{ getConfigConst('corporateInfo.addressFull') }}</h4>
 							<p class="mt-2">{{ $t('home.middleCardContent_1') }}</p>
 
-							<div class="tooltip absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
+							<div class="tooltip absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 md:group-hover:delay-500 font-jost pointer-events-none">
 								<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
 									{{ $t('home.middleCardGoToMapTooltip') }} 
 									<svg class="ms-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,13 +85,13 @@
 				</div>
 			
 				<div class="absolute bottom-0 left-0 right-0">
-					<router-link :to="{ name: 'services' }" class="group relative flex text-white max-md:bg-[red]/90 md:text-[red] md:hover:text-white md:hover:bg-[red] duration-150 h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
+					<router-link :to="{ name: 'services' }" class="group relative flex text-white bg-[red]/90 md:hover:text-[red] md:hover:bg-white active:text-[red] active:bg-white duration-150 h-24 justify-center items-center cursor-pointer border-t-[1px] border-[red]">
 						<p class="text-lg uppercase font-jost-medium">{{ $t('home.rightCardShowAll') }}</p>
 						<svg class="ms-2 h-[1.6rem]" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 						</svg>
 
-						<div class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible group-hover:visible group-hover:opacity-100 duration-200 group-hover:delay-500 font-jost pointer-events-none">
+						<div class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 md:group-hover:delay-500 font-jost pointer-events-none">
 							<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
 								{{ $t('home.rightCardShowAllTooltip') }}
 								<svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
