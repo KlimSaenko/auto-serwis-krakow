@@ -8,7 +8,7 @@
             <h1 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('home.postsTitle') }}</h1>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-xl:gap-x-8">
             <PostCard />
             <PostCard />
             <PostCard class="max-lg:hidden" />

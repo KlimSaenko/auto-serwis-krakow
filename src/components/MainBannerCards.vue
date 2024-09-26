@@ -36,7 +36,7 @@
 						</div>
 					</div>
 					
-					<div class="relative !pt-0 p-4 lg:p-5 2xl:p-6">
+					<div class="relative pt-0 pb-5 px-6">
 						<div class="mx-2 mb-1">
 							<div class="flex mb-3 items-center text-zinc-800">
 								<h2 class="text-2xl font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">

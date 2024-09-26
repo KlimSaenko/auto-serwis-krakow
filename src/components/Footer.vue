@@ -88,8 +88,24 @@
                     </div>
                 </div>
             </div>
-            <hr class="my-6 border-gray-500 sm:mx-auto" />
-            <span class="block my-2 text-sm text-gray-300 text-center">© 2024 <router-link :to="{ name: 'home' }" class="md:hover:underline">Front Auto</router-link>. {{ $t('footer.allRightsReserved') }}.</span>
+
+            <div class="px-3">
+                <hr class="my-6 border-zinc-500/75 sm:mx-auto" />
+            </div>
+
+            <div class="flex justify-center mt-10 mb-10">
+                <div class="">
+                    <a href="https://www.orlymotoryzacji.pl/profile-1614193-auto-serwis-krakow-sto-krakov" target="_blank">
+                        <img class="w-72" src="https://www.orlymotoryzacji.pl/images/medals/1614193/laureat300_gold_2_pl.png" alt="Auto Serwis Kraków СТО Краков - Kraków" title="Auto Serwis Kraków СТО Краков - Kraków">
+                    </a>
+                </div>
+            </div>
+
+            <div class="px-3">
+                <hr class="my-6 border-zinc-500/75 sm:mx-auto" />
+            </div>
+
+            <p class="my-2 text-sm text-gray-300 text-center">© 2024 <router-link :to="{ name: 'home' }" class="md:hover:underline">Front Auto</router-link>. {{ $t('footer.allRightsReserved') }}.</p>
         </div>
     </footer>
 </template>

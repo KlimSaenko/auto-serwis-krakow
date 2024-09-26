@@ -67,14 +67,14 @@
                     </svg>
                 </button>
                 
-                <div class="max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl max-md:rounded-2xl">
+                <div class="max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
                     <div v-for="(images, rowIndex) in paredImages" :aria-colspan="imagesIndex"
                         :class="rowIndex === 0 ?
-                                `md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] md:mb-3 xl:mb-4 rounded-t-2xl` :
-                                `md:aria-[colspan='1']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='2']:grid-cols-[30fr,25fr,20fr,25fr] md:aria-[colspan='3']:grid-cols-[20fr,30fr,25fr,25fr] rounded-b-2xl`
+                                `md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] max-md:mb-3` :
+                                `md:aria-[colspan='1']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='2']:grid-cols-[30fr,25fr,20fr,25fr] md:aria-[colspan='3']:grid-cols-[20fr,30fr,25fr,25fr]`
                         "
-                        class="group/aria w-full font-jost grid grid-cols-2 md:grid-rows-[auto,auto] md:grid-cols-4 md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] duration-[400ms] md:gap-x-3 xl:gap-x-4">
-                        <div v-for="image in images" @click="imagePreview = image" class="h-48 md:h-40 xl:h-48 2xl:h-52 align-text-bottom group cursor-pointer relative flex overflow-hidden md:rounded-xl bg-zinc-300 shadow-lg shadow-black/20">
+                        class="group/aria w-full font-jost grid grid-cols-2 md:grid-rows-[auto,auto] md:grid-cols-4 md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] duration-[400ms] gap-3 xl:gap-4">
+                        <div v-for="image in images" @click="imagePreview = image" class="h-48 md:h-40 xl:h-48 2xl:h-52 align-text-bottom group cursor-pointer relative flex overflow-hidden rounded-xl bg-zinc-300 shadow-lg shadow-black/20">
                             <div class="absolute inset-0 h-full w-full -translate-x-full z-0 group-aria-[colspan='1']/aria:translate-x-0 group-aria-[colspan='1']/aria:z-20 group-aria-[colspan='3']/aria:translate-x-full duration-[400ms]">
                                 <img :src="image.ImgUrl" loading="lazy" :alt="image.AltText" class="h-full w-full object-cover object-center transition duration-200 md:group-hover:scale-110" />
                                 <span class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image.Label }}</span>
@@ -100,7 +100,7 @@
                 </button>
             </div>
             
-            <div class="flex justify-center mt-8 md:mt-9">
+            <div class="flex justify-center mt-9 md:mt-7">
                 <div :aria-index="imagesIndex" class="group relative w-[9rem] h-[0.8rem] rounded-full bg-neutral-200 border shadow-sm cursor-pointer">
                     <a @click="setImagesIndex(1)" class="absolute left-0 w-[3.4rem] h-full rounded-full md:hover:bg-zinc-300 active:bg-zinc-300">
                     </a>

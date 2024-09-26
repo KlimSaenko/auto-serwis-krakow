@@ -38,7 +38,7 @@
                 <hr class="border-gray-200 border-[1px]" />
             </div>
         </div>
-        <div class="px-8 mx-auto md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
+        <div class="mx-auto px-4 sm:px-8 md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
             <article class="md:py-4 pl-1 md:px-16 xl:px-32">
 
                 <div class="my-8 text-xl font-jost text-zinc-700">
