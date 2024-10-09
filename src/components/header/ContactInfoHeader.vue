@@ -143,7 +143,7 @@
                 <img src="../../assets/service-logo-256.jpg" alt="logo" class="h-12" />
             </router-link>
 
-            <nav :aria-expanded="isMenuExpanded" class="md:h-12 items-stretch md:!flex md:flex-auto bg-white max-md:fixed max-md:px-12 right-0 left-0 top-16 bottom-full aria-expanded:bottom-0 duration-500 md:ml-5 md:mr-2 text-[17px] max-md:text-xl max-md:overflow-hidden">
+            <nav :aria-expanded="isMenuExpanded" class="flex md:h-12 items-stretch max-md:flex-col md:flex-auto bg-white max-md:fixed max-md:px-10 max-md:overflow-y-scroll right-0 left-0 top-16 bottom-full aria-expanded:bottom-0 duration-500 md:ml-5 md:mr-2 text-[17px] max-md:text-xl max-md:overflow-hidden">
                 <div class="md:hidden border-b border-zinc-400 mx-8 mt-3 mb-2"></div>
                 
                 <ul class="max-md:py-5 md:flex mb-1 max-md:space-y-1 space-x-7 lg:space-x-9">
@@ -209,13 +209,15 @@
                     </li>
                 </ul>
 
-                <ul class="max-md:p-4 md:flex md:items-center ml-auto max-md:block md:space-x-8">
+                <ul class="max-md:p-4 max-md:mb-6 flex items-center md:ml-auto md:space-x-8">
                     <li class="inline-flex h-full">
                         <button @click="openAppointmentModalWithDescription()" class="my-[2px] tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
                             <span>{{ $t("header.onlineAppointment") }}</span>
                         </button>
                     </li>
                 </ul>
+
+                <p class="md:hidden mt-auto mb-6 text-sm text-gray-500 text-center">© 2024 <router-link :to="{ name: 'home' }" class="md:hover:underline">Front Auto</router-link>. {{ $t('footer.allRightsReserved') }}.</p>
             </nav>
 
             <div class="border-l border-[#333] h-6 max-md:hidden"></div>

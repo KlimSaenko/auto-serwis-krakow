@@ -1,13 +1,13 @@
 class GalleryImage {
     private imgUrl: string;
+    private thumbnailImgUrl: string | undefined;
     private label: string;
-    private width: number;
     private altText: string;
 
-    constructor(imgUrl: string, label: string = '', width: number = 1, altText: string = label){
+    constructor(imgUrl: string, label: string = '', thumbnailImgUrl?: string, altText: string = label){
         this.imgUrl = imgUrl;
+        this.thumbnailImgUrl = thumbnailImgUrl;
         this.label = label;
-        this.width = width;
         this.altText = altText;
     }
 
@@ -15,20 +15,16 @@ class GalleryImage {
         return this.imgUrl;
     };
 
+    get ThumbnailImgUrl() {
+        return this.thumbnailImgUrl ?? this.imgUrl;
+    };
+
     get Label() {
         return this.label;
     };
 
-    get Width() {
-        return this.width;
-    };
-
     get AltText() {
         return this.altText;
-    };
-
-    set Width(width: number) {
-        this.width = width;
     };
 }
 

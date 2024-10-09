@@ -19,7 +19,7 @@
 
 			<BenefitsList class="mt-24 md:mt-36" />
 
-			<ReviewsList class="mt-32 md:mt-40" />
+			<ReviewsList class="mt-28 md:mt-36" />
 
 			<LatestPosts class="mt-28 md:mb-32" />
 		</div>

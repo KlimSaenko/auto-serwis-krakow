@@ -3,7 +3,7 @@
         "home": "Главная",
         "services": "Услуги",
         "media": "Медиа",
-        "workingTime": "Пн - Пт: 8:00 - 18:00",
+        "workingTime": "Пн - Пт: 8:30 - 18:30",
         "onlineAppointment": "Онлайн запись",
         "menu": "Меню",
         "corporateInfo": "О нас"
@@ -40,7 +40,7 @@
         "leftCardContent_2": "Наши опытные механики и специалисты готовы помочь вам с любыми проблемами вашего автомобиля.",
 
         "middleCardTitle": "Мы на карте",
-        "middleCardContent_1": "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
+        "middleCardContent_1": "В самом сердце Кракова с удобным доступом к транспорту.",
         "middleCardGoToMapTooltip": "Перейти к карте",
         
         "aboutTitle": "О Нас",
@@ -81,13 +81,12 @@
 
         "customerNumberLabel": "Ваш номер телефона",
 
-        "customerTelegramLabel": "Ваш телеграмм",
-        "customerTelegramFieldPlaceholder": "mytelegram",
+        "vinNumberLabel": "VIN вашего автомобиля",
 
-        "customerEmailLabel": "Ваша почта",
+        "licensePlateLabel": "Регистрационный номер вашего автомобиля",
 
         "customerMessageLabel": "Описание проблемы",
-        "customerMessageFieldPlaceholder": "Опишите вашу проблему тут",
+        "customerMessageFieldPlaceholder": "Опишите здесь вашу проблему",
 
         "customerNameMissingError": "Пожалуйста, напишите ваше имя.",
         "customerContactInfoMissingError": "Заполните хотя бы одно поле для обратной связи."
@@ -101,6 +100,7 @@
         "tablePriceLabel": "Цена",
         "pricelistTitle": "Стоимость услуг",
         "goToPricelist": "Перейти к прайслисту",
+        "readBlogTitle": "Читайте посты по теме",
 
         "diagnosis": {
             "title": "Диагностика систем автомобиля",
@@ -241,7 +241,9 @@
     },
     "media": {
         "galleryTitle": "Галерея",
-        "ourBlogTitle": "Наш Блог"
+        "socialMediaTitle": "Мы в Соцсетях",
+        "ourBlogTitle": "Наш Блог",
+        "followUs": "Подписывайтесь на нас и следите за новостями"
     },
     "blog": {
         "blogTitle": "Блог",
@@ -249,6 +251,7 @@
         "shareViaSocial": "Поделиться в",
         "readAlsoTitle": "Читайте также",
         "shareViaSocialLabel": "Поделиться в соцсетях",
+        "weOnSocial": "Мы в",
         "goBackToBlog": "Вернуться к Блогу"
     },
     "benefitsList": {

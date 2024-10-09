@@ -27,7 +27,7 @@
         <router-link :to="{ name: 'customer-service', params: { serviceName: serviceUrlName } }" class="group w-full h-max rounded-xl relative overflow-hidden block cursor-pointer shadow-lg md:hover:shadow-xl duration-200">
             <div class="w-full text-white h-max">
                 <div class="flex p-5 bg-no-repeat bg-center bg-opacity-0 bg-service-banner-1 bg-cover lg:bg-[length:106%] lg:group-hover:bg-[length:100%] duration-200">
-                    <div class="min-w-48 md:w-4/5">
+                    <div :style="{ paddingRight: toPricelistPopupWidth }" class="min-w-48 max-md:!pr-0">
                         <h2 class="text-[1.75rem] leading-9 md:ms-4 md:text-4xl font-jost-medium drop-shadow-xl">
                             {{ $tm(`customerServices.${serviceTag}.title`) }}
                         </h2>
@@ -35,17 +35,17 @@
                             {{ $t(`customerServices.${serviceTag}.descriptionShort`) }}
                         </p>
                     </div>
+                </div>
 
-                    <div class="max-md:hidden h-full ps-14 pe-5 ms-auto my-auto">
-                        <svg fill="currentColor" height="64" width="64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
-                            <path d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
-                                s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
-                                c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
-                        </svg>
-                    </div>
+                <div class="absolute max-md:hidden flex items-center h-full px-10 right-0 top-0">
+                    <svg fill="currentColor" height="64" width="64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
+                        <path d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
+                            s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
+                            c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
+                    </svg>
                 </div>
             </div>
-            <div :style="`width: ${ toPricelistPopupWidth };`" class="md:absolute max-md:!w-full py-4 right-0 duration-300 md:group-[:not(:hover)]:!w-0 top-0 z-10 h-full overflow-hidden bg-white flex justify-center items-center">
+            <div :style="{ width: toPricelistPopupWidth }" class="md:absolute max-md:!w-full py-4 right-0 duration-300 md:group-[:not(:hover)]:!w-0 top-0 z-10 h-full overflow-hidden bg-white flex justify-center items-center">
                 <div ref="toPricelistPopup" class="md:absolute right-0 flex items-center px-10 font-jost text-zinc-700">
                     <h3 class="text-xl md:text-2xl w-min text-wrap uppercase">
                         {{ $t('customerServices.goToPricelist') }}

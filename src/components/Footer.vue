@@ -5,7 +5,7 @@
 <template>
     <footer class="border-box bg-zinc-800">
         <div class="pb-5 pt-10 mx-auto text-lg px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl font-jost">
-            <div class="grid mt-3 text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="grid max-sm:mt-1 mt-3 text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div class="col-span-1 px-3 mb-5">
                     <h2 class="font-jost-bold mb-4">
                         {{ $t("footer.contacts") }}
@@ -45,6 +45,12 @@
                         <a :href="(getConfigConst('corporateInfo.telegramLink') as string)" target="_blank" class="h-7 w-7 md:hover:text-gray-100 active:text-gray-100 cursor-pointer">
                             <svg height="28" width="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z" />
+                            </svg>
+                        </a>
+
+                        <a :href="(getConfigConst('corporateInfo.facebookLink') as string)" target="_blank" class="h-7 w-7 md:hover:text-gray-100 active:text-gray-100 cursor-pointer">
+                            <svg height="28" width="28" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor" d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z" />
                             </svg>
                         </a>
                     </div>

@@ -1,24 +1,31 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import GalleryImage from '../types/galleryImage';
-	import { getConfigConst } from '@/vue-helpers/configValues';
 
-    const paredImages = ref<GalleryImage[][]>();
+    const paredImages = ref<GalleryImage[][][]>([]); // 1st level - array (row) of images in gallery; 2nd - array of images in a row; 3rd - array of images in the single image window
 	const imagesIndex = ref(1);
-    const galleryImagesConfig = getConfigConst('application.galleryImages') as [[]];
     const imagePreview = ref<GalleryImage | undefined>(undefined);
+
+    const imagesUrls = Object.values(import.meta.glob<string>('@/assets/gallery/*.(webp|png|jpeg|jpg)', { eager: true, import: 'default', query: '?url' }));
 
 	populateImages();
 
 	function populateImages(){
-        const imagesPage = galleryImagesConfig[imagesIndex.value];
+        const allImagesRaw = imagesUrls.map(url => {
+            const fileName = url.replace(/^.*[\\/]/, '');
+            return { url, fileName: decodeURI(fileName.substring(0, fileName.lastIndexOf('.'))).trim() };
+        });
 
-        if (Array.isArray(imagesPage)){
-            const allImages = imagesPage.map((width, index) =>
-                new GalleryImage('https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&q=75&fit=crop&w=600', `Service ${index + 1}`, width)
-            );
-            paredImages.value = [allImages.slice(0, Math.floor(allImages.length / 2)), allImages.slice(Math.floor(allImages.length / 2))];
-        }
+        const allImages = allImagesRaw.filter(image => !image.fileName.trim().endsWith(".thumbnail"))
+            .map(imageData => new GalleryImage(imageData.url, imageData.fileName, allImagesRaw.find(thumbnail => 
+                thumbnail.fileName.startsWith(imageData.fileName.trim()) && thumbnail.fileName.endsWith('.thumbnail')
+            )?.url));
+        
+        // paredImages.value = [allImages.slice(0, Math.floor(allImages.length / 2)), allImages.slice(Math.floor(allImages.length / 2))];
+        paredImages.value = [
+            [0, 1, 2, 3].map(index => [index, index + 8, index + 16].map(i => allImages[i])),
+            [4, 5, 6, 7].map(index => [index, index + 8, index + 16].map(i => allImages[i]))
+        ];
 	}
 
     function nextImagesIndex(){
@@ -56,7 +63,7 @@
 <template>
     <section>
         <div class="flex mb-11 md:mb-14 justify-center text-center">
-            <h1 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.galleryTitle') }}</h1>
+            <h2 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.galleryTitle') }}</h2>
         </div>
 
         <div class="w-full">
@@ -68,26 +75,27 @@
                 </button>
                 
                 <div class="max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
-                    <div v-for="(images, rowIndex) in paredImages" :aria-colspan="imagesIndex"
+                    <div v-for="(imageGroups, rowIndex) in paredImages" :aria-colspan="imagesIndex"
                         :class="rowIndex === 0 ?
                                 `md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] max-md:mb-3` :
-                                `md:aria-[colspan='1']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='2']:grid-cols-[30fr,25fr,20fr,25fr] md:aria-[colspan='3']:grid-cols-[20fr,30fr,25fr,25fr]`
+                                rowIndex === 1 ?
+                                `md:aria-[colspan='1']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='2']:grid-cols-[30fr,25fr,20fr,25fr] md:aria-[colspan='3']:grid-cols-[20fr,30fr,25fr,25fr]` :
+                                ''
                         "
                         class="group/aria w-full font-jost grid grid-cols-2 md:grid-rows-[auto,auto] md:grid-cols-4 md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] duration-[400ms] gap-3 xl:gap-4">
-                        <div v-for="image in images" @click="imagePreview = image" class="h-48 md:h-40 xl:h-48 2xl:h-52 align-text-bottom group cursor-pointer relative flex overflow-hidden rounded-xl bg-zinc-300 shadow-lg shadow-black/20">
-                            <div class="absolute inset-0 h-full w-full -translate-x-full z-0 group-aria-[colspan='1']/aria:translate-x-0 group-aria-[colspan='1']/aria:z-20 group-aria-[colspan='3']/aria:translate-x-full duration-[400ms]">
-                                <img :src="image.ImgUrl" loading="lazy" :alt="image.AltText" class="h-full w-full object-cover object-center transition duration-200 md:group-hover:scale-110" />
-                                <span class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image.Label }}</span>
-                            </div>
-
-                            <div class="absolute inset-0 h-full w-full translate-x-0 z-0 group-aria-[colspan='1']/aria:translate-x-full group-aria-[colspan='2']/aria:z-20 group-aria-[colspan='3']/aria:-translate-x-full duration-[400ms]">
-                                <img :src="image.ImgUrl" loading="lazy" :alt="image.AltText" class="h-full w-full object-cover object-center transition duration-200 md:group-hover:scale-110" />
-                                <span class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image.Label }}</span>
-                            </div>
-
-                            <div class="absolute inset-0 h-full w-full translate-x-full z-0 group-aria-[colspan='3']/aria:translate-x-0 group-aria-[colspan='3']/aria:z-20 group-aria-[colspan='1']/aria:-translate-x-full duration-[400ms]">
-                                <img :src="image.ImgUrl" loading="lazy" :alt="image.AltText" class="h-full w-full object-cover object-center transition duration-200 md:group-hover:scale-110" />
-                                <span class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image.Label }}</span>
+                        <div v-for="imageGroup in imageGroups" class="h-48 md:h-40 xl:h-48 2xl:h-52 align-text-bottom group cursor-pointer relative flex overflow-hidden rounded-xl bg-zinc-300 shadow-lg shadow-black/20">
+                            <div v-for="(image, index) in imageGroup" @click="imagePreview = image" class="absolute inset-0 h-full w-full duration-[400ms]"
+                                :class="index === 0 ?
+                                        `-translate-x-full z-0 group-aria-[colspan='1']/aria:translate-x-0 group-aria-[colspan='1']/aria:z-20 group-aria-[colspan='3']/aria:translate-x-full` :
+                                        index === 1 ?
+                                        `translate-x-0 z-0 group-aria-[colspan='1']/aria:translate-x-full group-aria-[colspan='2']/aria:z-20 group-aria-[colspan='3']/aria:-translate-x-full` :
+                                        index === 2 ?
+                                        `translate-x-full z-0 group-aria-[colspan='3']/aria:translate-x-0 group-aria-[colspan='3']/aria:z-20 group-aria-[colspan='1']/aria:-translate-x-full` :
+                                        ''">
+                                <div :style="{ backgroundImage: `url(${image?.ThumbnailImgUrl})` }" class="h-full w-full bg-cover bg-center transition duration-200 md:group-hover:scale-110">
+                                    <div class="bg-gradient-to-t from-black/30 to-40% to-transparent p-6 w-full h-full"></div>
+                                </div>
+                                <label class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image?.Label }}</label>
                             </div>
                         </div>
                     </div>
@@ -118,7 +126,7 @@
         </div>
 
         <transition name="fade-image" mode="out-in">
-			<div v-if="imagePreview" class="fixed inset-0 bg-zinc-950/65 z-[300] flex items-center justify-center">
+			<div v-if="imagePreview?.ImgUrl" class="fixed inset-0 bg-zinc-950/65 z-[300] flex items-center justify-center">
                 <div class="flex content-center pt-28 m-8 md:m-16 flex-wrap flex-col">
                     <img :src="imagePreview.ImgUrl" loading="lazy" :alt="imagePreview.AltText" class="max-h-full max-w-full object-cover object-center rounded-2xl" />
                     <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label>

@@ -126,9 +126,19 @@
                         </template>
                     </i18n-t>
                 </div>
-            </article>
 
-            <BenefitsList class="mt-20" />
+                <BenefitsList class="mt-20" />
+
+                <div class="mt-28">
+                    <h2 class="text-[2.5rem] md:text-5xl mb-14 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ $t('customerServices.readBlogTitle') }}</h2>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <PostCardSimpled />
+                        <PostCardSimpled />
+                        <PostCardSimpled class="max-md:hidden" />
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
 </template>

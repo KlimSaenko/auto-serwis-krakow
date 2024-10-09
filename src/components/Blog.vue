@@ -7,7 +7,7 @@
         <div id="blog" class="absolute top-[calc(-4rem-10vh)] h-0"></div>
 
         <div class="flex mb-11 md:mb-14 justify-center text-center px-4 sm:px-8 md:px-10 2xl:px-16">
-            <h1 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.ourBlogTitle') }}</h1>
+            <h2 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('media.ourBlogTitle') }}</h2>
         </div>
 
         <div class="mx-auto px-4 sm:px-8 md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">

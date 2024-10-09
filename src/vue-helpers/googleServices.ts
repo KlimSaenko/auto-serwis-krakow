@@ -6,7 +6,7 @@ class GoogleServices {
     private static googlePlacesApiUrl = (placeId: string, apiKey: string, locale: string) => `https://places.googleapis.com/v1/places/${placeId}?fields=id,displayName,reviews&key=${apiKey}&languageCode=${locale}`;
     private placesLib: Promise<google.maps.PlacesLibrary>;
 
-    private place: Promise<google.maps.places.PlaceResult | null>;
+    // private place: Promise<google.maps.places.PlaceResult | null>;
     private placeId: string;
     private apiKey: string;
 
@@ -45,7 +45,7 @@ class GoogleServices {
         }
 
         this.placesLib = GoogleServices.loader.importLibrary('places');
-        this.place = this.fetchPlace(placeId, htmlContainer ?? this.createHtmlContainerRuntime());
+        // this.place = this.fetchPlace(placeId, htmlContainer ?? this.createHtmlContainerRuntime());
         this.placeId = placeId;
         this.apiKey = apiKey;
     };
@@ -54,7 +54,7 @@ class GoogleServices {
         return await this.placesLib;
     };
 
-    public async fetchPlace(placeId: string, htmlContainer: HTMLDivElement | google.maps.Map): Promise<google.maps.places.PlaceResult | null> {
+    public async fetchPlace(placeId: string, htmlContainer: HTMLDivElement | google.maps.Map): Promise<google.maps.places.PlaceResult | undefined> {
         return new Promise(async resolve => {
             
             const request: google.maps.places.PlaceDetailsRequest = {
@@ -67,7 +67,7 @@ class GoogleServices {
 
             let timer = -1;
             for(let i = 0; i < 100; i++) {
-                placesService.getDetails(request, (place: google.maps.places.PlaceResult | null, status: google.maps.places.PlacesServiceStatus) => {
+                placesService.getDetails(request, async (place: google.maps.places.PlaceResult | null, status: google.maps.places.PlacesServiceStatus) => {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         if (place && place.reviews) {
                             clearTimeout(timer);
@@ -75,22 +75,22 @@ class GoogleServices {
                         }
                     } else {
                         console.error(`Error fetching place details: ${status}`);
-                        timer = setTimeout(resolve, 1000);
+                        await new Promise(resolve => timer = setTimeout(resolve, 1500));
                     }
                 });
             }
             
             clearTimeout(timer);
-            resolve(null);
+            resolve(undefined);
         });
     };
 
-    public async fetchCustomerReviews(): Promise<google.maps.places.PlaceReview[]> {
-        const place = await this.place;
-        const reviews = place?.reviews ?? [];
-
-        return reviews.filter(review => review.rating && review.rating > 3);
-    };
+    // public async fetchCustomerReviews(): Promise<google.maps.places.PlaceReview[]> {
+    //     const place = await this.place;
+    //     const reviews = place?.reviews ?? [];
+        
+    //     return reviews.filter(review => review.rating && review.rating > 3);
+    // };
 
     private createHtmlContainerRuntime(): HTMLDivElement | google.maps.Map {
         const newContainer = document.createElement('div');

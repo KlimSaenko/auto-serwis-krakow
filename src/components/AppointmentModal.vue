@@ -17,8 +17,8 @@
 		customerName: ref<string>(''),
 		phoneCode: ref<string>(currentLocation.value?.countryCallingCode ?? ''),
 		phone: ref<string>(''),
-		telegram: ref<string>(''),
-		email: ref<string>(''),
+		vinNumber: ref<string>(''),
+		licensePlate: ref<string>(''),
 		description: ref<string | undefined>(preDescription?.value)
 	};
 
@@ -47,18 +47,6 @@
     watch(form.phone, phone => {
 		form.phone.value = phone.replace(/\D/g, '');
 		if (!customerContactInfoValid.value && phone.trim()){
-			customerContactInfoValid.value = true;
-		}
-	});
-
-	watch(form.telegram, telegram => {
-		if (!customerContactInfoValid.value && telegram.trim()){
-			customerContactInfoValid.value = true;
-		}
-	});
-
-	watch(form.email, email => {
-		if (!customerContactInfoValid.value && email.trim()){
 			customerContactInfoValid.value = true;
 		}
 	});
@@ -101,7 +89,7 @@
     }
 
     async function handleSubmit(){
-		if (processingForm.value){
+		if (processingForm.value === true){
 			return;
 		}
 
@@ -109,7 +97,7 @@
 			customerNameValid.value = false;
 		}
 		
-		if (!form.phone.value.trim() && !form.telegram.value.trim() && !form.email.value.trim()){
+		if (!form.phone.value.trim()){
 			customerContactInfoValid.value = false;
 		}
 
@@ -122,9 +110,7 @@
 		const senderInfo = {
 			name: form.customerName.value,
 			contactLinks: {
-				tel: form.phoneCode.value + ' ' + form.phone.value,
-				telegram: form.telegram.value,
-				email: form.email.value
+				tel: form.phoneCode.value + ' ' + form.phone.value
 			},
 			details: form.description.value
 		};
@@ -156,7 +142,7 @@
 
 <template>
 	<Transition name="modal-fade" appear @after-leave="processingForm = false">
-		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full p-0 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
+		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full md:p-6 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
 			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
 					<form @submit.prevent="handleSubmit">
@@ -169,23 +155,18 @@
 						</i18n-t>
 
 						<div class="my-6">
-							<label for="customerName" class="block mb-2">{{ $t("modal.customerNameLabel") }} <span class="text-[red] font-jost-medium">*</span></label>
+							<label for="customerName" class="block mb-2">{{ $t("modal.customerNameLabel") }}<span class="text-[red] font-jost-medium select-none"> *</span></label>
 							<div class="relative">
-								<div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-									<svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-										<path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
-									</svg>
-								</div>
-								<input id="customerName" type="text" v-model="form.customerName.value" :aria-validate="customerNameValid" class="bg-gray-50 border tracking-wide aria-[validate='false']:border-[red] border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2 pr-3" :placeholder="$t('modal.customerNameFieldPlaceholder')">
+								<input id="customerName" type="text" v-model="form.customerName.value" :aria-validate="customerNameValid" class="bg-gray-50 border tracking-wide aria-[validate='false']:border-[red] border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 p-2" :placeholder="$t('modal.customerNameFieldPlaceholder')">
 							</div>
 						</div>
 
 						<div class="my-6">
-							<label for="phone" class="block mb-2">{{ $t("modal.customerNumberLabel") }}</label>
+							<label for="phone" class="block mb-2">{{ $t("modal.customerNumberLabel") }}<span class="text-[red] font-jost-medium select-none"> *</span></label>
 							<div class="flex relative">
-								<div ref="componentRef" @focusin="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg md:hover:bg-gray-200 active:bg-gray-200">
+								<div ref="componentRef" @focusin="isLocationSelectorOpen = true" @click="isLocationSelectorOpen = true" class="relative flex font-jost items-center cursor-pointer pl-10 pr-6 font-medium text-center bg-gray-100 text-gray-700 border border-gray-300 rounded-s-lg md:hover:bg-gray-200 active:bg-gray-200">
 									<div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-										<span :class="currentLocation ? `fi-${ currentLocation.countryCode.toLowerCase() }` : ''" class="fi bg-white h-4 !w-4 !bg-cover rounded-full ring-1 ring-zinc-800 ring-opacity-5"></span>
+										<span :class="currentLocation ? `fi-${ currentLocation.countryCode.toLowerCase() }` : ''" class="fi bg-white h-4 !w-4 !bg-cover rounded-full ring-1 ring-zinc-800/10"></span>
 									</div>
 									
 									<span>+</span>
@@ -199,41 +180,29 @@
 								<div v-if="isLocationSelectorOpen" ref="excludeRef" class="absolute font-jost max-h-52 left-0 top-full overflow-y-auto z-10 mt-1 text-[0.9rem] w-max rounded-md shadow-md bg-white ring-1 ring-zinc-800 ring-opacity-5 p-1 space-y-1">
 									<ul class="grid grid-flow-row gap-1">
 										<li v-for="loc of allCountries.filter(value => value.countryCallingCode.startsWith(form.phoneCode.value ?? ''))" @click="currentLocation = loc" :aria-checked="currentLocation?.countryCode == loc.countryCode" class="flex items-center tracking-wide px-3 py-2 align-baseline text-gray-700 aria-checked:bg-zinc-200/60 aria-checked:text-zinc-800 md:hover:bg-zinc-200/60 md:hover:text-zinc-800 active:bg-zinc-200/60 active:text-zinc-800 cursor-pointer rounded-md">
-											<span :class="`fi-${ loc.countryCode.toLowerCase() }`" class="fi !bg-cover bg-white rounded-full h-4 !w-4 mr-3 ring-1 ring-zinc-800 ring-opacity-5"></span>
+											<span :class="`fi-${ loc.countryCode.toLowerCase() }`" class="fi !bg-cover bg-white rounded-full h-4 !w-4 mr-3 ring-1 ring-zinc-800/10"></span>
 											<span>{{ `${loc.countryNameLocal} (+${loc.countryCallingCode})` }}</span>
 										</li>
 									</ul>
 								</div>
 
 								<div class="relative w-full">
-									<input id="phone" type="tel" v-model="form.phone.value" maxlength="12" autocomplete="tel tel-national"  :aria-validate="customerContactInfoValid" class="block tracking-wide p-2 pr-3 w-full text-zinc-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 aria-[validate='false']:border-[red]" placeholder="123-456-7890" />
+									<input id="phone" type="tel" v-model="form.phone.value" maxlength="12" autocomplete="tel tel-national" :aria-validate="customerContactInfoValid" class="block tracking-wide p-2 pr-3 w-full text-zinc-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 aria-[validate='false']:border-[red]" placeholder="123-456-7890" />
 								</div>
 							</div>
 						</div>
 
 						<div class="my-6">
-							<label for="telegram" class="block mb-2">{{ $t("modal.customerTelegramLabel") }}</label>
-							<div class="flex relative">
-								<div class="relative flex text-gray-700 text-lg font-jost items-center pl-4 pr-4 font-medium text-center bg-gray-100 border border-gray-300 rounded-s-lg">
-									<span>@</span>
-								</div>
-
-								<div class="relative w-full">
-									<input id="telegram" type="text" v-model="form.telegram.value" :aria-validate="customerContactInfoValid" class="block tracking-wide p-2 pr-3 w-full text-zinc-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 aria-[validate='false']:border-[red]" :placeholder="$t('modal.customerTelegramFieldPlaceholder')" />
-								</div>
+							<label for="vinNumber" class="block mb-2">{{ $t("modal.vinNumberLabel") }}</label>
+							<div class="relative">
+								<input id="vinNumber" type="text" v-model="form.vinNumber.value" class="bg-gray-50 border tracking-wide aria-[validate='false']:border-[red] border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 p-2" placeholder="1HGEM21991L005461">
 							</div>
 						</div>
 						
 						<div class="my-6">
-							<label for="email" class="block mb-2">{{ $t("modal.customerEmailLabel") }}</label>
+							<label for="licensePlate" class="block mb-2">{{ $t("modal.licensePlateLabel") }}</label>
 							<div class="relative">
-								<div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-									<svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-										<path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-										<path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-									</svg>
-								</div>
-								<input id="email" type="email" v-model="form.email.value" autocomplete="email" :aria-validate="customerContactInfoValid" class="bg-gray-50 tracking-wide border border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2 pr-3 aria-[validate='false']:border-[red]" placeholder="example@email.com">
+								<input id="licensePlate" type="text" v-model="form.licensePlate.value" class="bg-gray-50 border tracking-wide aria-[validate='false']:border-[red] border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 p-2" placeholder="KR 12345">
 							</div>
 						</div>
 

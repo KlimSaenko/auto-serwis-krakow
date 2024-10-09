@@ -6,7 +6,7 @@
         if (to.params.post && to.params.post === 'dodge-car'){
             next();
         } else {
-            let query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath }
+            const query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath };
             next({
                 path: from.fullPath,
                 query: query
@@ -17,7 +17,9 @@
     const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
     const iconsPath = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?url' }));
     
-    const socialMediaList = Object.entries(socialMediaConfig).map(([socialMediaName, socialMediaInfo]) => {
+    const socialMediaList = Object.entries(socialMediaConfig)
+    .filter(([_, socialMediaInfo]) => socialMediaInfo?.shareLink)
+    .map(([socialMediaName, socialMediaInfo]) => {
         return {
             name: socialMediaName,
             iconPath: iconsPath[0] + "#" + socialMediaName,
@@ -71,7 +73,7 @@
                         </div>
                         
                         <div class="max-md:hidden absolute flex bottom-[calc(100%+0.5rem)] opacity-0 left-1/2 -translate-x-1/2 w-max z-10 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-hover:delay-500 duration-200 pointer-events-none">
-                            <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-64 mx-auto">
+                            <p class="flex rounded-md bg-zinc-700 text-gray-200 px-3 py-1 max-w-64 mx-auto">
                                 {{ $t('blog.shareViaSocial') }} <span class="first-letter:uppercase">&nbsp;{{ socialMedia.name }}</span>
                             </p>
                         </div>
