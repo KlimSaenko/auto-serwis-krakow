@@ -13,15 +13,15 @@
 		<MainBanner />
 
 		<div class="mx-auto px-4 sm:px-8 md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
-			<MainBannerCards />
+			<MainBannerCards class="relative -top-32 2xl:-top-40" />
 
-			<About class="md:mt-12" />
+			<About class="md:mt-8" />
 
-			<BenefitsList class="mt-24 md:mt-36" />
+			<BenefitsList class="mt-24 md:mt-40" />
 
 			<ReviewsList class="mt-28 md:mt-36" />
 
-			<LatestPosts class="mt-28 md:mb-32" />
+			<LatestPosts class="mt-28 md:mt-36" />
 		</div>
 		
 		<GoogleMap class="mt-24 md:mt-32" />

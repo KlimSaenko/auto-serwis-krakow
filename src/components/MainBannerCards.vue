@@ -2,14 +2,23 @@
 	import Card from '../components/cards/Card.vue';
 	import LoopScroll from '../components/cards/LoopScroll.vue';
 	import { getConfigConst } from '@/vue-helpers/configValues';
+	import { inject } from 'vue';
+
+    const openAppointmentModal = inject<(description?: string) => void>('openAppointmentModal');
 
 	const servicedCars = Object.values(import.meta.glob<string>('@car-brands/*-logo.(webp|svg|png)', { eager: true, import: 'default', query: '?url' }));
+    
+    function openAppointmentModalWithDescription(description: string = ''){
+        if (openAppointmentModal){
+            openAppointmentModal(description);
+        }
+    }
 </script>
 
 <template>
 	<section>
-		<div class="grid relative -top-28 gap-8 md:-top-24 2xl:gap-10 md:grid-cols-2 lg:grid-cols-3 max-md:block text-lg leading-[1.65rem]">
-			<Card class="max-md:mb-9 md:hidden lg:flex shadow-xl mb-auto">
+		<div class="grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-8 2xl:gap-10 text-lg leading-[1.65rem]">
+			<Card class="flex flex-col flex-[1] basis-full my-auto shadow-xl mb-auto row">
 				<div class="m-2">
 					<h2 class="text-2xl text-zinc-800 mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.leftCardTitle') }}</h2>
 					<p>{{ $t('home.leftCardContent_1') }}</p>
@@ -20,7 +29,7 @@
 				<LoopScroll :imgSrcList="servicedCars.slice(Math.floor(servicedCars.length / 2))" :reversed="true" class="mt-6 mb-4" />
 			</Card>
 
-			<Card class="relative lg:-top-24 shadow-xl !p-0 mb-auto max-md:mb-9">
+			<Card class="flex flex-col flex-[1] basis-full shadow-xl !p-0 my-auto relative !pb-20">
 				<a :href="(getConfigConst('corporateInfo.googleMapsLink') as string)" target="_blank" class="image-shadow group cursor-pointer after:!shadow-[inset_0_0_10px_0_rgba(0,0,0,0)] lg:hover:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] active:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] after:duration-200">
 					<div class="relative left-0 right-0 top-0">
 						<div class="image-shadow after:!shadow-[inset_0_0_22px_15px_rgba(255,255,255)] after:bg-gradient-to-b after:from-white/0 after:from-50% after:to-white">
@@ -28,7 +37,7 @@
 						</div>
 						<div class="flex items-center absolute left-5 top-6 z-10 rounded-full bg-white shadow-md px-4 py-1 text-zinc-800">
 							<svg class="mr-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
-								<g transform="scale(2.6 2.6)" >
+								<g transform="scale(2.6 2.6)">
 									<path fill="currentColor" d="M 45 0 C 27.677 0 13.584 14.093 13.584 31.416 c 0 4.818 1.063 9.442 3.175 13.773 c 2.905 5.831 11.409 20.208 20.412 35.428 l 4.385 7.417 C 42.275 89.252 43.585 90 45 90 s 2.725 -0.748 3.444 -1.966 l 4.382 -7.413 c 8.942 -15.116 17.392 -29.4 20.353 -35.309 c 0.027 -0.051 0.055 -0.103 0.08 -0.155 c 2.095 -4.303 3.157 -8.926 3.157 -13.741 C 76.416 14.093 62.323 0 45 0 z M 45 42.81 c -6.892 0 -12.5 -5.607 -12.5 -12.5 c 0 -6.893 5.608 -12.5 12.5 -12.5 c 6.892 0 12.5 5.608 12.5 12.5 C 57.5 37.202 51.892 42.81 45 42.81 z" />
 								</g>
 							</svg>
@@ -37,8 +46,8 @@
 					</div>
 					
 					<div class="relative pt-0 pb-5 px-6">
-						<div class="mx-2 mb-1">
-							<div class="flex mb-3 items-center text-zinc-800">
+						<div class="mx-2 mb-1 text-center">
+							<div class="flex mb-3 items-center justify-center text-zinc-800">
 								<h2 class="text-2xl font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">
 									{{ $t('home.middleCardTitle') }}
 								</h2>
@@ -61,9 +70,15 @@
 						</div>
 					</div>
 				</a>
+
+				<div class="absolute bottom-8 left-0 right-0 z-10 overflow-hidden rounded-full flex justify-center">
+					<button @click="openAppointmentModalWithDescription()" class="my-[2px] tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-full inline-flex items-center duration-150">
+						<span class="font-jost-medium">{{ $t("header.onlineAppointment") }}</span>
+					</button>
+				</div>
 			</Card>
 
-			<Card class="shadow-xl mb-auto !pb-[6.5rem]">
+			<Card class="flex flex-col flex-[1] basis-full my-auto shadow-xl !pb-[6.5rem]">
 				<div class="m-2">
 					<h2 class="text-2xl text-zinc-800 mb-3 font-jost-bold pl-[0.65rem] border-l-[5px] border-[red]">{{ $t('home.rightCardTitle') }}</h2>
 					<p>{{ $t('home.rightCardContent_1') }}</p>

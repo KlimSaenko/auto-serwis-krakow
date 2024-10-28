@@ -76,7 +76,7 @@
                 </svg>
             </button>
 
-            <div class="overflow-hidden pt-3">
+            <div class="overflow-x-clip pt-3">
                 <div :style="{ translate: `${ -listIndex * 100 }% 0` }" :aria-colindex="listIndex" class="w-full md:w-1/2 lg:w-1/3 duration-[600ms] ease-in-out relative flex">
                     <div v-for="review in reviews" class="min-w-full relative h-fit snap-start">
                         <CustomerReview :author-name="review.authorAttribution?.displayName ?? 'Hidden'"
