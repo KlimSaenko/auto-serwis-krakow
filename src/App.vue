@@ -54,8 +54,6 @@
 <template>
     <ContactInfoHeader />
 
-	<AppointmentModal />
-
     <main class="bg-zinc-100 text-zinc-700">
         <router-view v-slot="{ Component }">
 			<transition name="fade" mode="out-in" @before-leave="onTransitionStarted" @enter="onTransitionEnded">
@@ -65,4 +63,6 @@
     </main>
 
     <Footer />
+
+    <AppointmentModal />
 </template>

@@ -76,20 +76,25 @@
         "contactsTitle": "Контакты",
         "contactsDescription": "Здесь перечислены наши контакты, вы можете записаться к нам написав на наш телеграмм или набрав по номеру.",
 
-        "customerNameLabel": "Как вас зовут?",
-        "customerNameFieldPlaceholder": "Ваше имя",
+        "customerNameLabel": "Ваше имя",
+        "customerNameFieldPlaceholder": "Вы будете записаны под этим именем",
 
         "customerNumberLabel": "Ваш номер телефона",
 
         "vinNumberLabel": "VIN вашего автомобиля",
+        "vinNumberFieldTooltip": "VIN используется для более точного расчета стоимости услуг",
 
         "licensePlateLabel": "Регистрационный номер вашего автомобиля",
+        "licensePlateFieldTooltip": "Регистрационный номер используется для записи",
 
         "customerMessageLabel": "Описание проблемы",
         "customerMessageFieldPlaceholder": "Опишите здесь вашу проблему",
 
         "customerNameMissingError": "Пожалуйста, напишите ваше имя.",
-        "customerContactInfoMissingError": "Заполните хотя бы одно поле для обратной связи."
+        "customerContactInfoMissingError": "Напишите ваш номер телефона для обратной связи.",
+
+        "apointmentSentMessageSuccess": "Запись успешно отправлена!",
+        "apointmentSentMessageFault": "Запись не была отправлена. Пожалуйста, попробуйте еще раз."
     },
     "customerServices": {
         "ourServicesTitle": "Наши сервисы",

@@ -72,6 +72,14 @@
         },
         "vinNumberFieldPlaceholder": "1HGEM21991L005461"
     },
+    "appointmentForm": {
+        "tel": "Моб. номер",
+        "vinNumber": "VIN",
+        "licensePlate": "Регистрационный номер",
+        "description": "Описание проблемы",
+        "language": "Язык",
+        "time": "Время отправки"
+    },
     "googleReviews": {
         "ru": [
             {

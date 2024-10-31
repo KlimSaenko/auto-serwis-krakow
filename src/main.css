@@ -7,20 +7,33 @@ body.no-scroll {
     position: fixed;
     width: 100%;
     top: var(--st, 0);
+    padding-right: 18px;
+}
+
+body.no-scroll::-webkit-scrollbar {
+    width: 0;
 }
 
 body::-webkit-scrollbar {
-    width: 20px;
+    width: 18px;
 }
 
 body::-webkit-scrollbar-thumb {
     border-radius: 20px;
-    border: 6px solid transparent;
+    border: 5px solid transparent;
     background-clip: content-box;
 }
 
 @media (prefers-color-scheme: light) {
     body::-webkit-scrollbar-track {
+        background-color: white;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: rgb(197 197 208);
+    }
+
+    body {
         background-color: white;
     }
 }
@@ -29,17 +42,13 @@ body::-webkit-scrollbar-thumb {
     body::-webkit-scrollbar-track {
         background-color: rgb(39, 39, 42);
     }
-}
 
-@media (prefers-color-scheme: light) {
-    body::-webkit-scrollbar-thumb {
-        background-color: rgb(197 197 208);
-    }
-}
-
-@media (prefers-color-scheme: dark) {
     body::-webkit-scrollbar-thumb {
         background-color: rgb(107 107 113);
+    }
+
+    body {
+        background-color: rgb(39, 39, 42);
     }
 }
 
@@ -109,7 +118,7 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-.tooltip::after {
+.tooltip-bottom::after {
     content: " ";
     position: absolute;
     top: 100%;
@@ -118,6 +127,28 @@ body::-webkit-scrollbar-thumb:hover {
     border-width: 5px;
     border-style: solid;
     border-color: rgb(63 63 70) transparent transparent transparent;
+}
+
+.tooltip-top::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(63 63 70) transparent transparent transparent;
+    transform: rotate(180deg);
+}
+
+.tooltip-bottom {
+    text-align: center;
+    pointer-events: none;
+}
+
+.tooltip-top {
+    text-align: center;
+    pointer-events: none;
 }
 
 .image-shadow::after {

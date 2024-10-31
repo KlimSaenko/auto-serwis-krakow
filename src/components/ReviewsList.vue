@@ -76,8 +76,8 @@
                 </svg>
             </button>
 
-            <div class="overflow-x-clip pt-3">
-                <div :style="{ translate: `${ -listIndex * 100 }% 0` }" :aria-colindex="listIndex" class="w-full md:w-1/2 lg:w-1/3 duration-[600ms] ease-in-out relative flex">
+            <div class="overflow-hidden pt-3">
+                <div :style="{ translate: `${ -listIndex * 100 }% 0` }" :aria-colindex="listIndex" class="w-full md:w-1/2 xl:w-1/3 duration-[600ms] ease-in-out relative flex">
                     <div v-for="review in reviews" class="min-w-full relative h-fit snap-start">
                         <CustomerReview :author-name="review.authorAttribution?.displayName ?? 'Hidden'"
                                         :author-photo-src="review.authorAttribution?.photoURI ?? undefined"
@@ -85,12 +85,12 @@
                                         :relative-time-description="review.relativePublishTimeDescription ?? 'Hidden'"
                                         :rating="review.rating ?? undefined"
                                         :author-url="review.authorAttribution?.uri ?? undefined"
-                                        class="max-sm:mx-10 m-3 lg:mx-5" />
+                                        class="max-sm:mx-10 m-5" />
                     </div>
                 </div>
             </div>
             
-            <button :aria-hidden="listIndex >= reviews.length - 1" @click="nextReview" :aria-colindex="reviews.length - listIndex" class="z-50 p-2 aria-hidden:invisible mr-auto text-zinc-500 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:-right-1 sm:p-4 max-sm:aspect-square max-sm:rounded-full lg:aria-[colindex='3']:invisible md:aria-[colindex='2']:invisible max-sm:bg-zinc-700/70 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
+            <button :aria-hidden="listIndex >= reviews.length - 1" @click="nextReview" :aria-colindex="reviews.length - listIndex" class="z-50 p-2 aria-hidden:invisible mr-auto text-zinc-500 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:-right-1 sm:p-4 max-sm:aspect-square max-sm:rounded-full xl:aria-[colindex='3']:invisible md:aria-[colindex='2']:invisible max-sm:bg-zinc-700/70 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
                 <svg class="w-6 sm:w-12 aspect-square" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M7.04 1.96a1 1 0 0 0-1.497 1.32l.083.094L10.253 8l-4.627 4.626a1 1 0 0 0-.083 1.32l.083.094a1 1 0 0 0 1.32.084l.094-.084 5.334-5.333a1 1 0 0 0 .083-1.32l-.083-.094L7.04 1.96Z" />
                 </svg>

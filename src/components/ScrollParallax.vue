@@ -28,7 +28,7 @@
 </script>
 
 <template>
-  <div class="max-md:!bg-center bg-center will-change-[background-position]" :style="{ backgroundPositionY: `calc(50% + ${scrollOffset}px)` }">
+  <div class="bg-center will-change-[background-position]" :style="{ backgroundPositionY: `calc(50% + ${scrollOffset}px)` }">
     <slot>
     </slot>
   </div>

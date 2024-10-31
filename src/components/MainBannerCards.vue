@@ -59,7 +59,7 @@
 							<h4>{{ getConfigConst('corporateInfo.addressFull') }}</h4>
 							<p class="mt-2">{{ $t('home.middleCardContent_1') }}</p>
 
-							<div class="tooltip absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 md:group-hover:delay-500 font-jost pointer-events-none">
+							<div class="tooltip-bottom absolute flex bottom-[calc(100%+1rem)] opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 md:group-hover:delay-500 font-jost">
 								<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
 									{{ $t('home.middleCardGoToMapTooltip') }} 
 									<svg class="ms-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@
 							<path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 						</svg>
 
-						<div class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 md:group-hover:delay-500 font-jost pointer-events-none">
+						<div class="tooltip-bottom absolute flex bottom-full opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-hover:visible md:group-hover:opacity-100 duration-200 md:group-hover:delay-500 font-jost">
 							<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
 								{{ $t('home.rightCardShowAllTooltip') }}
 								<svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

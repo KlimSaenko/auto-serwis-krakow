@@ -5,6 +5,7 @@
     import { CountryProperty, type CountryData, findOne as findCountry, all as getAllCountries } from 'country-codes-list';
     import Translations from '@/vue-helpers/translations';
     import useClickOutside from '@/vue-helpers/useClickOutside';
+	import { useI18n } from 'vue-i18n';
 
 	const isModalOpened = inject<Ref<boolean>>('isAppointmentModalOpened') ?? ref(false);
     const closeAppointmentModal = inject<() => void>('closeAppointmentModal');
@@ -12,6 +13,7 @@
 
     const isLocationSelectorOpen = ref(false);
     const currentLocation = ref<CountryData | null>(findCountry('countryCode' as CountryProperty, Translations.defaultLocale.region));
+	const language = useI18n().locale;
 
 	const form = {
 		customerName: ref<string>(''),
@@ -23,15 +25,13 @@
 	};
 
 	const processingForm = ref(false);
-	const isFormSentModalOpened = ref(false);
+	const isFormSentModalSuccess = ref<boolean | undefined>();
 
 	const customerNameValid = ref(true);
 	const customerContactInfoValid = ref(true);
 	
 	watch(isModalOpened, opened => {
 		if (opened){
-			customerNameValid.value = true;
-			customerContactInfoValid.value = true;
 			form.description.value = preDescription?.value;
 			processingForm.value = false;
 		}
@@ -82,10 +82,10 @@
 		currentLocation.value = findCountry('countryCallingCode' as CountryProperty, form.phoneCode.value!);
     }
 
-	function openFormSentModal(){
-		isFormSentModalOpened.value = true;
+	function openFormSentModal(success: boolean){
+		isFormSentModalSuccess.value = success;
 		
-		setTimeout(() => isFormSentModalOpened.value = false, 7000);
+		setTimeout(() => isFormSentModalSuccess.value = undefined, 7000);
     }
 
     async function handleSubmit(){
@@ -112,20 +112,40 @@
 			contactLinks: {
 				tel: form.phoneCode.value + ' ' + form.phone.value
 			},
-			details: form.description.value
+			details: {
+				vinNumber: form.vinNumber.value,
+				licensePlate: form.licensePlate.value,
+				description: form.description.value ?? '',
+				time: new Date().toUTCString(),
+				language: language.value
+			}
 		};
 
 		const result = await appointmentSender.SendMessage(senderInfo);
 
 		if (result){
-			openFormSentModal();
+			openFormSentModal(true);
 			console.log('Appointment has been requested');
-		}
 
-		if (closeAppointmentModal){
-			closeAppointmentModal();
+			clearAllFields();
+
+			if (closeAppointmentModal){
+				closeAppointmentModal();
+			}
 		}
+		else {
+            openFormSentModal(false);
+            console.log('Appointment has not been requested');
+        }
     }
+
+	function clearAllFields() {
+		form.customerName.value = '';
+        form.phone.value = '';
+        form.vinNumber.value = '';
+        form.licensePlate.value = '';
+        form.description.value = '';
+	}
 </script>
 
 <style lang="css">
@@ -194,15 +214,27 @@
 
 						<div class="my-6">
 							<label for="vinNumber" class="block mb-2">{{ $t("modal.vinNumberLabel") }}</label>
-							<div class="relative">
+							<div class="relative group">
 								<input id="vinNumber" type="text" v-model="form.vinNumber.value" class="bg-gray-50 border tracking-wide aria-[validate='false']:border-[red] border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 p-2" placeholder="1HGEM21991L005461">
+
+								<div class="tooltip-top absolute flex top-full opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-focus-within:visible md:group-focus-within:opacity-100 duration-200 md:group-focus-within:delay-500 font-jost">
+									<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
+										{{ $t('modal.vinNumberFieldTooltip') }}
+									</p>
+								</div>
 							</div>
 						</div>
 						
 						<div class="my-6">
 							<label for="licensePlate" class="block mb-2">{{ $t("modal.licensePlateLabel") }}</label>
-							<div class="relative">
+							<div class="relative group">
 								<input id="licensePlate" type="text" v-model="form.licensePlate.value" class="bg-gray-50 border tracking-wide aria-[validate='false']:border-[red] border-gray-300 text-zinc-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 p-2" placeholder="KR 12345">
+
+								<div class="tooltip-top absolute flex top-full opacity-0 left-0 right-0 z-10 max-md:hidden invisible md:group-focus-within:visible md:group-focus-within:opacity-100 duration-200 md:group-focus-within:delay-500 font-jost">
+									<p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-72 mx-auto leading-6">
+										{{ $t('modal.licensePlateFieldTooltip') }}
+									</p>
+								</div>
 							</div>
 						</div>
 
@@ -291,16 +323,20 @@
 	</Transition>
 
 	<Transition name="modal-fade" appear>
-		<div v-if="isFormSentModalOpened" class="fixed right-8 bottom-8 max-sm:right-5 max-sm:left-5 z-[901] p-5 pr-9 sm:max-w-80 bg-white overflow-hidden rounded-lg shadow-lg shadow-black/15 border">
+		<div v-if="isFormSentModalSuccess !== undefined" class="fixed right-8 bottom-8 max-sm:right-5 max-sm:left-5 z-[901] p-5 pr-9 sm:max-w-80 bg-white overflow-hidden rounded-lg shadow-lg shadow-black/15 border">
 			<div class="flex items-center">
-				<svg class="w-9 h-9 me-4 text-green-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+				<svg v-if="isFormSentModalSuccess" class="w-9 h-9 me-4 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
 					<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
 				</svg>
 
-				<p class="font-jost text-zinc-800">{{ $t('modal.apointmentSentMessage') }}</p>
+				<svg v-if="!isFormSentModalSuccess" class="w-9 h-9 me-4 text-orange-600 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"/>
+				</svg>
+
+				<p class="font-jost text-zinc-800">{{ $t(isFormSentModalSuccess ? 'modal.apointmentSentMessageSuccess' : 'modal.apointmentSentMessageFault') }}</p>
 			</div>
 			
-			<button @click="isFormSentModalOpened = false" class="absolute right-1.5 top-1.5 w-6 h-6 p-1 text-gray-500 md:hover:text-gray-900 active:text-gray-900">
+			<button @click="isFormSentModalSuccess = undefined" class="absolute right-1.5 top-1.5 w-6 h-6 p-1 text-gray-500 md:hover:text-gray-900 active:text-gray-900">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 					<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
 				</svg>

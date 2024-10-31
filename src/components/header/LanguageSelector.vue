@@ -43,7 +43,7 @@
                 <svg class="w-2.5 h-2.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="m1 1 4 4 4-4"/></svg>
             </button>
 
-            <div v-if="isOpen" ref="excludeRef" class="absolute right-0 md:right-1/2 md:translate-x-1/2 mt-2 tracking-wide w-max rounded-md shadow-md bg-white ring-1 ring-zinc-800/10 p-2 space-y-1 font-jost text-zinc-600">
+            <div v-if="isOpen" ref="excludeRef" class="absolute right-0 md:right-1/2 md:translate-x-1/2 mt-2 tracking-wide w-max rounded-md shadow-lg bg-white ring-1 ring-zinc-800/10 p-2 space-y-1 font-jost text-zinc-600">
                 <a @click="onClickChangeLanguage(loc)" v-for="loc in Translations.supportedLocales" :aria-checked="locale == loc" class="flex items-center px-4 py-2 align-baseline max-md:focus:text-[red] md:hover:bg-zinc-300/60 md:hover:text-zinc-800 active:text-gray-800 active:bg-zinc-300/60 aria-checked:bg-zinc-300/60 aria-checked:text-zinc-800 cursor-pointer rounded-md duration-150">
                     <span :class="`fi-${ getConfigConst(`locales.${loc}.code`) }`" class="fi !bg-cover rounded-full h-5 !w-5 mr-3 ring-1 ring-zinc-800/10"></span>
                     <span>{{ getConfigConst(`locales.${loc}.name`) }}</span>

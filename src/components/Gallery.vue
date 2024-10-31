@@ -126,13 +126,13 @@
         </div>
 
         <transition name="fade-image" mode="out-in">
-			<div v-if="imagePreview?.ImgUrl" class="fixed inset-0 bg-zinc-950/65 z-[300] flex items-center justify-center">
-                <div class="flex content-center pt-28 m-8 md:m-16 flex-wrap flex-col">
+			<div v-if="imagePreview?.ImgUrl" class="fixed inset-0 bg-zinc-950/65 z-[300]">
+                <div class="flex content-center justify-center pt-24 md:pt-36 p-4 md:p-8 flex-wrap flex-col h-full w-full">
                     <img :src="imagePreview.ImgUrl" loading="lazy" :alt="imagePreview.AltText" class="max-h-full max-w-full object-cover object-center rounded-2xl" />
-                    <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label>
+                    <!-- <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label> -->
                 </div>
 
-                <button @click="imagePreview = undefined" class="absolute right-5 top-[5.5rem] md:top-[8.5rem] w-16 h-16 text-gray-200 md:hover:text-white active:text-white rounded-full p-2.5 md:hover:bg-white/20 active:bg-white/20 duration-150">
+                <button @click="imagePreview = undefined" class="absolute right-3 top-[5rem] md:top-[8.5rem] w-16 h-16 text-gray-200 md:hover:text-white active:text-white rounded-full p-2.5 md:hover:bg-white/20 active:bg-white/20 duration-150">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
 					</svg>

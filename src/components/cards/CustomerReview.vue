@@ -47,7 +47,7 @@
                 <span class="text-[0.8rem] leading-5">{{ relativeTimeDescription }}</span>
             </div>
 
-            <div :class="authorUrl ? 'max-md:hidden' : 'hidden'" class="tooltip absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-hover:delay-500 duration-200 font-jost pointer-events-none">
+            <div :class="authorUrl ? 'max-md:hidden' : 'hidden'" class="tooltip-bottom absolute flex bottom-full opacity-0 left-0 right-0 z-10 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-hover:delay-500 duration-200 font-jost">
                 <p class="flex rounded-md bg-zinc-700 text-gray-200 px-2 py-1 pl-3 max-w-64 mx-auto">
                     {{ $t('customerReview.goToComment') }} 
                     <svg class="ml-1 p-[2px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
