@@ -65,7 +65,7 @@ class GoogleServices {
             await this.placesLib;
             const placesService = new google.maps.places.PlacesService(htmlContainer);
 
-            let timer = -1;
+            let timer: NodeJS.Timeout | undefined = undefined;
             for(let i = 0; i < 100; i++) {
                 placesService.getDetails(request, async (place: google.maps.places.PlaceResult | null, status: google.maps.places.PlacesServiceStatus) => {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {

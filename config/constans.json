@@ -133,5 +133,14 @@
                 "rating": 5
             }
         ]
-    }
+    },
+    "blogPosts": [
+        "diagnosis-service",
+        "units-replacement",
+        "units-repair",
+        "units-installation",
+        "car-care",
+        "car-maintenance",
+        "car-share"
+    ]
 }

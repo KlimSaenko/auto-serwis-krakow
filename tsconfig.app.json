@@ -1,8 +1,9 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "server.ts", "middleware/*"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
+    "esModuleInterop": true,
     "composite": true,
     "noEmit": true,
     "baseUrl": ".",

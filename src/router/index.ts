@@ -4,6 +4,7 @@ import ServicesView from '../views/ServicesView.vue';
 import MediaView from '../views/MediaView.vue';
 import BlogPostView from '../views/BlogPostView.vue';
 import CustomerServiceView from '../views/CustomerServiceView.vue';
+import NotFoundView from '../views/NotFoundView.vue';
 import { getConfigConst } from '@/vue-helpers/configValues';
 import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 
@@ -55,6 +56,11 @@ const router = createRouter({
                     component: BlogPostView
                 }
             ]
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'NotFound',
+            component: NotFoundView
         }
     ],
     async scrollBehavior(to, from, savedPosition) {

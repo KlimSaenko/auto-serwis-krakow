@@ -267,5 +267,10 @@
         "qualityGuarantee": "Гарантии на работы и запчасти",
         "customerZone": "Комфортная клиентская зона",
         "multilaguage": "Многоязычная команда"
+    },
+    "notFound": {
+        "pageNotFound": "Страница Не Найдена",
+        "hintMessage": "Возможно, мы переместили или удалили её",
+        "backToHomeButton": "Вернуться на Главную"
     }
 }

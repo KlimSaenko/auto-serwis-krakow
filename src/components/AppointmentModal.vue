@@ -125,8 +125,6 @@
 
 		if (result){
 			openFormSentModal(true);
-			console.log('Appointment has been requested');
-
 			clearAllFields();
 
 			if (closeAppointmentModal){
@@ -135,7 +133,6 @@
 		}
 		else {
             openFormSentModal(false);
-            console.log('Appointment has not been requested');
         }
     }
 

@@ -41,7 +41,7 @@ class Translations {
 
         const regionPromise = fetch('https://api.country.is');
 
-        let timer: number;
+        let timer: NodeJS.Timeout | undefined = undefined;
         const region = await Promise.race([
             regionPromise,
             new Promise((_, rej) => timer = setTimeout(rej, 3000))

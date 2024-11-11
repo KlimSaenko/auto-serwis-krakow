@@ -6,6 +6,7 @@ import { createApp } from 'vue';
 import router from './router';
 import { createI18n } from 'vue-i18n';
 import Translations from '@/vue-helpers/translations';
+import Readline from 'readline';
 
 import App from './App.vue';
 import ContactInfoHeader from './components/header/ContactInfoHeader.vue';
@@ -44,6 +45,20 @@ app.component('BenefitsList', BenefitsList);
 app.use(router);
 
 TransitionWaiter.Add();
+
+const rl = Readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.on('line', (input) => {
+    if (input.toLocaleLowerCase() === 'login admin') {
+        rl.question('password>', ans => {
+            
+            rl.close();
+        });
+    }
+});
 
 setupLocalePromise.then(_ => {
     app.mount('#app');

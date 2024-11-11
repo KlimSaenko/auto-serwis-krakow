@@ -6,11 +6,45 @@ class ApiService {
 
         return configReviews;
     };
+
+    static async LoginAdmin(password: string) {
+        try {
+            const response = await fetch('/api/loginAdmin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password: password
+                })
+            });
+
+            const result = await response.json();
+            console.log(result.message);
+        } catch (error) {
+            console.error('Error creating file:', error);
+        }
+    };
+
+    static async PostBlogPost(blogPostUrl: string, blogPostJson: string) {
+        try {
+            const response = await fetch('/api/createBlogPost', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    filename: blogPostUrl,
+                    content: blogPostJson
+                })
+            });
+
+            const result = await response.json();
+            console.log(result.message);
+        } catch (error) {
+            console.error('Error creating file:', error);
+        }
+    };
 };
-// :author-name="review.author_name"
-// :author-photo-src="review.profile_photo_url"
-// :review-text="review.text"
-// :relative-time-description="review.relative_time_description"
-// :rating="review.rating"
-// :author-url="review.author_url"
+
 export default ApiService;
