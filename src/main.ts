@@ -6,7 +6,8 @@ import { createApp } from 'vue';
 import router from './router';
 import { createI18n } from 'vue-i18n';
 import Translations from '@/vue-helpers/translations';
-import Readline from 'readline';
+import TransitionWaiter from '@/vue-helpers/transitionWaiter';
+import AdminInputListener from '@/vue-helpers/adminInputListener';
 
 import App from './App.vue';
 import ContactInfoHeader from './components/header/ContactInfoHeader.vue';
@@ -22,7 +23,6 @@ import AppointmentModal from './components/AppointmentModal.vue';
 import Gallery from './components/Gallery.vue';
 import PostCardSimpled from './components/cards/PostCardSimpled.vue';
 import BenefitsList from './components/BenefitsList.vue';
-import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 
 const app = createApp(App);
 
@@ -46,19 +46,7 @@ app.use(router);
 
 TransitionWaiter.Add();
 
-const rl = Readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-rl.on('line', (input) => {
-    if (input.toLocaleLowerCase() === 'login admin') {
-        rl.question('password>', ans => {
-            
-            rl.close();
-        });
-    }
-});
+Object.defineProperty(window, "login_admin", { get: AdminInputListener.OpenPrompt });
 
 setupLocalePromise.then(_ => {
     app.mount('#app');

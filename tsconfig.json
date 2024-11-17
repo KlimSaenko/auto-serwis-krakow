@@ -11,6 +11,9 @@
   "compilerOptions": {
     "types": ["vite/client"],
     "baseUrl": ".",
+    "module": "node16",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"],
       "@car-brands/*": ["./public/car-brands/*"],

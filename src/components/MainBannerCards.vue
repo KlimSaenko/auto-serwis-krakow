@@ -29,7 +29,7 @@
 				<LoopScroll :imgSrcList="servicedCars.slice(Math.floor(servicedCars.length / 2))" :reversed="true" class="mt-6 mb-4" />
 			</Card>
 
-			<Card class="flex flex-col flex-[1] basis-full shadow-xl !p-0 my-auto relative !pb-20">
+			<Card class="flex flex-col flex-[1] basis-full shadow-xl !p-0 my-auto relative !pb-[5.5rem]">
 				<a :href="(getConfigConst('corporateInfo.googleMapsLink') as string)" target="_blank" class="image-shadow group cursor-pointer after:!shadow-[inset_0_0_10px_0_rgba(0,0,0,0)] lg:hover:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] active:after:!shadow-[inset_0_0_30px_0_rgba(0,0,0,0.8)] after:duration-200">
 					<div class="relative left-0 right-0 top-0">
 						<div class="image-shadow after:!shadow-[inset_0_0_22px_15px_rgba(255,255,255)] after:bg-gradient-to-b after:from-white/0 after:from-50% after:to-white">
@@ -71,8 +71,8 @@
 					</div>
 				</a>
 
-				<div class="absolute bottom-8 left-0 right-0 z-10 overflow-hidden rounded-full flex justify-center">
-					<button @click="openAppointmentModalWithDescription()" class="my-[2px] tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-full inline-flex items-center duration-150">
+				<div class="absolute bottom-9 left-1/2 -translate-x-1/2 z-10 rounded-full flex justify-center">
+					<button @click="openAppointmentModalWithDescription()" class="tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-full inline-flex items-center duration-150">
 						<span class="font-jost-medium">{{ $t("header.onlineAppointment") }}</span>
 					</button>
 				</div>

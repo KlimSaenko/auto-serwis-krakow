@@ -1,4 +1,5 @@
 import { getConfigConst } from '@/vue-helpers/configValues';
+import { getCookie } from 'typescript-cookie';
 
 class ApiService {
     static async GetGoogleReviews(locale: string): Promise<google.maps.places.Review[] | undefined> {
@@ -7,31 +8,46 @@ class ApiService {
         return configReviews;
     };
 
-    static async LoginAdmin(password: string) {
+    static async Login(password: string): Promise<boolean> {
         try {
-            const response = await fetch('/api/loginAdmin', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    password: password
+                    password
                 })
             });
 
             const result = await response.json();
-            console.log(result.message);
+            if (result?.message){
+                console.log(result.message);
+            }
+
+            return true;
         } catch (error) {
-            console.error('Error creating file:', error);
+            let message = '';
+
+            if (typeof error === "string") {
+                message = error;
+            } else if (error instanceof Error) {
+                message = error.message;
+            }
+
+            console.error('Error login', message);
         }
+        
+        return false;
     };
 
     static async PostBlogPost(blogPostUrl: string, blogPostJson: string) {
         try {
-            const response = await fetch('/api/createBlogPost', {
+            const response = await fetch('/api/admin/createBlogPost', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+ getCookie('access_token'),
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     filename: blogPostUrl,

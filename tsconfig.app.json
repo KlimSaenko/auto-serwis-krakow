@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "server.ts", "middleware/*"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "src/server/main.ts", "src/server/middleware/*", "window.d.ts"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "esModuleInterop": true,

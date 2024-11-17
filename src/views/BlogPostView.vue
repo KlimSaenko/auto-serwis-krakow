@@ -1,24 +1,10 @@
 <script setup lang="ts">
     import { getConfigConst } from '@/vue-helpers/configValues';
     import { onBeforeRouteUpdate } from 'vue-router';
-    import { useEditor, EditorContent, BubbleMenu } from '@tiptap/vue-3';
-    import StarterKit from '@tiptap/starter-kit';
-    import { onBeforeUnmount } from 'vue';
-    import TextStyle from '@tiptap/extension-text-style'
-    import Color from '@tiptap/extension-color';
-    import TextAlign from '@tiptap/extension-text-align';
+    import AdminInputListener from '@/vue-helpers/adminInputListener';
+    import TextEditor from '@/components/TextEditor.vue';
 
     const blogPosts = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?v' }));
-
-    const editor = useEditor({
-        content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
-        extensions: [StarterKit, TextStyle, Color, TextAlign],
-        editorProps: {
-            attributes: {
-                class: 'm-5 focus:outline-none',
-            }
-        }
-    });
 
     onBeforeRouteUpdate(async (to, from, next) => {
         if (to.params.post && to.params.post === 'dodge-car'){
@@ -30,10 +16,6 @@
                 query: query
             });
         };
-    });
-
-    onBeforeUnmount(() => {
-        editor.value?.destroy();
     });
 
     const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
@@ -50,24 +32,58 @@
     });
 
     function createBlogPost() {
-        const json = editor.value?.getJSON();
+        // const json = editor.value?.getJSON();
     }
 </script>
 
 <template>
     <div class="mx-auto px-4 sm:px-8 md:px-10 2xl:px-16 max-w-lg sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
-        <article class="pt-8 pb-16 md:pb-20 md:px-16 xl:px-32">
-            <!-- <div class="text-[2.5rem] mb-8 font-jost-bold flex justify-center text-center text-zinc-700">
+        <article class="pt-8 pb-16 md:pb-20 md:px-16 xl:px-32" :class="AdminInputListener.IsAuthorized.value ? 'md:px-14 xl:px-28' : 'md:px-16 xl:px-32'">
+            <div class="text-[2.5rem] mb-8 font-jost-bold flex justify-center text-center text-zinc-700">
                 <h2 class="border-l-[7px] border-[red] ps-3 leading-none pr-2">{{ $t('blog.blogTitle') }}</h2>
             </div>
 
-            <h1 class="text-[2.5rem] md:text-5xl mb-4 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">Lorem ipsum dolor sit amet</h1>
+            <div v-if="AdminInputListener.IsAuthorized.value" class="w-full mb-10 p-5 rounded-xl shadow-xl border bg-white">
+                <h3 class="font-jost-medium text-xl mb-4">{{ $t('blog.adminMode') }}</h3>
+
+                <div class="font-jost text-xl">
+                    <button class="flex px-4 py-3 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
+                        <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        <span class="ms-3">{{ $t('blog.editPost') }}</span>
+                    </button>
+
+                    <button class="flex px-4 py-3 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
+                        <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <rect height="18" rx="2" ry="2" width="18" x="3" y="3"/>
+                            <line x1="12" x2="12" y1="8" y2="16"/>
+                            <line x1="8" x2="16" y1="12" y2="12"/>
+                        </svg>
+                        <span class="ms-3">{{ $t('blog.createPost') }}</span>
+                    </button>
+
+                    <button class="flex px-4 py-3 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
+                        <svg height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m23.589 22.261-2.102-2.101c.51-.769.814-1.713.814-2.728 0-2.389-1.683-4.385-3.929-4.866l-.033-.006v-4.043c0-.009 0-.018 0-.026 0-.246-.088-.471-.233-.646l.001.002v-.005c-.019-.023-.039-.045-.06-.066l-.008-.009c-.009-.009-.018-.018-.027-.027l-7.44-7.44c-.021-.021-.042-.04-.065-.059l-.026-.018c-.016-.013-.033-.026-.05-.038l-.025-.018c-.018-.012-.036-.022-.054-.034l-.023-.012q-.034-.02-.075-.037l-.032-.013-.051-.018-.036-.011-.058-.015-.028-.006c-.028-.006-.057-.01-.086-.013h-8.948c-.559.002-1.011.454-1.015 1.012v20.377c0 .561.454 1.017 1.015 1.019h16.306.004c1.013 0 1.955-.304 2.74-.827l-.018.011 2.102 2.102c.181.166.423.268.689.268.563 0 1.019-.456 1.019-1.019 0-.266-.102-.508-.269-.689l.001.001zm-3.325-4.827c0 1.625-1.318 2.943-2.943 2.943s-2.943-1.318-2.943-2.943 1.318-2.943 2.943-2.943c1.624.002 2.941 1.318 2.943 2.942zm-9.396-13.956 3.993 3.994h-3.993zm-8.83-1.44h6.793v6.453c0 .563.456 1.019 1.019 1.019h6.453v3.05c-2.278.487-3.962 2.483-3.962 4.873 0 1.109.362 2.133.975 2.96l-.01-.013h-11.269z"/>
+                        </svg>
+                        <span class="ms-3">{{ $t('blog.previewPost') }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full mb-10 p-5 rounded-xl shadow-xl border bg-white">
+
+            </div>
+
+            <!-- <h1 class="text-[2.5rem] md:text-5xl mb-4 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">Lorem ipsum dolor sit amet</h1> -->
 
             <div class="text-xl mb-10 font-jost flex justify-center text-center text-zinc-400">
                 <h4>Updated on September 3, 2024</h4>
             </div>
 
-            <div class="aspect-[7/5] md:aspect-[7/4] rounded-2xl overflow-hidden">
+            <!-- <div class="aspect-[7/5] md:aspect-[7/4] rounded-2xl overflow-hidden">
                 <img src="https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy" alt="" class="h-full w-full object-cover object-center" />
             </div>
 
@@ -86,102 +102,24 @@
             </div> -->
 
             <div class="w-full rounded-xl shadow-xl border bg-white">
-                <bubble-menu :editor="editor" :tippy-options="{ duration: 100 }" v-if="editor">
-                    <div class="flex flex-row gap-1 p-1 bg-white border rounded-xl shadow-md hover:[&_button]:bg-zinc-300 [&_button]:px-1.5 [&_button]:py-1 [&_button]:rounded-lg">
-                        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'bg-zinc-300': editor.isActive('bold') }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"></path>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'bg-zinc-300': editor.isActive('italic') }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <line x1="19" x2="10" y1="4" y2="4"></line>
-                                <line x1="14" x2="5" y1="20" y2="20"></line>
-                                <line x1="15" x2="9" y1="4" y2="20"></line>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-zinc-300': editor.isActive('strike') }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-underline w-4 h-4">
-                                <path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
-                                <line x1="4" x2="20" y1="20" y2="20"></line>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-zinc-300': editor.isActive('strike') }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-strikethrough w-4 h-4">
-                                <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
-                                <path d="M14 12a4 4 0 0 1 0 8H6"></path>
-                                <line x1="4" x2="20" y1="12" y2="12"></line>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'bg-zinc-300': editor.isActive('strike') }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                            </svg>
-                        </button>
-
-                        <div class="bg-zinc-300 h-full min-h-[1.5rem] w-[1px] mx-1 first:ml-0 last:mr-0"></div>
-                        
-                        <button @click="editor.chain().focus().setColor('red').run()" :class="{ 'bg-zinc-300': editor.isActive('textStyle', { color: 'red' })}">
-                            <div class="w-4 h-4 bg-[red] rounded-full border border-zinc-300"></div>
-                        </button>
-
-                        <button @click="editor.chain().focus().setColor('orange').run()" :class="{ 'bg-zinc-300': editor.isActive('textStyle', { color: 'orange' })}">
-                            <div class="w-4 h-4 bg-[orange] rounded-full border border-zinc-300"></div>
-                        </button>
-
-                        <button @click="editor.chain().focus().setColor('green').run()" :class="{ 'bg-zinc-300': editor.isActive('textStyle', { color: 'green' })}">
-                            <div class="w-4 h-4 bg-[green] rounded-full border border-zinc-300"></div>
-                        </button>
-
-                        <button @click="editor.chain().focus().setColor('blue').run()" :class="{ 'bg-zinc-300': editor.isActive('textStyle', { color: 'blue' })}">
-                            <div class="w-4 h-4 bg-[blue] rounded-full border border-zinc-300"></div>
-                        </button>
-
-                        <button @click="editor.chain().focus().unsetColor().run()" :class="{ 'bg-zinc-300': editor.isActive('textStyle', { color: 'black' })}">
-                            <div class="w-4 h-4 bg-black rounded-full border border-zinc-300"></div>
-                        </button>
-
-                        <div class="bg-zinc-300 h-full min-h-[1.5rem] w-[1px] mx-1 first:ml-0 last:mr-0"></div>
-
-                        <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'bg-zinc-300': editor.isActive({ textAlign: 'left' }) }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <line x1="21" x2="3" y1="6" y2="6"></line>
-                                <line x1="15" x2="3" y1="12" y2="12"></line>
-                                <line x1="17" x2="3" y1="18" y2="18"></line>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'bg-zinc-300': editor.isActive({ textAlign: 'center' }) }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <line x1="21" x2="3" y1="6" y2="6"></line>
-                                <line x1="17" x2="7" y1="12" y2="12"></line>
-                                <line x1="19" x2="5" y1="18" y2="18"></line>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'bg-zinc-300': editor.isActive({ textAlign: 'right' }) }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <line x1="21" x2="3" y1="6" y2="6"></line>
-                                <line x1="21" x2="9" y1="12" y2="12"></line>
-                                <line x1="21" x2="7" y1="18" y2="18"></line>
-                            </svg>
-                        </button>
-
-                        <button @click="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'bg-zinc-300': editor.isActive({ textAlign: 'justify' }) }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <line x1="3" x2="21" y1="6" y2="6"></line>
-                                <line x1="3" x2="21" y1="12" y2="12"></line>
-                                <line x1="3" x2="21" y1="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
-                </bubble-menu>
-                <editor-content :editor="editor" />
+                <TextEditor :active-buttons="[
+                    'bold',
+                    'italic',
+                    'strike',
+                    'underline',
+                    'code',
+                    'h1',
+                    'h2',
+                    'h3',
+                    'bulletList',
+                    'orderedList',
+                    'blockquote',
+                    'codeBlock',
+                    'horizontalRule',
+                    'undo',
+                    'redo',
+                    'uploadImage'
+                ]" />
             </div>
 
             <div class="mt-12 font-jost">

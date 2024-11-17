@@ -1,16 +1,25 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { loadEnv } from 'vite';
+
+const env = loadEnv('production', process.cwd(), '');
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.header('Authorization');
+    const token = authHeader && authHeader.split(' ')[1]
 
-    if (!authHeader){
+    if (!token){
         return res.status(401).json({ error: 'Access denied' });
     }
 
     try {
-        const token = authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, import.meta.env.VITE_ADMIN_SECRET_HASH);
+        jwt.verify(token, env.VITE_ACCESS_SECRET_KEY, (err: any) => {
+            console.log(err);
+        
+            if (err){
+                return res.sendStatus(403);
+            }
+        });
 
         next();
     } catch (error) {
