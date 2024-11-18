@@ -2,13 +2,13 @@ import { getConfigConst } from '@/vue-helpers/configValues';
 import { getCookie } from 'typescript-cookie';
 
 class ApiService {
-    static async GetGoogleReviews(locale: string): Promise<google.maps.places.Review[] | undefined> {
+    public static async GetGoogleReviews(locale: string): Promise<google.maps.places.Review[] | undefined> {
         const configReviews = getConfigConst("googleReviews." + locale) as [google.maps.places.Review];
 
         return configReviews;
     };
 
-    static async Login(password: string): Promise<boolean> {
+    public static async Login(password: string): Promise<boolean> {
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -41,12 +41,36 @@ class ApiService {
         return false;
     };
 
-    static async PostBlogPost(blogPostUrl: string, blogPostJson: string) {
+    public static async VerifyToken(token: string | undefined = undefined): Promise<boolean> {
+        token = token ?? getCookie('frontauto_access_token');
+
+        if (!token) {
+            return false;
+        }
+
+        try {
+            const response = await fetch('/api/admin/verifyToken', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer '+ token,
+                    'Content-Type': 'application/json',
+                    'Content-Length': '0'
+                }
+            });
+
+            return response.ok;
+        } catch (error) {
+            console.error('Error verifying token');
+            return false;
+        }
+    };
+
+    public static async PostBlogPost(blogPostUrl: string, blogPostJson: string) {
         try {
             const response = await fetch('/api/admin/createBlogPost', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer '+ getCookie('access_token'),
+                    'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({

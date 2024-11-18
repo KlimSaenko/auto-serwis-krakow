@@ -13,7 +13,7 @@
 
     const isLocationSelectorOpen = ref(false);
     const currentLocation = ref<CountryData | null>(findCountry('countryCode' as CountryProperty, Translations.defaultLocale.region));
-	const language = useI18n().locale;
+	const { locale } = useI18n();
 
 	const form = {
 		customerName: ref<string>(''),
@@ -117,7 +117,7 @@
 				licensePlate: form.licensePlate.value,
 				description: form.description.value ?? '',
 				time: new Date().toUTCString(),
-				language: language.value
+				language: locale.value
 			}
 		};
 
@@ -312,7 +312,7 @@
 
 				<button @click="closeAppointmentModal" class="fixed md:absolute right-6 top-6 w-12 h-12 p-2 text-gray-500 md:hover:text-gray-900 md:hover:bg-zinc-300 active:text-gray-900 active:bg-zinc-300 rounded-full max-md:bg-white/85 ">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
-						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
+						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z" />
 					</svg>
 				</button>
 			</div>
@@ -335,7 +335,7 @@
 			
 			<button @click="isFormSentModalSuccess = undefined" class="absolute right-1.5 top-1.5 w-6 h-6 p-1 text-gray-500 md:hover:text-gray-900 active:text-gray-900">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
-					<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z"></path>
+					<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z" />
 				</svg>
 			</button>
 		</div>

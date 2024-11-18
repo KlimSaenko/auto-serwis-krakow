@@ -6,7 +6,7 @@ const env = loadEnv('production', process.cwd(), '');
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.header('Authorization');
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = authHeader?.split(' ')[1];
 
     if (!token){
         return res.status(401).json({ error: 'Access denied' });
@@ -14,9 +14,8 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
     try {
         jwt.verify(token, env.VITE_ACCESS_SECRET_KEY, (err: any) => {
-            console.log(err);
-        
             if (err){
+                console.log(err);
                 return res.sendStatus(403);
             }
         });

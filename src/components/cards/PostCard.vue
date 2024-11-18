@@ -24,8 +24,8 @@
 				<router-link :to="{ name: 'blog-post', params: { post: 'dodge-car' } }" :aria-selected="mouseHover" class="flex text-zinc-500 md:group-hover:text-zinc-700 font-jost-medium cursor-pointer md:hover:!text-[red] max-md:text-zinc-700 aria-selected:!text-[red] items-baseline">
 					<span>{{ $t('postCard.readMore') }}</span>
 					<svg class="ml-2 md:group-hover:animate-bounce-x" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M1 7.94189L4.486 4.47089L1 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
-						<path d="M7 7.94189L10.486 4.47089L7 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+						<path d="M1 7.94189L4.486 4.47089L1 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+						<path d="M7 7.94189L10.486 4.47089L7 0.999895" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
 					</svg>
 				</router-link>
 			</div>

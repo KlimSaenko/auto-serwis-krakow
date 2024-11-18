@@ -1,5 +1,5 @@
 <template>
-    <div class="max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
+    <div class="mx-auto max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
         <div class="pb-28 md:py-36 flex justify-center items-center flex-wrap">
             <svg class="text-[red] w-96" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 488.392 488.392" xml:space="preserve">
                 <path d="M481.517,291.694l-4.619-46.594c-0.27-2.72-2.343-4.914-5.043-5.336l-32.872-5.145l-26.355-57.23
@@ -32,9 +32,12 @@
                 <h4 class="mt-5 text-3xl md:text-4xl font-jost-medium">{{ $t('notFound.pageNotFound') }}</h4>
                 <p class="mt-2 text-xl font-jost">{{ $t('notFound.hintMessage') }}</p>
 
-                <button @click="" class="mt-10 text-xl tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-zinc-100 active:text-[red] active:bg-zinc-100 border-[1.5px] border-[red] py-2 px-5 rounded-full inline-flex items-center duration-150">
+                <router-link :to="{ name: 'home' }" class="mt-10 text-xl tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-zinc-100 active:text-[red] active:bg-zinc-100 border-[1.5px] border-[red] py-2 px-5 rounded-full inline-flex items-center items-center duration-150">
                     <span class="font-jost-medium">{{ $t("notFound.backToHomeButton") }}</span>
-                </button>
+                    <svg class="ms-3" width="32" height="32" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </router-link>
             </div>
         </div>
     </div>

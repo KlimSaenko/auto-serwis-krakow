@@ -46,12 +46,12 @@ app.post('/api/login', async (req: Request, res: Response) => {
         }
 
         const payload = {
-            time: date
+            data: date
         };
 
         const token = jwt.sign(payload, env.VITE_ACCESS_SECRET_KEY, { expiresIn: '1h' });
 
-        res.cookie('access_token', token);
+        res.cookie('frontauto_access_token', token);
         res.status(201).json({
             message: 'User registered successfully'
         });
@@ -71,4 +71,8 @@ app.get('/api/getOpenHours', async (req: Request, res: Response) => {
         res.status(400).json({ error: 'Login failed' });
         console.log('Login failed. ' + date);
     }
+});
+
+app.get('/api/admin/verifyToken', async (req: Request, res: Response) => {
+    res.status(200).send();
 });

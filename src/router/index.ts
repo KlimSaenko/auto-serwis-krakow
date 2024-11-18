@@ -53,7 +53,17 @@ const router = createRouter({
                 {
                     path: '/blog/:post',
                     name: 'blog-post',
-                    component: BlogPostView
+                    component: BlogPostView,
+                    beforeEnter: (to, from, next) => {
+                        const services = Object.keys(getConfigConst('application.servicesTags') as {});
+                        const name = Array.isArray(to.params.post) ? to.params.post[0] : to.params.post;
+
+                        if (services.includes(name)){
+                            next();
+                        } else {
+                            next(new Error(`Post ${name} doesn't exist!`));
+                        };
+                    }
                 }
             ]
         },
