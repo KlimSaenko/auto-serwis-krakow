@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { RouterView } from 'vue-router';
-    import ContactInfoHeader from './components/header/ContactInfoHeader.vue';
+    import ContactInfoHeader from './components/ContactInfoHeader.vue';
 	import AppointmentModal from './components/AppointmentModal.vue';
     import Footer from './components/Footer.vue';
     import { ref, provide, watch } from 'vue';
@@ -19,7 +19,7 @@
 
     const isMenuExpanded = ref(false);
 
-    let scrollTop = 0;
+    // let scrollTop = 0;
 
     watch([isAppointmentModalOpened, isMenuExpanded], bodyOverlaps => {
         const body = document.body;
@@ -27,12 +27,12 @@
         const currentlyOverlapped = bodyOverlaps.some(value => value);
         
         if (currentlyOverlapped && !alreadyOverlapped){
-            scrollTop = document.documentElement.scrollTop;
-            body.style.setProperty('--st', -(scrollTop) + "px");
+            // scrollTop = document.documentElement.scrollTop;
+            // body.style.setProperty('--st', -(scrollTop) + "px");
             body.classList.add('no-scroll');
         } else if (!currentlyOverlapped && alreadyOverlapped) {
             body.classList.remove('no-scroll');
-            window.scrollTo(0, scrollTop);
+            // window.scrollTo(0, scrollTop);
         };
     });
 

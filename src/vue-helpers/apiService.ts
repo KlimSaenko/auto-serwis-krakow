@@ -42,7 +42,7 @@ class ApiService {
     };
 
     public static async VerifyToken(token: string | undefined = undefined): Promise<boolean> {
-        token = token ?? getCookie('frontauto_access_token');
+        token = token || getCookie('frontauto_access_token');
 
         if (!token) {
             return false;
@@ -65,22 +65,63 @@ class ApiService {
         }
     };
 
-    public static async PostBlogPost(blogPostUrl: string, blogPostJson: string) {
+    public static async CreateBlogPost(filename: string, title: string, content: string) {
         try {
-            const response = await fetch('/api/admin/createBlogPost', {
+            const response = await fetch(`/api/admin/blog/${filename}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    filename: blogPostUrl,
-                    content: blogPostJson
+                    title,
+                    content
                 })
             });
 
             const result = await response.json();
             console.log(result.message);
+        } catch (error) {
+            console.error('Error creating file:', error);
+        }
+    };
+
+    public static async UpdateBlogPost(filename: string, content: string) {
+        try {
+            const response = await fetch(`/api/admin/blog/${filename}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    filename,
+                    content
+                })
+            });
+
+            const result = await response.json();
+            console.log(result.message);
+        } catch (error) {
+            console.error('Error creating file:', error);
+        }
+    };
+
+    public static async GetBlogPost(filename: string): Promise<any | undefined> {
+        try {
+            const response = await fetch(`/api/admin/blog/${filename}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    filename
+                })
+            });
+
+            const result = await response.json();
+            return result;
         } catch (error) {
             console.error('Error creating file:', error);
         }

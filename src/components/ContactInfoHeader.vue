@@ -88,7 +88,7 @@
 </style>
 
 <template>
-    <header class="border-box max-md:pb-1 z-[500] align-middle sticky top-0 shadow-md font-jost-medium tracking-wide leading-5 bg-white">
+    <header class="border-box max-md:pb-0.5 z-[500] align-middle sticky top-0 shadow-md font-jost-medium tracking-wide leading-5 bg-white">
         <div class="max-md:hidden bg-zinc-800 text-zinc-300 font-jost text-[15px] tracking-[0.075em]">
             <div class="flex items-center relative py-1.5 mx-auto px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
                 <ul class="flex items-center mx-1 space-x-6 leading-6">
@@ -145,7 +145,7 @@
             </button>
 
             <router-link :to="{ name: 'home' }" class="max-md:absolute max-md:left-1/2 max-md:-translate-x-1/2">
-                <img src="../../assets/service-logo-256.jpg" alt="logo" class="h-12" />
+                <img src="../assets/service-logo-256.jpg" alt="logo" class="h-12" />
             </router-link>
 
             <nav :aria-expanded="isMenuExpanded" class="flex md:h-12 items-stretch max-md:flex-col md:flex-auto bg-white max-md:fixed max-md:px-10 max-md:overflow-y-scroll right-0 left-0 top-16 bottom-full aria-expanded:bottom-0 duration-500 md:ml-5 md:mr-2 text-[17px] max-md:text-xl max-md:overflow-hidden">

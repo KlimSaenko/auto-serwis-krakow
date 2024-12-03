@@ -1,31 +1,64 @@
 <script setup lang="ts">
     import { getConfigConst } from '@/vue-helpers/configValues';
-    import { onBeforeRouteUpdate } from 'vue-router';
-    import { onBeforeMount, ref } from 'vue';
+    import { onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router';
+    import { onBeforeMount, ref, watch } from 'vue';
     import AdminInputListener from '@/vue-helpers/adminInputListener';
     import TextEditor from '@/components/TextEditor.vue';
     import { useI18n } from 'vue-i18n';
+    import ApiService from '@/vue-helpers/apiService';
+    import LanguageSelector from '@/components/LanguageSelector.vue';
+    import { slugify } from 'transliteration';
 
-    const { tm } = useI18n();
+    const { t, tm } = useI18n();
     const postTitlePlaceholder = ref('');
     const previewMode = ref(true);
 
+    const textEditorRef = ref<InstanceType<typeof TextEditor> | null>(null);
+
     const model = {
-		postTite: ref<string>(''),
+		postTitle: ref<string>(''),
+        postTitleUrl: ref<string>(''),
+        postTitleUrlPlaceholder: ref<string>('dodge-car'),
         dateUpdated: ref<Date>(new Date(0, 0, 0, 0, 0, 0)),
 		postHtmlContent: ref<string>('')
 	};
 
+    const postReady = ref(false);
+
     onBeforeRouteUpdate(async (to, from, next) => {
-        if (to.params.post && to.params.post === 'dodge-car'){
-            next();
+        const result = await ApiService.GetBlogPost(Array.isArray(to.params.post) ? to.params.post[0] : to.params.post);
+
+        try {
+            if (to.params.post && result){
+                Object.assign(model, result);
+                next();
+            } else {
+                throw new Error('Incorect search results');
+            }
+        } catch (e) {
+            console.error('Failed to fetch blog post', e);
+            next('NotFound');
+            return;
+        }
+    });
+
+    onBeforeRouteLeave((to, from, next) => {
+        if (AdminInputListener.IsAuthorized.value){
+            const answer = window.confirm(t('admin.blog.leaveMessage'));
+            if (answer) {
+                next();
+            } else {
+                next(false);
+            }
         } else {
-            const query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath };
-            next({
-                path: from.fullPath,
-                query: query
-            });
-        };
+            next();
+        }
+    });
+
+    watch(model.postTitle, value => {
+        if (!model.postTitleUrl.value){
+            model.postTitleUrlPlaceholder.value = slugify(value, { trim: true });
+        }
     });
 
     const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
@@ -52,8 +85,28 @@
         }
     });
 
+    function handleChangeLanguage(newLang: string) {
+        
+    }
+
     function createBlogPost() {
-        // const json = editor.value?.getJSON();
+        if (postReady.value){
+            return;
+        }
+
+        const getEditorHTML = textEditorRef.value?.getHTML;
+
+        if (getEditorHTML){
+            const htmlContent = getEditorHTML();
+            
+            if (htmlContent){
+                debugger
+                ApiService.CreateBlogPost(model.postTitleUrl.value || model.postTitleUrlPlaceholder.value, model.postTitle.value, htmlContent);
+
+            } else {
+                console.error('Failed to get editor HTML content');
+            }
+        }
     }
 </script>
 
@@ -64,55 +117,63 @@
                 <h2 class="border-l-[7px] border-[red] ps-3 leading-none pr-2">{{ $t('blog.blogTitle') }}</h2>
             </div>
 
-            <div v-if="AdminInputListener.IsAuthorized.value" class="w-full mb-12 rounded-xl shadow-xl border bg-white">
-                <div class="flex flex-row gap-2 px-6 py-2 bg-white rounded-t-xl shadow-md">
-                    <p class="text-lg font-jost-medium text-zinc-600 select-none">{{ $t('admin.blog.adminMode') }}:</p>
+            <div v-if="AdminInputListener.IsAuthorized.value">
+                <div class="w-full my-10 overflow-hidden rounded-xl shadow-xl border bg-white">
+                    <div class="flex flex-row gap-2 px-6 py-2 bg-white rounded-t-xl shadow-md">
+                        <p class="text-lg font-jost-medium text-zinc-600 select-none">{{ $t('admin.blog.adminModeLabel') }}:</p>
+                    </div>
+
+                    <div class="flex justify-around p-6 font-jost text-xl">
+                        <button class="flex px-4 py-3 items-center text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                <rect height="18" rx="2" ry="2" width="18" x="3" y="3"/>
+                                <line x1="12" x2="12" y1="8" y2="16"/>
+                                <line x1="8" x2="16" y1="12" y2="12"/>
+                            </svg>
+                            <span class="ms-3">{{ $t('admin.blog.createPost') }}</span>
+                        </button>
+
+                        <button @click="previewMode = !previewMode" class="flex px-4 py-3 items-center text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
+                            <svg v-if="previewMode" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            <svg v-else fill="currentColor" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m23.589 22.261-2.102-2.101c.51-.769.814-1.713.814-2.728 0-2.389-1.683-4.385-3.929-4.866l-.033-.006v-4.043c0-.009 0-.018 0-.026 0-.246-.088-.471-.233-.646l.001.002v-.005c-.019-.023-.039-.045-.06-.066l-.008-.009c-.009-.009-.018-.018-.027-.027l-7.44-7.44c-.021-.021-.042-.04-.065-.059l-.026-.018c-.016-.013-.033-.026-.05-.038l-.025-.018c-.018-.012-.036-.022-.054-.034l-.023-.012q-.034-.02-.075-.037l-.032-.013-.051-.018-.036-.011-.058-.015-.028-.006c-.028-.006-.057-.01-.086-.013h-8.948c-.559.002-1.011.454-1.015 1.012v20.377c0 .561.454 1.017 1.015 1.019h16.306.004c1.013 0 1.955-.304 2.74-.827l-.018.011 2.102 2.102c.181.166.423.268.689.268.563 0 1.019-.456 1.019-1.019 0-.266-.102-.508-.269-.689l.001.001zm-3.325-4.827c0 1.625-1.318 2.943-2.943 2.943s-2.943-1.318-2.943-2.943 1.318-2.943 2.943-2.943c1.624.002 2.941 1.318 2.943 2.942zm-9.396-13.956 3.993 3.994h-3.993zm-8.83-1.44h6.793v6.453c0 .563.456 1.019 1.019 1.019h6.453v3.05c-2.278.487-3.962 2.483-3.962 4.873 0 1.109.362 2.133.975 2.96l-.01-.013h-11.269z"/>
+                            </svg>
+
+                            <span v-if="previewMode" class="ms-3">{{ $t('admin.blog.editPostMode') }}</span>
+                            <span v-else class="ms-3">{{ $t('admin.blog.previewPostMode') }}</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="flex flex-row justify-between p-6 font-jost text-xl">
-                    <button class="flex px-4 py-3 items-center text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
-                        <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                        </svg>
-                        <span class="ms-3">{{ $t('admin.blog.editPost') }}</span>
-                    </button>
+                <div class="my-10">
+                    <LanguageSelector v-on:click-change-language="handleChangeLanguage" />
 
-                    <button class="flex px-4 py-3 items-center text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
-                        <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                            <rect height="18" rx="2" ry="2" width="18" x="3" y="3"/>
-                            <line x1="12" x2="12" y1="8" y2="16"/>
-                            <line x1="8" x2="16" y1="12" y2="12"/>
-                        </svg>
-                        <span class="ms-3">{{ $t('admin.blog.createPost') }}</span>
-                    </button>
+                </div>
 
-                    <button @click="previewMode = !previewMode" class="flex px-4 py-3 items-center text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 rounded-md duration-150">
-                        <svg fill="currentColor" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m23.589 22.261-2.102-2.101c.51-.769.814-1.713.814-2.728 0-2.389-1.683-4.385-3.929-4.866l-.033-.006v-4.043c0-.009 0-.018 0-.026 0-.246-.088-.471-.233-.646l.001.002v-.005c-.019-.023-.039-.045-.06-.066l-.008-.009c-.009-.009-.018-.018-.027-.027l-7.44-7.44c-.021-.021-.042-.04-.065-.059l-.026-.018c-.016-.013-.033-.026-.05-.038l-.025-.018c-.018-.012-.036-.022-.054-.034l-.023-.012q-.034-.02-.075-.037l-.032-.013-.051-.018-.036-.011-.058-.015-.028-.006c-.028-.006-.057-.01-.086-.013h-8.948c-.559.002-1.011.454-1.015 1.012v20.377c0 .561.454 1.017 1.015 1.019h16.306.004c1.013 0 1.955-.304 2.74-.827l-.018.011 2.102 2.102c.181.166.423.268.689.268.563 0 1.019-.456 1.019-1.019 0-.266-.102-.508-.269-.689l.001.001zm-3.325-4.827c0 1.625-1.318 2.943-2.943 2.943s-2.943-1.318-2.943-2.943 1.318-2.943 2.943-2.943c1.624.002 2.941 1.318 2.943 2.942zm-9.396-13.956 3.993 3.994h-3.993zm-8.83-1.44h6.793v6.453c0 .563.456 1.019 1.019 1.019h6.453v3.05c-2.278.487-3.962 2.483-3.962 4.873 0 1.109.362 2.133.975 2.96l-.01-.013h-11.269z"/>
-                        </svg>
-                        <span class="ms-3">{{ $t('admin.blog.previewPost') }}</span>
-                        <div class="rounded-full h-5 w-5" :class="previewMode ? 'bg-[green]' : 'bg-[red]'"></div>
-                    </button>
+                <div v-if="!previewMode" class="font-jost-medium w-full my-10 overflow-hidden rounded-xl shadow-xl border bg-white">
+                    <div class="flex flex-row gap-2 px-6 py-2 bg-white rounded-t-xl shadow-md">
+                        <p class="text-lg text-zinc-600 select-none">{{ $t('admin.blog.postTitleLabel') }}:</p>
+                    </div>
+                    <div class="p-6">
+                        <input type="text" class="font-jost w-full text-2xl outline-none placeholder-[#adb5bd]" v-model="model.postTitle.value" :placeholder="postTitlePlaceholder" />
+                    </div>
+                    <div class="flex px-6 py-4 text-lg bg-zinc-400/15">
+                        <span class="text-zinc-600/90 select-none">https://frontauto.pl/blog/</span>
+                        <input type="text" class="bg-transparent ms-0.5 w-full outline-none placeholder-[#adb5bd]" v-model="model.postTitleUrl.value" :placeholder="model.postTitleUrlPlaceholder.value" />
+                    </div>
                 </div>
             </div>
 
-            <div v-if="AdminInputListener.IsAuthorized.value && !previewMode" class="font-jost-medium w-full mb-8 rounded-xl shadow-xl border bg-white">
-                <div class="flex flex-row gap-2 px-6 py-2 bg-white rounded-t-xl shadow-md">
-                    <p class="text-lg text-zinc-600 select-none">{{ $t('admin.blog.postTitleLabel') }}:</p>
-                </div>
-                <div class="p-6">
-                    <input type="text" class="block font-jost w-full text-3xl outline-none placeholder-[#adb5bd]" v-model="model.postTite.value" :placeholder="postTitlePlaceholder" />
-                </div>
-            </div>
-
-            <h1 v-if="!AdminInputListener.IsAuthorized.value || previewMode" class="text-[2.5rem] md:text-5xl mb-5 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ model.postTite.value }}</h1>
+            <h1 v-if="!AdminInputListener.IsAuthorized.value || previewMode" class="text-[2.5rem] md:text-5xl mb-5 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ model.postTitle.value }}</h1>
 
             <div class="text-xl mb-10 font-jost flex justify-center text-center text-zinc-400">
-                <h4>Updated on September 3, 2024</h4>
+                <h4>{{ $t('admin.blog.dateUpdatedLabel') }}</h4>
             </div>
 
-            <TextEditor v-if="AdminInputListener.IsAuthorized.value" :active-buttons="[
+            <TextEditor v-if="AdminInputListener.IsAuthorized.value" ref="textEditorRef" :active-buttons="[
                 'bold',
                 'italic',
                 'strike',
@@ -129,7 +190,7 @@
                 'undo',
                 'redo',
                 'uploadImage'
-            ]" :show-plain-content="previewMode" :class="previewMode ? '' : 'rounded-xl shadow-xl border bg-white'" />
+            ]" :show-plain-content="previewMode" :class="previewMode ? '' : 'overflow-hidden rounded-xl shadow-xl border bg-white'" />
             <div v-else v-html="model.postHtmlContent.value"></div>
 
             <div class="mt-12 font-jost">
@@ -171,5 +232,24 @@
                 </router-link>
             </div>
         </article>
+
+        <div v-if="AdminInputListener.IsAuthorized.value && !previewMode" class="fixed right-8 bottom-8 max-sm:right-5 max-sm:left-5 z-[901] p-5 sm:max-w-80 bg-white overflow-hidden rounded-xl shadow-lg shadow-black/15 border">
+            <div class="flex mb-5">
+                <svg v-if="postReady" class="w-9 h-9 me-4 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <svg v-else class="w-9 h-9 me-4 text-orange-600 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"/>
+                </svg>
+
+                <p class="font-jost text-zinc-800 align-middle">{{ $t(postReady ? 'admin.blog.postReadySuccess' : 'admin.blog.postReadyFault') }}</p>
+            </div>
+
+            <div class="flex">
+                <button @click="createBlogPost" :class="postReady ? 'text-zinc-500 bg-[red] border border-[red] hover:bg-white' : 'text-zinc-500 bg-zinc-200 hover:bg-zinc-300'" class="px-5 py-3 font-jost-medium w-full rounded-md transition-all duration-150">
+                    {{ $t('admin.blog.applyChanges') }}
+                </button>
+            </div>
+        </div>
     </div>
 </template>

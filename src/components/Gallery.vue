@@ -16,12 +16,11 @@
             return { url, fileName: decodeURI(fileName.substring(0, fileName.lastIndexOf('.'))).trim() };
         });
 
-        const allImages = allImagesRaw.filter(image => !image.fileName.trim().endsWith(".thumbnail"))
+        const allImages = allImagesRaw.filter(image => image.fileName.indexOf(".thumbnail") < 0)
             .map(imageData => new GalleryImage(imageData.url, imageData.fileName, allImagesRaw.find(thumbnail => 
-                thumbnail.fileName.startsWith(imageData.fileName.trim()) && thumbnail.fileName.endsWith('.thumbnail')
+                thumbnail.fileName.startsWith(imageData.fileName) && thumbnail.fileName.indexOf(".thumbnail") > 0
             )?.url));
         
-        // paredImages.value = [allImages.slice(0, Math.floor(allImages.length / 2)), allImages.slice(Math.floor(allImages.length / 2))];
         paredImages.value = [
             [0, 1, 2, 3].map(index => [index, index + 8, index + 16].map(i => allImages[i])),
             [4, 5, 6, 7].map(index => [index, index + 8, index + 16].map(i => allImages[i]))
@@ -93,9 +92,9 @@
                                         `translate-x-full z-0 group-aria-[colspan='3']/aria:translate-x-0 group-aria-[colspan='3']/aria:z-20 group-aria-[colspan='1']/aria:-translate-x-full` :
                                         ''">
                                 <div :style="{ backgroundImage: `url(${image?.ThumbnailImgUrl})` }" class="h-full w-full bg-cover bg-center transition duration-200 md:group-hover:scale-110">
-                                    <div class="bg-gradient-to-t from-black/30 to-40% to-transparent p-6 w-full h-full"></div>
+                                    <div class="bg-gradient-to-t from-black/40 to-40% to-transparent p-6 w-full h-full"></div>
                                 </div>
-                                <label class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image?.Label }}</label>
+                                <!-- <label class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image?.Label }}</label> -->
                             </div>
                         </div>
                     </div>

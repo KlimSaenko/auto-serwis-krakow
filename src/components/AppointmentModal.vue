@@ -159,8 +159,8 @@
 
 <template>
 	<Transition name="modal-fade" appear @after-leave="processingForm = false">
-		<div v-if="isModalOpened" class="fixed inset-0 w-full h-full md:p-6 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
-			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-hidden md:grid md:grid-cols-5">
+		<div v-if="isModalOpened" class="scrollbar fixed inset-0 w-full h-full md:p-6 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
+			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-x-hidden overflow-y-auto md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
 					<form @submit.prevent="handleSubmit">
 						<h2 class="text-4xl text-zinc-800">{{ $t("modal.appointmentTitle") }}</h2>

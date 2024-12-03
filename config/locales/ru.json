@@ -284,7 +284,13 @@
                 "Загорелся Check Engine? Что Это Может Означать",
                 "Устранение Неисправностей Кондиционера: Сохраняйте Прохладу в Дороге"
             ],
-            "postContentPlaceholder": "Напишите тут ..."
+            "postContentPlaceholder": "Напишите тут ...",
+            "adminModeLabel": "Консоль Админа",
+            "createPost": "Создать пост",
+            "editPostMode": "Режим редактирования",
+            "previewPostMode": "Режим просмотра",
+            "postReadySuccess": "Изменения могут быть опубликованы",
+            "dateUpdatedLabel": "Обновлено"
         }
     }
 }

@@ -25,16 +25,45 @@ ViteExpress.listen(app, port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-app.post('/api/admin/createBlogPost', (req: Request, res: Response) => {
-    const { filename, content } = req.body as { filename: string; content: string };
-    const filePath = path.join(__dirname, 'blog_posts', filename);
+app.post('/api/admin/blog/:filename', (req: Request, res: Response) => {
+    const { postContent } = req.body as { postContent: any };
+    const { filename } = req.params;
+    const filePath = path.join(__dirname, 'blog_posts', filename + '.json');
 
-    fs.writeFile(filePath, content, (err) => {
+    fs.writeFile(filePath, JSON.stringify(postContent), (err) => {
         if (err) {
+            console.log(err);
             return res.status(500).json({ message: 'Error creating file' });
         }
         res.json({ message: 'File created successfully' });
     });
+});
+
+app.put('/api/admin/blog/:filename', (req: Request, res: Response) => {
+    const { content } = req.body as { content: string };
+    const { filename } = req.params;
+    const filePath = path.join(__dirname, 'blog_posts', filename);
+
+    fs.writeFile(filePath, content, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ message: 'Error creating file' });
+        }
+        res.json({ message: 'File created successfully' });
+    });
+});
+
+app.get('/api/admin/blog/:filename', (req: Request, res: Response) => {
+    const { filename } = req.params;
+    const filePath = path.join(__dirname, 'blog_posts', filename);
+
+    if (fs.existsSync(filePath)){
+        const fileContent = fs.readFileSync(filePath);
+
+        res.json({ content: fileContent });
+    } else {
+        res.status(400).json({ error: "Blog post doesn't exist" });
+    }
 });
 
 app.post('/api/login', async (req: Request, res: Response) => {

@@ -10,8 +10,8 @@ import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 import AdminInputListener from '@/vue-helpers/adminInputListener';
 
 import App from './App.vue';
-import ContactInfoHeader from './components/header/ContactInfoHeader.vue';
-import LanguageSelector from './components/header/LanguageSelector.vue';
+import ContactInfoHeader from './components/ContactInfoHeader.vue';
+import LanguageSelector from './components/LanguageSelector.vue';
 import Card from './components/cards/Card.vue';
 import GoogleMap from './components/GoogleMap.vue';
 import Footer from './components/Footer.vue';
