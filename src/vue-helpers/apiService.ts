@@ -6,7 +6,7 @@ class ApiService {
         const configReviews = getConfigConst("googleReviews." + locale) as [google.maps.places.Review];
 
         return configReviews;
-    };
+    }
 
     public static async Login(password: string): Promise<boolean> {
         try {
@@ -25,7 +25,7 @@ class ApiService {
                 console.log(result.message);
             }
 
-            return true;
+            return response.ok;
         } catch (error) {
             let message = '';
 
@@ -39,7 +39,7 @@ class ApiService {
         }
         
         return false;
-    };
+    }
 
     public static async VerifyToken(token: string | undefined = undefined): Promise<boolean> {
         token = token || getCookie('frontauto_access_token');
@@ -63,30 +63,33 @@ class ApiService {
             console.error('Error verifying token');
             return false;
         }
-    };
+    }
 
-    public static async CreateBlogPost(filename: string, title: string, content: string) {
+    public static async CreateBlogPost(filename: string, title: string, content: string, previewText?: string) {
         try {
             const response = await fetch(`/api/admin/blog/${filename}`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
+                    'Authorization': 'Bearer ' + getCookie('frontauto_access_token'),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    title,
-                    content
+                    postContent: {
+                        title,
+                        content,
+                        previewText
+                    }
                 })
             });
 
-            const result = await response.json();
+            const result = await ApiService.VerifyResponse(response).json();
             console.log(result.message);
         } catch (error) {
-            console.error('Error creating file:', error);
+            console.error('Error creating file: ', error);
         }
-    };
+    }
 
-    public static async UpdateBlogPost(filename: string, content: string) {
+    public static async UpdateBlogPost(filename: string, title: string, content: string) {
         try {
             const response = await fetch(`/api/admin/blog/${filename}`, {
                 method: 'PUT',
@@ -95,37 +98,90 @@ class ApiService {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    filename,
-                    content
+                    postContent: {
+                        title,
+                        content
+                    }
                 })
             });
 
-            const result = await response.json();
+            const result = await ApiService.VerifyResponse(response).json();
             console.log(result.message);
         } catch (error) {
-            console.error('Error creating file:', error);
+            console.error('Error updating file: ', error);
         }
-    };
+    }
 
     public static async GetBlogPost(filename: string): Promise<any | undefined> {
         try {
-            const response = await fetch(`/api/admin/blog/${filename}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    filename
-                })
+            const response = await fetch(`/api/blog/${filename}`, {
+                method: 'GET'
             });
 
             const result = await response.json();
-            return result;
+            return result.filedata;
         } catch (error) {
-            console.error('Error creating file:', error);
+            console.error('Error retrieving file: ', error);
         }
-    };
+    }
+
+    public static async GetBlogPosts(page: number, loadCount?: number): Promise<{ posts: any[], pageCount: number } | undefined> {
+        try {
+            const response = await fetch(`/api/blog/p/${page}` +
+                (loadCount ? ('?' + new URLSearchParams({ 'loadCount': loadCount.toString() })) : ''),
+            {
+                method: 'GET'
+            });
+
+            const result = await response.json();
+            return result as { posts: any[], pageCount: number };
+        } catch (error) {
+            console.error('Error retrieving files: ', error);
+        }
+    }
+
+    public static async UploadFile(data: FormData): Promise<string | undefined> {
+        try {
+            const response = await fetch('/api/admin/uploader', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer '+ getCookie('frontauto_access_token')
+                },
+                body: data
+            });
+
+            const { filePath } = await ApiService.VerifyResponse(response).json();
+
+            return filePath;
+        } catch (error) {
+            console.error('Error uploading file: ', error);
+        }
+    }
+
+    public static async GetServerTime(): Promise<Date | undefined> {
+        try {
+            const response = await fetch('/api/getServerTime', {
+                method: 'GET'
+            });
+
+            const { timeElapsed } = await response.json();
+            return new Date(timeElapsed);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    private static VerifyResponse(response: Response) {
+        if (response.status === 401 || response.status === 403) {
+            throw new Error(`HTTP error. Not authorized`);
+        }
+
+        if (!response.ok) {
+            throw new Error(`HTTP error. Status: ${response.status}`);
+        }
+
+        return response;
+    }
 };
 
 export default ApiService;

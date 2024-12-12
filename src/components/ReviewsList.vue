@@ -65,7 +65,7 @@
 
 <template>
     <section>
-        <div class="flex mb-10 justify-center text-center">
+        <div class="flex mb-12 justify-center text-center">
             <h2 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('home.whatPeopleSayTitle') }}</h2>
         </div>
 

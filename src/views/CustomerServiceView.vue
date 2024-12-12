@@ -8,7 +8,7 @@
     const optionExpanded = ref(-1);
 
     const openAppointmentModal = inject<(description?: string) => void>('openAppointmentModal');
-
+    
     const services = getConfigConst('application.servicesTags') as { [key: string]: string };
 
     const name = Array.isArray(route.params.serviceName) ? route.params.serviceName[0] : route.params.serviceName;
@@ -16,11 +16,15 @@
 
     const toPricelistPopup = ref<HTMLDivElement[] | undefined>();
     
-    onMounted(() => {
+    onresize = computePricelistPopupHeight;
+
+    onMounted(computePricelistPopupHeight);
+
+    function computePricelistPopupHeight() {
         if (toPricelistPopup.value){
             toPricelistPopup.value.forEach(el => el.parentElement?.setAttribute("style", `height: ${el.clientHeight}px`));
         }
-    });
+    }
 
     function openAppointmentModalWithDescription(description: string){
         if (openAppointmentModal){

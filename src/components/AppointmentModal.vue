@@ -159,7 +159,7 @@
 
 <template>
 	<Transition name="modal-fade" appear @after-leave="processingForm = false">
-		<div v-if="isModalOpened" class="scrollbar fixed inset-0 w-full h-full md:p-6 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
+		<div v-show="isModalOpened" class="scrollbar fixed inset-0 w-full h-full md:p-6 m-0 bg-zinc-950/60 z-[900] flex overflow-x-hidden overflow-y-auto">
 			<div class="m-auto md:w-[56rem] tracking-wide bg-white md:rounded-3xl shadow-xl shadow-black/40 font-jost text-zinc-500 relative overflow-x-hidden overflow-y-auto md:grid md:grid-cols-5">
 				<div class="col-span-3 p-8 xl:p-10">
 					<form @submit.prevent="handleSubmit">
@@ -244,7 +244,7 @@
 							<button type="submit" class="relative tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center duration-150">
 								<span :aria-hidden="processingForm" class="whitespace-nowrap aria-hidden:invisible">{{ $t("header.onlineAppointment") }}</span>
 
-								<div v-if="processingForm" class="absolute left-1/2 -translate-x-1/2">
+								<div v-if="processingForm" class="w-full p-12 justify-center">
 									<svg class="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 										<path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
 										<path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
@@ -320,13 +320,13 @@
 	</Transition>
 
 	<Transition name="modal-fade" appear>
-		<div v-if="isFormSentModalSuccess !== undefined" class="fixed right-8 bottom-8 max-sm:right-5 max-sm:left-5 z-[901] p-5 pr-9 sm:max-w-80 bg-white overflow-hidden rounded-lg shadow-lg shadow-black/15 border">
+		<div v-if="isFormSentModalSuccess !== undefined" class="fixed right-7 bottom-7 max-sm:right-5 max-sm:left-5 z-[901] p-5 pr-9 sm:max-w-80 bg-white overflow-hidden rounded-lg shadow-lg shadow-black/15 border">
 			<div class="flex items-center">
 				<svg v-if="isFormSentModalSuccess" class="w-9 h-9 me-4 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
 					<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
 				</svg>
 
-				<svg v-if="!isFormSentModalSuccess" class="w-9 h-9 me-4 text-orange-600 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				<svg v-else class="w-9 h-9 me-4 text-orange-600 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" clip-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"/>
 				</svg>
 

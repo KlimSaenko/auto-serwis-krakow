@@ -2,21 +2,18 @@ import ApiService from './apiService';
 import { ref, type Ref } from 'vue';
 
 class AdminInputListener {
-    private static isAuthorized: Ref<boolean> = ref(AdminInputListener.OnScriptLoad());
+    private static isAuthorized: Ref<Promise<boolean>> = ref(AdminInputListener.OnScriptLoad());
 
-    private static set IsAuthorized(isAuthorized: boolean) {
-        if (!AdminInputListener.isAuthorized.value){
-            AdminInputListener.isAuthorized.value = isAuthorized;
-        }
+    public static set IsAuthorized(isAuthorized: boolean) {
+        AdminInputListener.isAuthorized.value = Promise.resolve(isAuthorized);
     }
 
-    public static get IsAuthorized(): Ref<boolean> {
+    public static get IsAuthorized(): Ref<Promise<boolean>> {
         return AdminInputListener.isAuthorized;
     }
 
-    private static OnScriptLoad() {
-        ApiService.VerifyToken().then(result => AdminInputListener.IsAuthorized = result);
-        return false;
+    private static async OnScriptLoad() {
+        return await ApiService.VerifyToken();
     }
 
     public static OpenPrompt(): string | undefined {

@@ -5,12 +5,13 @@
     import TextStyle from '@tiptap/extension-text-style'
     import Color from '@tiptap/extension-color';
     import TextAlign from '@tiptap/extension-text-align';
-    import Heading from '@tiptap/extension-heading';
     import Placeholder from '@tiptap/extension-placeholder';
     import Image from '@tiptap/extension-image';
     import GlobalDragHandle from 'tiptap-extension-global-drag-handle';
-    import { onBeforeUnmount, toRefs } from 'vue';
+    import ImageResize from 'tiptap-extension-resize-image';
+    import { onBeforeUnmount, ref } from 'vue';
     import { useI18n } from 'vue-i18n';
+    import ApiService from '@/vue-helpers/apiService';
 
     const props = defineProps({
         initContent: {
@@ -21,7 +22,7 @@
             type: Array<String>,
             validator(list: string[]) {
                 for (let el of list) {
-                    if (['bold','italic','strike','underline','code','h1','h2','h3','bulletList','orderedList','blockquote','codeBlock','horizontalRule','undo','redo','uploadImage']
+                    if (['bold','italic','strike','underline','code','h1','h2','h3','bulletList','orderedList','blockquote','codeBlock','horizontalRule','undo','redo','uploadImage','alignLeft','alignCenter','alignRight','alignJustify']
                         .indexOf(el) === -1
                     ) {
                         return false;
@@ -30,45 +31,48 @@
                 return true;
             },
             default: ['bold', 'italic']
-        },
-        showPlainContent: {
-            type: Boolean,
-            default: true
         }
     });
 
+    const hasContent = ref(true);
+
     defineExpose({
-        getHTML
+        hasContent,
+        getHTML,
+        getText
     });
 
     const { t } = useI18n();
 
-    const { initContent, activeButtons } = toRefs(props);
+    const { initContent, activeButtons } = props;
 
     const editor = useEditor({
-        content: initContent.value,
+        content: initContent,
         extensions: [
-            StarterKit,
+            StarterKit.configure({ heading: {}}),
             TextStyle, 
             Color,
             Underline,
-            Heading,
             Image.configure({ allowBase64: true }),
             GlobalDragHandle,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            Placeholder.configure({ placeholder: t('admin.blog.postContentPlaceholder'), emptyEditorClass: 'is-editor-empty', })
+            Placeholder.configure({ placeholder: t('admin.blog.postContentPlaceholder'), emptyEditorClass: 'is-editor-empty', }),
+            ImageResize
         ],
         editorProps: {
             attributes: {
                 class: 'outline-none'
             },
-            handleDrop: function(view, event, slice, moved) {
+            handleDrop: (view, event, slice, moved) => {
                 if (!moved && event.dataTransfer?.files){
-                    return uploadImages(event.dataTransfer.files);
+                    uploadImages(event.dataTransfer.files);
                 }
 
                 return false;
             }
+        },
+        onUpdate({ editor }) {
+            hasContent.value = !editor.isEmpty;
         }
     });
 
@@ -86,38 +90,40 @@
         uploadImages(files);
     }
 
-    function uploadImages(fileList: FileList): boolean {
+    async function uploadImages(fileList: FileList): Promise<boolean> {
         for (const file of fileList){
             if (!file?.type.startsWith("image/")) {
-                alert("Only image files are allowed.");
                 return false;
             }
 
-            const reader = new FileReader();
+            var form = new FormData();
+            form.append('image', file);
 
-            reader.onload = (e) => {
-                editor.value?.chain().focus().setImage({ src: reader.result as string }).run();
-            };
+            const filePath = await ApiService.UploadFile(form);
 
-            reader.onerror = (err) => {
-                console.error("Error reading file:", err);
-                alert("An error occurred while reading the file.");
-            };
-
-            reader.readAsDataURL(file);
+            if (filePath){
+                editor.value?.chain().focus().setImage({ src: filePath }).run();
+            } else {
+                alert(`Failed to upload the file ${file.name}.`);
+                return false;
+            }
         }
 
         return true;
     }
 
     function verifyMenuButton(buttonName: string){
-        return activeButtons.value.indexOf(buttonName) != -1;
+        return activeButtons.indexOf(buttonName) != -1;
     }
 
     function getHTML(): string | undefined {
         return editor.value?.isEmpty
              ? undefined
              : editor.value?.getHTML();
+    }
+
+    function getText(): string {
+        return editor.value?.getText() ?? '';
     }
 </script>
 
@@ -129,11 +135,18 @@
         height: 0;
         pointer-events: none;
     }
+
+    .tiptap img {
+        display: block;
+        height: auto;
+        margin: 1.5rem 0;
+        max-width: 100%;
+    }
 </style>
 
 <template>
     <div class="font-jost">
-        <div v-if="editor && !showPlainContent" class="font-jost-medium flex flex-row gap-2 p-2 bg-white rounded-t-xl shadow-md hover:[&_button]:bg-zinc-200 [&_button]:px-1.5 [&_button]:py-1 [&_button]:h-7 [&_button_svg]:h-full [&_button]:rounded-lg leading-4">
+        <div v-if="editor" class="font-jost-medium flex flex-row gap-2 p-2 items-center bg-white rounded-t-xl shadow-md hover:[&_button]:bg-zinc-200 [&_button]:px-1.5 [&_button]:py-1 [&_button]:h-7 [&_button_svg]:h-full [&_button]:rounded-lg leading-4">
             <button v-if="verifyMenuButton('bold')" :class="{ 'bg-zinc-200': editor.isActive('bold') }" @click="editor.chain().focus().toggleBold().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                     <title>text-bold</title>
@@ -168,6 +181,8 @@
                     <path d="M9.147,21.552a1.244,1.244,0,0,1-.895-.378L.84,13.561a2.257,2.257,0,0,1,0-3.125L8.252,2.823a1.25,1.25,0,0,1,1.791,1.744l-6.9,7.083a.5.5,0,0,0,0,.7l6.9,7.082a1.25,1.25,0,0,1-.9,2.122Z"/><path d="M14.854,21.552a1.25,1.25,0,0,1-.9-2.122l6.9-7.083a.5.5,0,0,0,0-.7l-6.9-7.082a1.25,1.25,0,0,1,1.791-1.744l7.411,7.612a2.257,2.257,0,0,1,0,3.125l-7.412,7.614A1.244,1.244,0,0,1,14.854,21.552Zm6.514-9.373h0Z"/>
                 </svg>
             </button>
+
+            <div class="border-l border-[#333] h-5 mx-2"></div>
     
             <button v-if="verifyMenuButton('h1')" :class="{ 'bg-zinc-200': editor.isActive('heading', { level: 1 }) }" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
                 H1
@@ -180,6 +195,8 @@
             <button v-if="verifyMenuButton('h3')" :class="{ 'bg-zinc-200': editor.isActive('heading', { level: 3 }) }" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
                 H3
             </button>
+    
+            <div class="border-l border-[#333] h-5 mx-2"></div>
     
             <button v-if="verifyMenuButton('bulletList')" :class="{ 'bg-zinc-200': editor.isActive('bulletList') }" @click="editor.chain().focus().toggleBulletList().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
@@ -241,20 +258,48 @@
                 </svg>
             </button>
 
-            <button v-if="verifyMenuButton('uploadImage')">
+            <button v-if="verifyMenuButton('uploadImage')" class="!p-0">
                 <label class="cursor-pointer">
                     <input type="file" accept="image/*" @change="onImagesUpload" multiple hidden />
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="mx-1.5">
                         <title>redo</title>
                         <path d="M0 0h24v24H0V0z" fill="none"/>
                         <path d="M18 20H4V6h9V4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9h-2v9zm-7.79-3.17l-1.96-2.36L5.5 18h11l-3.54-4.71zM20 4V1h-2v3h-3c.01.01 0 2 0 2h3v2.99c.01.01 2 0 2 0V6h3V4h-3z"/>
                     </svg>
                 </label>
             </button>
+    
+            <div class="border-l border-[#333] h-5 mx-2"></div>
+    
+            <button v-if="verifyMenuButton('alignLeft')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'left' }) }" @click="editor.chain().focus().setTextAlign('left').run()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
+                    <title>align left</title>
+                    <path d="M3 10H16M3 14H21M3 18H16M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <button v-if="verifyMenuButton('alignCenter')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'center' }) }" @click="editor.chain().focus().setTextAlign('center').run()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
+                    <title>align center</title>
+                    <path d="M3 6H21M3 14H21M17 10H7M17 18H7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <button v-if="verifyMenuButton('alignRight')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'right' }) }" @click="editor.chain().focus().setTextAlign('right').run()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
+                    <title>align right</title>
+                    <path d="M8 10H21M3 14H21M8 18H21M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <button v-if="verifyMenuButton('alignJustify')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'justify' }) }" @click="editor.chain().focus().setTextAlign('justify').run()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
+                    <title>align justify</title>
+                    <path d="M3 10H21M3 14H21M3 18H21M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
         </div>
     
-        <editor-content v-if="!showPlainContent" class="m-6 text-xl" :editor="editor" />
-
-        <div v-else v-html="editor?.getHTML()"></div>
+        <editor-content class="m-6 text-xl" :editor="editor" />
     </div>
   </template>

@@ -3,15 +3,17 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import tailwindMangle from 'unplugin-tailwindcss-mangle';
 
 export default defineConfig(({ command, mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
     
     return {
-		base: env.VITE_BASE_URL || '/',
+		base: env.BASE_URL || '/',
 		plugins: [
 			vue(),
-			vueJsx()
+			vueJsx(),
+			tailwindMangle.vite()
 		],
 		resolve: {
 			alias: [
@@ -21,12 +23,6 @@ export default defineConfig(({ command, mode }) => {
 				{ find: '@config', replacement: fileURLToPath(new URL('./config', import.meta.url)) },
 				{ find: '@helpers', replacement: fileURLToPath(new URL('./src/vue-helpers', import.meta.url)) }
 			]
-		},
-		css: {
-			modules: {
-				localsConvention: "camelCase",
-				generateScopedName: "[local]"
-			}
 		},
 		build: {
 			assetsInlineLimit: 0

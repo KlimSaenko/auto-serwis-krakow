@@ -18,7 +18,7 @@
 </script>
 
 <template>
-	<div class="pt-10 md:pt-12 pb-14 md:pb-16">
+	<div class="pt-10 md:pt-12 pb-16 md:pb-20">
 		<Gallery />
 
 		<div class="mt-24 w-screen py-12 bg-zinc-300">

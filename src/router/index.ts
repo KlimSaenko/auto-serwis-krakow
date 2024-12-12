@@ -1,12 +1,17 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import ServicesView from '../views/ServicesView.vue';
 import MediaView from '../views/MediaView.vue';
 import BlogPostView from '../views/BlogPostView.vue';
+import AdminBlogPostView from '../views/AdminBlogPostView.vue';
 import CustomerServiceView from '../views/CustomerServiceView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 import { getConfigConst } from '@/vue-helpers/configValues';
 import TransitionWaiter from '@/vue-helpers/transitionWaiter';
+import ApiService from '@/vue-helpers/apiService';
+import AdminInputListener from '@/vue-helpers/adminInputListener';
+import { watch } from 'vue';
+import type IBlogPost from '@/types/blogPost';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,7 +41,7 @@ const router = createRouter({
                         if (services.includes(name)){
                             next();
                         } else {
-                            next('NotFound');
+                            next({ name: 'not-found' });
                         };
                     }
                 }
@@ -53,13 +58,55 @@ const router = createRouter({
                 {
                     path: '/blog/:post',
                     name: 'blog-post',
-                    component: BlogPostView
+                    component: BlogPostView,
+                    beforeEnter: async (to, from, next) => {
+                        if (await AdminInputListener.IsAuthorized.value){
+                            next({ name: 'admin-blog-post', params: to.params });
+                        } else if (await onBeforeEnterBlogPost(to, from, next)){
+                            next();
+                        } else {
+                            next({ name: 'not-found' });
+                        }
+                    }
+                },
+                {
+                    path: '/admin',
+                    children: [
+                        {
+                            path: 'blog/create',
+                            name: 'admin-blog-create',
+                            component: AdminBlogPostView,
+                            beforeEnter: async (to, from, next) => {
+                                if (await AdminInputListener.IsAuthorized.value){
+                                    to.meta.mode = 'create';
+                                    next();
+                                } else {
+                                    next({ name: 'not-found' });
+                                }
+                            }
+                        },
+                        {
+                            path: 'blog/:post',
+                            name: 'admin-blog-post',
+                            component: AdminBlogPostView,
+                            beforeEnter: async (to, from, next) => {
+                                if (!await AdminInputListener.IsAuthorized.value){
+                                    next({ name: 'blog-post', params: to.params });
+                                } else if (await onBeforeEnterBlogPost(to, from, next)){
+                                    to.meta.mode = 'edit';
+                                    next();
+                                } else {
+                                    next({ name: 'not-found' });
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         },
         {
             path: '/:pathMatch(.*)*',
-            name: 'NotFound',
+            name: 'not-found',
             component: NotFoundView
         }
     ],
@@ -80,5 +127,37 @@ const router = createRouter({
         }
     }
 });
+
+watch(AdminInputListener.IsAuthorized, async isAuthorized => {
+    const result = await isAuthorized;
+    const route = router.currentRoute.value;
+
+    if (result && route.name === 'blog-post') {
+        router.push({ name: 'admin-blog-post', params: route.params });
+    } else if (!result && route.name === 'admin-blog-post') {
+        router.push({ name: 'blog-post', params: route.params });
+    }
+});
+
+async function onBeforeEnterBlogPost(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+    if (!to.params.post) {
+        return false;
+    }
+
+    try {
+        const postData = await ApiService.GetBlogPost(Array.isArray(to.params.post) ? to.params.post[0] : to.params.post);
+
+        if (postData){
+            to.meta.postData = postData as IBlogPost;
+        } else {
+            throw new Error('Incorect search results');
+        }
+    } catch (e) {
+        console.error('Failed to fetch blog post', e);
+        return false;
+    }
+
+    return true;
+}
 
 export default router;

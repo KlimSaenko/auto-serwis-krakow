@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import useClickOutside from '@/vue-helpers/useClickOutside';
-    import { ref, type PropType } from 'vue';
+    import { ref } from 'vue';
     import Translations from '@/vue-helpers/translations';
     import { useI18n } from 'vue-i18n';
     import { getConfigConst } from '@/vue-helpers/configValues';

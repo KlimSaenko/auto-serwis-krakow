@@ -1,11 +1,17 @@
 <script setup lang="ts">
     import LanguageSelector from './LanguageSelector.vue';
     import { getConfigConst } from '@/vue-helpers/configValues';
-    import { inject, ref, type Ref } from 'vue';
+    import { inject, ref, watch, type Ref } from 'vue';
     import AdminInputListener from '@/vue-helpers/adminInputListener';
 
     const openAppointmentModal = inject<(description?: string) => void>('openAppointmentModal');
 	const isMenuExpanded = inject<Ref<boolean>>('isMenuExpanded') ?? ref(false);
+
+    const isAdminAuthorized = ref(false);
+
+    watch(AdminInputListener.IsAuthorized, async isAuthorized => {
+        isAdminAuthorized.value = await isAuthorized;
+    }, { immediate: true });
     
     function openAppointmentModalWithDescription(description: string = ''){
         if (openAppointmentModal){
@@ -128,7 +134,7 @@
                     </li>
                 </ul>
 
-                <div v-if="AdminInputListener.IsAuthorized.value" class="absolute left-1/2 -translate-x-1/2 bg-[red] rounded-full px-2 py-0.5">
+                <div v-if="isAdminAuthorized" class="absolute left-1/2 -translate-x-1/2 bg-[red] rounded-full px-2 py-0.5">
                     <span class="text-white select-none">Admin</span>
                 </div>
             </div>
