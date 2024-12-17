@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -w server -x tsx server/main.ts",
-    "start": "tsx server/main.ts",
-    "build": "vite build",
+    "build": "npm run vite:build && npm run api:build",
+    "start": "node dist/server/main.js",
+    "vite:build": "vite build",
+    "api:build": "npx tsc --project tsconfig.node.json",
     "preview": "vite preview",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",

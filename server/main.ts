@@ -1,13 +1,13 @@
 import express, { type Request, type Response } from 'express';
-import ViteExpress from "vite-express";
+import ViteExpress from 'vite-express';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { loadEnv } from 'vite';
-import verifyToken from './middleware/authMiddleware';
-import { fileURLToPath, pathToFileURL } from 'url';
+import verifyToken from './middleware/authMiddleware.js';
+import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import NodeCache from 'node-cache';
 import multer from 'multer';
@@ -17,8 +17,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const env = loadEnv('production', process.cwd(), '');
+
+const env = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
 const port = 3000;
+
+// ViteExpress.config({ mode: env.VITE_NODE_ENV as ("production" | "development" | undefined) });
 
 const serverCache = new NodeCache();
 const storage = multer.diskStorage({
@@ -36,14 +39,9 @@ const upload = multer({ storage: storage })
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(ViteExpress.static());
 
 app.use('/api/admin', (req, res, next) => {
     verifyToken(req, res, next);
-});
-
-ViteExpress.listen(app, port, () => {
-    console.log(`Server is running on port ${port}`);
 });
 
 
@@ -100,7 +98,13 @@ app.get('/api/blog/:filename', (req: Request, res: Response) => {
     try {
         if (fs.existsSync(filePath)){
             const fileContent = fs.readFileSync(filePath, "utf8");
-            res.json({ filedata: JSON.parse(fileContent) });
+
+            const json = JSON.parse(fileContent);
+            if (!json.url) {
+                json.url = filename;
+            }
+
+            res.json({ filedata: json });
         } else {
             res.status(400).json({ error: "Blog post doesn't exist" });
         }
@@ -124,7 +128,7 @@ app.post('/api/login', async (req: Request, res: Response) => {
             data: date
         };
 
-        const token = jwt.sign(payload, env.VITE_ACCESS_SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign(payload, env.VITE_ACCESS_SECRET_KEY, { expiresIn: '8h' });
 
         res.cookie('frontauto_access_token', token);
         res.status(201).json({
@@ -171,7 +175,7 @@ app.get('/api/getOpenHours', async (req: Request, res: Response) => {
 
 
 app.get('/api/admin/verifyToken', async (req: Request, res: Response) => {
-    res.status(200).send();
+    res.send();
 });
 
 
@@ -216,4 +220,12 @@ app.get('/api/blog/p/:pageIndex', async (req: Request, res: Response) => {
         console.error('Error retrieving blog posts', err);
         res.status(500).json({ error: 'Error retrieving blog posts' });
     }
+});
+
+
+
+app.use(ViteExpress.static());
+
+ViteExpress.listen(app, port, () => {
+    console.log(`Server is running on port ${port}`);
 });

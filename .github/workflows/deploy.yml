@@ -23,7 +23,7 @@ concurrency:
 #Allow repo secrets
 env:
   VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
-  BASE_URL: ${{ vars.VITE_BASE_URL }}
+  BASE_URL: ${{ vars.BASE_URL }}
 
 jobs:
   # Single deploy job since we're just deploying

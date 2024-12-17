@@ -25,7 +25,23 @@ export default defineConfig(({ command, mode }) => {
 			]
 		},
 		build: {
-			assetsInlineLimit: 0
+			outDir: "./dist",
+			assetsInlineLimit: 0,
+			rollupOptions: {
+				output: {
+					manualChunks: {
+						'group-router': [
+							'./src/views/AdminBlogPostView.vue',
+							'./src/views/BlogPostView.vue',
+							'./src/views/CustomerServiceView.vue',
+							'./src/views/HomeView.vue',
+							'./src/views/MediaView.vue',
+							'./src/views/NotFoundView.vue',
+							'./src/views/ServicesView.vue'
+						]
+					}
+				}
+			}
 		}
     }
 });

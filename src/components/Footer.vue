@@ -5,7 +5,7 @@
 <template>
     <footer class="border-box bg-zinc-800">
         <div class="pb-5 pt-10 mx-auto text-lg px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl font-jost">
-            <div class="grid max-sm:mt-1 mt-3 mb-10 text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid max-sm:mt-1 mt-3 mb-12 text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <div class="px-3">
                     <h2 class="font-jost-bold mb-5">
                         {{ $t("footer.contacts") }}
@@ -107,10 +107,16 @@
                 <hr class="my-6 border-zinc-500/75 sm:mx-auto" />
             </div>
 
-            <div class="flex justify-center mt-10 mb-10">
-                <div class="">
+            <div class="flex items-center justify-center mt-10 mb-10 gap-16">
+                <div>
                     <a href="https://www.orlymotoryzacji.pl/profile-1614193-auto-serwis-krakow-sto-krakov" target="_blank">
-                        <img class="w-72" src="https://www.orlymotoryzacji.pl/images/medals/1614193/laureat300_gold_2_pl.png" alt="Auto Serwis Kraków СТО Краков - Kraków" title="Auto Serwis Kraków СТО Краков - Kraków">
+                        <img class="max-w-72 max-h-32" src="https://www.orlymotoryzacji.pl/images/medals/1614193/laureat300_gold_2_pl.png" alt="Auto Serwis Kraków СТО Краков - Kraków" title="Auto Serwis Kraków СТО Краков - Kraków">
+                    </a>
+                </div>
+
+                <div>
+                    <a href="/public/docs/karta-krakowska-frontauto.pdf" target="_blank">
+                        <img class="max-w-72 max-h-32 rounded-xl opacity-85" src="/public/logos/karta-krakowska.webp" alt="Auto Serwis Kraków СТО Краков - Kraków" title="Auto Serwis Kraków СТО Краков - Kraków">
                     </a>
                 </div>
             </div>

@@ -99,7 +99,7 @@
 
         <div class="flex justify-center mt-9">
             <a :href="(getConfigConst('corporateInfo.googleMapsReviewsLink') as string)" target="_blank" class="group px-4 py-2 flex rounded-2xl cursor-pointer md:hover:bg-zinc-200 active:bg-zinc-200 duration-150">
-                <div class="mr-4">
+                <div class="mr-5">
                     <div class="text-6xl font-jost-medium tracking-tight">
                         <span>4.9</span>
                     </div>

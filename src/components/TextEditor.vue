@@ -47,7 +47,7 @@
     const { initContent, activeButtons } = props;
 
     const editor = useEditor({
-        content: initContent,
+        content: initContent ?? window.localStorage.getItem('editor-content'),
         extensions: [
             StarterKit.configure({ heading: {}}),
             TextStyle, 
@@ -136,11 +136,9 @@
         pointer-events: none;
     }
 
-    .tiptap img {
-        display: block;
-        height: auto;
-        margin: 1.5rem 0;
-        max-width: 100%;
+    .tiptap p {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
     }
 </style>
 
@@ -300,6 +298,6 @@
             </button>
         </div>
     
-        <editor-content class="m-6 text-xl" :editor="editor" />
+        <editor-content class="m-6" :editor="editor" />
     </div>
   </template>

@@ -7,24 +7,33 @@
     const imagePreview = ref<GalleryImage | undefined>(undefined);
 
     const imagesUrls = Object.values(import.meta.glob<string>('@/assets/gallery/*.(webp|png|jpeg|jpg)', { eager: true, import: 'default', query: '?url' }));
+    const thumbnailsUrls = Object.values(import.meta.glob<string>('@/assets/gallery/thumbnails/tn_*.(webp|png|jpeg|jpg)', { eager: true, import: 'default', query: '?url' }));
 
 	populateImages();
 
 	function populateImages(){
-        const allImagesRaw = imagesUrls.map(url => {
-            const fileName = url.replace(/^.*[\\/]/, '');
-            return { url, fileName: decodeURI(fileName.substring(0, fileName.lastIndexOf('.'))).trim() };
+        const allImagesRaw = getImagesData(imagesUrls);
+        const allThumbnailsRaw = getImagesData(thumbnailsUrls).map(data => {
+            data.fileName = data.fileName.slice(3)
+            return data;
         });
 
-        const allImages = allImagesRaw.filter(image => image.fileName.indexOf(".thumbnail") < 0)
-            .map(imageData => new GalleryImage(imageData.url, imageData.fileName, allImagesRaw.find(thumbnail => 
-                thumbnail.fileName.startsWith(imageData.fileName) && thumbnail.fileName.indexOf(".thumbnail") > 0
+        const allImages = allImagesRaw
+            .map(imageData => new GalleryImage(imageData.url, imageData.fileName, allThumbnailsRaw.find(thumbnail => 
+                thumbnail.fileName === imageData.fileName
             )?.url));
         
         paredImages.value = [
             [0, 1, 2, 3].map(index => [index, index + 8, index + 16].map(i => allImages[i])),
             [4, 5, 6, 7].map(index => [index, index + 8, index + 16].map(i => allImages[i]))
         ];
+
+        function getImagesData(urls: string[]){
+            return urls.map(url => {
+                const fileName = url.replace(/^.*[\\/]/, '');
+                return { url, fileName: decodeURI(fileName.substring(0, fileName.lastIndexOf('.'))).trim() };
+            });
+        }
 	}
 
     function nextImagesIndex(){
@@ -67,13 +76,13 @@
 
         <div class="w-full">
             <div class="flex w-full relative">
-                <button @click="prevImagesIndex" class="z-50 p-2.5 ml-auto text-zinc-500 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:left-2 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/80 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
+                <button @click="prevImagesIndex" class="z-50 p-2.5 ml-auto text-zinc-500 sm:mb-3 xl:mb-4 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:left-2 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/80 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
                     <svg class="w-8 sm:w-12 aspect-square rotate-180" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M7.04 1.96a1 1 0 0 0-1.497 1.32l.083.094L10.253 8l-4.627 4.626a1 1 0 0 0-.083 1.32l.083.094a1 1 0 0 0 1.32.084l.094-.084 5.334-5.333a1 1 0 0 0 .083-1.32l-.083-.094L7.04 1.96Z" />
                     </svg>
                 </button>
                 
-                <div class="max-sm:px-8 sm:px-2 w-full md:px-4 2xl:px-16 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
+                <div class="max-sm:px-8 sm:px-2 md:px-4 2xl:px-16 w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
                     <div v-for="(imageGroups, rowIndex) in paredImages" :aria-colspan="imagesIndex"
                         :class="rowIndex === 0 ?
                                 `md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] max-md:mb-3` :
@@ -100,7 +109,7 @@
                     </div>
                 </div>
 
-                <button @click="nextImagesIndex" class="z-50 p-2.5 mr-auto text-zinc-500 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:right-2 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/80 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
+                <button @click="nextImagesIndex" class="z-50 p-2.5 mr-auto text-zinc-500 sm:mb-3 xl:mb-4 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:right-2 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/80 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
                     <svg class="w-8 sm:w-12 aspect-square" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M7.04 1.96a1 1 0 0 0-1.497 1.32l.083.094L10.253 8l-4.627 4.626a1 1 0 0 0-.083 1.32l.083.094a1 1 0 0 0 1.32.084l.094-.084 5.334-5.333a1 1 0 0 0 .083-1.32l-.083-.094L7.04 1.96Z" />
                     </svg>
@@ -131,7 +140,7 @@
                     <!-- <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label> -->
                 </div>
 
-                <button @click="imagePreview = undefined" class="absolute right-3 top-[5rem] md:top-[8.5rem] w-16 h-16 text-gray-200 md:hover:text-white active:text-white rounded-full p-2.5 md:hover:bg-white/20 active:bg-white/20 duration-150">
+                <button @click="imagePreview = undefined" class="absolute right-3 top-[4.5rem] md:top-[8rem] w-16 h-16 text-gray-200 md:hover:text-white active:text-white rounded-full p-2.5 md:hover:bg-white/20 active:bg-white/20 duration-150">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96">
 						<path d="m53.657 48 25.171-25.172a4 4 0 1 0-5.656-5.656L48 42.343 22.829 17.172a4 4 0 0 0-5.657 5.656L42.344 48 17.172 73.172a4 4 0 1 0 5.657 5.656L48 53.657l25.172 25.171C73.953 79.609 74.977 80 76 80s2.048-.391 2.828-1.172a4 4 0 0 0 0-5.656L53.657 48z" />
 					</svg>

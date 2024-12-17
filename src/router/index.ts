@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import ServicesView from '../views/ServicesView.vue';
-import MediaView from '../views/MediaView.vue';
-import BlogPostView from '../views/BlogPostView.vue';
-import AdminBlogPostView from '../views/AdminBlogPostView.vue';
-import CustomerServiceView from '../views/CustomerServiceView.vue';
-import NotFoundView from '../views/NotFoundView.vue';
 import { getConfigConst } from '@/vue-helpers/configValues';
 import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 import ApiService from '@/vue-helpers/apiService';
 import AdminInputListener from '@/vue-helpers/adminInputListener';
 import { watch } from 'vue';
 import type IBlogPost from '@/types/blogPost';
+
+const HomeView = () => import('../views/HomeView.vue');
+const ServicesView = () => import('../views/ServicesView.vue');
+const MediaView = () => import('../views/MediaView.vue');
+const BlogPostView = () => import('../views/BlogPostView.vue');
+const AdminBlogPostView = () => import('../views/AdminBlogPostView.vue');
+const CustomerServiceView = () => import('../views/CustomerServiceView.vue');
+const NotFoundView = () => import('../views/NotFoundView.vue');
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

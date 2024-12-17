@@ -6,8 +6,9 @@
     import type IBlogPost from '@/types/blogPost';
 
     const route = useRoute();
+    const currentUrl = window.location.href;
     
-    let model = ref(route.meta.postData as IBlogPost);
+    const model = ref(route.meta.postData as IBlogPost);
 
     const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
     const iconsPath = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?url' }));
@@ -38,7 +39,7 @@
             <h1 class="text-[2.5rem] md:text-5xl mb-5 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ model.title }}</h1>
 
             <div class="text-xl mb-10 font-jost flex justify-center text-center text-zinc-400">
-                <h4>{{ $t('admin.blog.dateUpdatedLabel') }} {{ new Date(model.timeUpdated).toLocaleDateString() }}</h4>
+                <h4>{{ $t('admin.blog.dateUpdatedLabel') }} {{ new Date(model.timeUpdated ?? Date.now()).toLocaleDateString() }}</h4>
             </div>
 
             <div v-html="model.content"></div>
@@ -49,7 +50,7 @@
                 </div>
 
                 <div class="flex flex-row gap-4 md:gap-6 justify-center">
-                    <div v-for="socialMedia of socialMediaList" :key="socialMedia.name" class="relative group md:hover:bg-zinc-300 active:bg-zinc-300 rounded-full duration-200">
+                    <a v-for="socialMedia of socialMediaList" :key="socialMedia.name" :href="`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`" target="_blank" class="relative group md:hover:bg-zinc-300 active:bg-zinc-300 rounded-full duration-200">
                         <div class="p-3 overflow-hidden cursor-pointer">
                             <svg width="28" height="28" class="text-zinc-600 md:text-zinc-500 md:group-hover:text-zinc-700 group-active:text-zinc-700">
                                 <use :href="socialMedia.iconPath" />
@@ -61,7 +62,7 @@
                                 {{ $t('blog.shareViaSocial') }} <span class="first-letter:uppercase">&nbsp;{{ socialMedia.name }}</span>
                             </p>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 

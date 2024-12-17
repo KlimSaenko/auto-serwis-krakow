@@ -10,7 +10,7 @@ class ApiService {
 
     public static async Login(password: string): Promise<boolean> {
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch(import.meta.env.BASE_URL + 'api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ class ApiService {
         }
 
         try {
-            const response = await fetch('/api/admin/verifyToken', {
+            const response = await fetch(import.meta.env.BASE_URL + 'api/admin/verifyToken', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer '+ token,
@@ -58,7 +58,7 @@ class ApiService {
                 }
             });
 
-            return response.ok;
+            return response.status === 204;
         } catch (error) {
             console.error('Error verifying token');
             return false;
@@ -67,7 +67,7 @@ class ApiService {
 
     public static async CreateBlogPost(filename: string, title: string, content: string, previewText?: string) {
         try {
-            const response = await fetch(`/api/admin/blog/${filename}`, {
+            const response = await fetch(import.meta.env.BASE_URL + `api/admin/blog/${filename}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + getCookie('frontauto_access_token'),
@@ -91,7 +91,7 @@ class ApiService {
 
     public static async UpdateBlogPost(filename: string, title: string, content: string) {
         try {
-            const response = await fetch(`/api/admin/blog/${filename}`, {
+            const response = await fetch(import.meta.env.BASE_URL + `api/admin/blog/${filename}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer '+ getCookie('frontauto_access_token'),
@@ -114,7 +114,7 @@ class ApiService {
 
     public static async GetBlogPost(filename: string): Promise<any | undefined> {
         try {
-            const response = await fetch(`/api/blog/${filename}`, {
+            const response = await fetch(import.meta.env.BASE_URL + `api/blog/${filename}`, {
                 method: 'GET'
             });
 
@@ -127,7 +127,7 @@ class ApiService {
 
     public static async GetBlogPosts(page: number, loadCount?: number): Promise<{ posts: any[], pageCount: number } | undefined> {
         try {
-            const response = await fetch(`/api/blog/p/${page}` +
+            const response = await fetch(import.meta.env.BASE_URL + `api/blog/p/${page}` +
                 (loadCount ? ('?' + new URLSearchParams({ 'loadCount': loadCount.toString() })) : ''),
             {
                 method: 'GET'
@@ -142,7 +142,8 @@ class ApiService {
 
     public static async UploadFile(data: FormData): Promise<string | undefined> {
         try {
-            const response = await fetch('/api/admin/uploader', {
+            URL
+            const response = await fetch(import.meta.env.BASE_URL + 'api/admin/uploader', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer '+ getCookie('frontauto_access_token')
@@ -160,7 +161,7 @@ class ApiService {
 
     public static async GetServerTime(): Promise<Date | undefined> {
         try {
-            const response = await fetch('/api/getServerTime', {
+            const response = await fetch(import.meta.env.BASE_URL + 'api/getServerTime', {
                 method: 'GET'
             });
 

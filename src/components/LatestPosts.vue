@@ -18,7 +18,7 @@
         <div v-if="blogData" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-xl:gap-x-8">
             <PostCard v-for="post in blogData" :init-content="post" />
         </div>
-        <div v-else class="w-full p-12 justify-center">
+        <div v-else class="flex w-full p-12 justify-center">
             <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
                 <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />

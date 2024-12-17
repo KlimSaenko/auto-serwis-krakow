@@ -244,7 +244,7 @@
 							<button type="submit" class="relative tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center duration-150">
 								<span :aria-hidden="processingForm" class="whitespace-nowrap aria-hidden:invisible">{{ $t("header.onlineAppointment") }}</span>
 
-								<div v-if="processingForm" class="w-full p-12 justify-center">
+								<div v-if="processingForm" class="flex w-full p-12 justify-center">
 									<svg class="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 										<path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
 										<path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />

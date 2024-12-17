@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { getConfigConst } from '@/vue-helpers/configValues';
-    import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router';
+    import { onBeforeRouteLeave, useRouter } from 'vue-router';
     import { computed, ref, watch } from 'vue';
     import AdminInputListener from '@/vue-helpers/adminInputListener';
     import TextEditor from '@/components/TextEditor.vue';
@@ -19,13 +19,13 @@
     })
 
     const { t, tm } = useI18n();
-    const route = useRoute();
+
     const postTitlePlaceholder = ref('');
     const previewMode = ref(true);
-    let handleChangeLanguage: (newLang: string) => void;
 
     const textEditorRef = ref<InstanceType<typeof TextEditor> | null>(null);
     
+    const route = router.currentRoute.value;
     const model = setupModel(route.meta.postData as IBlogPost);
 
     const postReady = ref(false);
@@ -54,13 +54,13 @@
 
     const editorHasContent = computed(() => textEditorRef.value?.hasContent);
 
-    watch(model.postTitle, value => {
-        if (!model.postTitleUrl.value){
-            model.postTitleUrlPlaceholder.value = slugify(value, { trim: true });
+    watch(model.title, value => {
+        if (!model.url.value){
+            model.urlPlaceholder.value = slugify(value, { trim: true });
         }
     });
 
-    watch([model.postTitle, editorHasContent], values => {
+    watch([model.title, editorHasContent], values => {
         postReady.value = !values.some(value => !value);
     });
 
@@ -86,7 +86,7 @@
             const textContent = getEditorText();
             
             if (htmlContent){
-                await ApiService.CreateBlogPost(model.postTitleUrl.value || model.postTitleUrlPlaceholder.value, model.postTitle.value, htmlContent, textContent.slice(0, 200));
+                await ApiService.CreateBlogPost(model.url.value || model.urlPlaceholder.value, model.title.value, htmlContent, textContent.slice(0, 200));
             } else {
                 console.error('Failed to get editor HTML content');
             }
@@ -96,29 +96,33 @@
     function setupModel(postData?: IBlogPost) {
         if (postData){
             return {
-                postTitle: ref<string>(postData.title ?? ''),
-                postTitleUrl: ref<string>(postData.url ?? ''),
-                postTitleUrlPlaceholder: ref<string>('dodge-car'),
-                timeUpdated: ref<Date>(new Date(postData.timeUpdated ?? 0)),
-                postHtmlContent: ref<string>(postData.content ?? '')
+                title: ref<string>(postData.title ?? ''),
+                url: computed(() => postData.url ?? ''),
+                urlPlaceholder: ref<string>('dodge-car'),
+                timeUpdated: new Date(postData.timeUpdated ?? Date.now()),
+                content: postData.content ?? ''
             };
         } else {
             const model =  {
-                postTitle: ref<string>(''),
-                postTitleUrl: ref<string>(''),
-                postTitleUrlPlaceholder: ref<string>('dodge-car'),
-                timeUpdated: ref<Date>(new Date(0, 0, 0, 0, 0, 0)),
-                postHtmlContent: ref<string>('')
+                title: ref<string>(''),
+                url: ref<string>(''),
+                urlPlaceholder: ref<string>('dodge-car'),
+                timeUpdated: new Date(Date.now()),
+                content: ''
             };
 
             ApiService.GetServerTime().then(date => {
                 if (date) {
-                    model.timeUpdated.value = date;
+                    model.timeUpdated = date;
                 }
             });
             
             return model;
         }
+    }
+
+    function handleChangeLanguage(newLang: string) {
+        
     }
 </script>
 
@@ -168,21 +172,21 @@
                     <p class="text-lg text-zinc-600 select-none">{{ $t('admin.blog.postTitleLabel') }}:</p>
                 </div>
                 <div class="p-6">
-                    <input type="text" class="font-jost w-full text-2xl outline-none placeholder-[#adb5bd]" v-model="model.postTitle.value" :placeholder="postTitlePlaceholder" />
+                    <input type="text" class="font-jost w-full text-2xl outline-none placeholder-[#adb5bd]" v-model="model.title.value" :placeholder="postTitlePlaceholder" />
                 </div>
                 <div class="flex px-6 py-4 text-lg bg-zinc-400/15">
                     <span class="text-zinc-600/90 select-none">https://frontauto.pl/blog/</span>
-                    <input type="text" class="bg-transparent ms-0.5 w-full outline-none placeholder-[#adb5bd]" v-model="model.postTitleUrl.value" :placeholder="model.postTitleUrlPlaceholder.value" />
+                    <input type="text" class="bg-transparent ms-0.5 w-full outline-none placeholder-[#adb5bd]" v-model="model.url.value" :placeholder="model.urlPlaceholder.value" />
                 </div>
             </div>
 
-            <h1 v-else class="text-[2.5rem] md:text-5xl mb-5 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ model.postTitle.value }}</h1>
+            <h1 v-else class="text-[2.5rem] md:text-5xl mb-5 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ model.title.value }}</h1>
 
             <div class="text-xl mb-10 font-jost flex justify-center text-center text-zinc-400">
-                <h4>{{ $t('admin.blog.dateUpdatedLabel') }} {{ model.timeUpdated.value.toLocaleDateString() }}</h4>
+                <h4>{{ $t('admin.blog.dateUpdatedLabel') }} {{ model.timeUpdated.toLocaleDateString() }}</h4>
             </div>
 
-            <TextEditor v-if="!previewMode" ref="textEditorRef" :active-buttons="[
+            <TextEditor v-show="!previewMode" ref="textEditorRef" :active-buttons="[
                 'bold',
                 'italic',
                 'strike',
@@ -203,8 +207,9 @@
                 'alignCenter',
                 'alignRight',
                 'alignJustify'
-            ]" :init-content="model.postHtmlContent.value" class="overflow-hidden rounded-xl shadow-xl border bg-white" />
-            <div v-else v-html="model.postHtmlContent.value"></div>
+            ]" :init-content="model.content" class="overflow-hidden rounded-xl shadow-xl border bg-white" />
+            
+            <div v-show="previewMode" v-html="textEditorRef?.getHTML()"></div>
 
             <div class="mt-12 font-jost">
                 <div class="text-xl mb-4 font-jost flex justify-center text-center text-zinc-400">
