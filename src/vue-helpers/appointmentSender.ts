@@ -1,4 +1,4 @@
-import { getConfigConst } from './configValues';
+import { getConfigConst } from '../../config/configValues';
 
 class AppointmentSender {
     private static MessageTemplate = (name: string, contactLinks: { [key: string]: string }, details: { [key: string]: string }) =>

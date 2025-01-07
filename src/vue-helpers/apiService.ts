@@ -1,4 +1,4 @@
-import { getConfigConst } from '@/vue-helpers/configValues';
+import { getConfigConst } from '@config/configValues';
 import { getCookie } from 'typescript-cookie';
 
 class ApiService {
@@ -159,14 +159,14 @@ class ApiService {
         }
     }
 
-    public static async GetServerTime(): Promise<Date | undefined> {
+    public static async GetServerTime() {
         try {
             const response = await fetch(import.meta.env.BASE_URL + 'api/getServerTime', {
                 method: 'GET'
             });
 
-            const { timeElapsed } = await response.json();
-            return new Date(timeElapsed);
+            const { isOpen, timeElapsed } = await response.json();
+            return { isOpen, time: new Date(timeElapsed) };
         } catch (error) {
             console.error(error);
         }

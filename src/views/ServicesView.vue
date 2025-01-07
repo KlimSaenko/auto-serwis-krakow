@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import CustomerServiceLink from '../components/CustomerServiceLink.vue';
-    import { getConfigConst } from '@/vue-helpers/configValues';
+    import { getConfigConst } from '@config/configValues';
     
     const customerServices = getConfigConst('application.servicesTags') as { [key: string]: string };
 </script>

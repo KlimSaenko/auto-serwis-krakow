@@ -1,57 +1,23 @@
 <script setup lang="ts">
-    // import GoogleServices from '@/vue-helpers/googleServices';
     import CustomerReview from './cards/CustomerReview.vue';
     import { useI18n } from 'vue-i18n';
-    import { ref, onMounted, watch } from 'vue';
-    import { getConfigConst } from '@/vue-helpers/configValues';
+    import { ref, watch } from 'vue';
+    import { getConfigConst } from '@config/configValues';
     import ApiService from '@/vue-helpers/apiService';
-
-    // const props = defineProps({ 
-    //     googleServices: {
-    //         type: GoogleServices,
-    //         required: false
-    //     }
-    // });
+    import FileMissing from './FileMissing.vue';
 
     const { locale } = useI18n();
 
-    // const services = props.googleServices ?? new GoogleServices(locale.value);
-
     const listIndex = ref(0);
-    const reviews = ref<google.maps.places.Review[]>([]);
+    const reviews = ref<google.maps.places.Review[]>();
+    const loading = ref(true);
 
-    watch(locale, () => refresh());
-
-    onMounted(() => {
-        refresh();
-    });
-
-    function refresh() {
-        loadReviews();
-    }
-
-    async function loadReviews(){
-        const googleReviews = await ApiService.GetGoogleReviews(locale.value);
-        if (googleReviews){
-            reviews.value = googleReviews;
-        }
-    }
-
-    // async function loadReviews(){
-    //     const googlePlacesDetails = await fetch(services.GooglePlacesApiUrl(locale.value), { method: 'GET'});
-
-    //     if (googlePlacesDetails.ok){
-    //         const detailsJson = await googlePlacesDetails.json();
-    //         const details = detailsJson as google.maps.places.PlaceResult;
-            
-    //         if (details.reviews){
-    //             reviews.value = details.reviews;
-    //         }
-    //     }
-    // }
+    watch(locale, value => {
+        ApiService.GetGoogleReviews(value).then(googleReviews => reviews.value = googleReviews).finally(() => loading.value = false);
+    }, { immediate: true });
 
     function nextReview(){
-        if (listIndex.value < reviews.value.length - 1){
+        if (reviews.value && listIndex.value < reviews.value.length - 1){
             listIndex.value++;
         }
     }
@@ -65,18 +31,25 @@
 
 <template>
     <section>
-        <div class="flex mb-12 justify-center text-center">
+        <div class="flex justify-center text-center">
             <h2 class="text-[2.5rem] md:text-5xl font-jost-bold text-zinc-800 leading-[1.2]">{{ $t('home.whatPeopleSayTitle') }}</h2>
         </div>
 
-        <div class="flex justify-center relative">
+        <div v-if="loading" class="flex w-full p-12 justify-center">
+            <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+            </svg>
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div v-else-if="reviews" class="flex justify-center relative mt-20">
             <button :aria-hidden="listIndex <= 0" @click="prevReview" class="z-50 p-2 aria-hidden:invisible ml-auto text-zinc-500 max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:-left-1 sm:p-4 max-sm:aspect-square max-sm:rounded-full max-sm:bg-zinc-700/70 max-sm:text-white lg:hover:text-zinc-600 lg:hover:bg-zinc-200 active:bg-zinc-300 active:text-zinc-600 rounded-xl duration-150">
                 <svg class="w-6 sm:w-12 aspect-square rotate-180" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M7.04 1.96a1 1 0 0 0-1.497 1.32l.083.094L10.253 8l-4.627 4.626a1 1 0 0 0-.083 1.32l.083.094a1 1 0 0 0 1.32.084l.094-.084 5.334-5.333a1 1 0 0 0 .083-1.32l-.083-.094L7.04 1.96Z" />
                 </svg>
             </button>
 
-            <div class="overflow-hidden pt-3">
+            <div class="overflow-x-hidden sm:overflow-x-clip">
                 <div :style="{ translate: `${ -listIndex * 100 }% 0` }" :aria-colindex="listIndex" class="w-full md:w-1/2 xl:w-1/3 duration-[600ms] ease-in-out relative flex">
                     <div v-for="review in reviews" class="min-w-full relative h-fit snap-start">
                         <CustomerReview :author-name="review.authorAttribution?.displayName ?? 'Hidden'"
@@ -85,7 +58,7 @@
                                         :relative-time-description="review.relativePublishTimeDescription ?? 'Hidden'"
                                         :rating="review.rating ?? undefined"
                                         :author-url="review.authorAttribution?.uri ?? undefined"
-                                        class="max-sm:mx-10 m-5" />
+                                        class="max-sm:mx-10 mx-5" />
                     </div>
                 </div>
             </div>
@@ -96,8 +69,9 @@
                 </svg>
             </button>
         </div>
+        <FileMissing v-else />
 
-        <div class="flex justify-center mt-9">
+        <div class="flex justify-center mt-12">
             <a :href="(getConfigConst('corporateInfo.googleMapsReviewsLink') as string)" target="_blank" class="group px-4 py-2 flex rounded-2xl cursor-pointer md:hover:bg-zinc-200 active:bg-zinc-200 duration-150">
                 <div class="mr-5">
                     <div class="text-6xl font-jost-medium tracking-tight">

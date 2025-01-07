@@ -1,7 +1,7 @@
 <script setup lang="ts">
   	import Gallery from '../components/Gallery.vue';
   	import Blog from '../components/Blog.vue';
-	import { getConfigConst } from '@/vue-helpers/configValues';
+	import { getConfigConst } from '@config/configValues';
 
 	const socialMediaConfig = getConfigConst('application.socialMedia') as Object;
     const iconsPath = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?url' }));
@@ -23,8 +23,8 @@
 
 		<div class="mt-24 w-screen py-12 bg-zinc-300">
 			<div class="flex flex-col px-3 mb-7 md:mb-10 justify-center text-center">
-				<h2 class="text-[2.5rem] md:text-5xl font-jost-bold leading-[1.2] text-zinc-700 mb-4">{{ $t('media.socialMediaTitle') }}</h2>
-				<p class="text-xl md:text-2xl font-jost text-zinc-500">
+				<h2 class="text-[2.5rem] md:text-5xl font-jost-bold leading-[1.2] text-zinc-800 mb-4">{{ $t('media.socialMediaTitle') }}</h2>
+				<p class="text-xl md:text-2xl font-jost text-zinc-600">
 					{{ $t('media.followUs') }}
 				</p>
 			</div>
@@ -37,7 +37,7 @@
 						</svg>
 					</div>
 					
-					<div class="max-md:hidden absolute flex bottom-full opacity-0 left-1/2 -translate-x-1/2 w-max z-10 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-hover:delay-300 duration-200 pointer-events-none">
+					<div class="max-md:hidden absolute flex bottom-full opacity-0 left-1/2 -translate-x-1/2 w-max z-10 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-hover:delay-500 duration-200 pointer-events-none">
 						<p class="flex rounded-md bg-zinc-700 text-gray-200 px-3 py-1 max-w-64 mx-auto">
 							{{ $t('blog.weOnSocial') }} <span class="first-letter:uppercase">&nbsp;{{ socialMedia.name }}</span>
 						</p>

@@ -4,9 +4,11 @@
     import AdminInputListener from '@/vue-helpers/adminInputListener';
     import ApiService from '@/vue-helpers/apiService';
     import type IBlogPost from '@/types/blogPost';
+    import FileMissing from './FileMissing.vue';
 
     const isAdminAuthorized = ref(false);
     const postCards = ref<IBlogPost[]>();
+    const loading = ref(true);
     const pageIndex = ref(1);
     const pageCount = ref(1);
 
@@ -17,13 +19,15 @@
     watch(pageIndex, async index => {
         const blogData = await ApiService.GetBlogPosts(index);
 
-        if (blogData){
+        if (blogData?.posts){
             if (pageCount.value !== blogData.pageCount){
                 pageCount.value = blogData.pageCount;
             }
-            
+
             postCards.value = blogData.posts.map(post => post as IBlogPost);
         }
+
+        loading.value = false;
     }, { immediate: true });
 
     function onPrevPage(){
@@ -66,7 +70,14 @@
             </div>
         </div>
 
-        <div v-if="postCards">
+        <div v-if="loading" class="flex w-full p-12 justify-center">
+            <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+            </svg>
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div v-else-if="postCards">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-y-14 max-xl:gap-x-8">
                 <PostCard v-for="card in postCards" :init-content="card" />
             </div>
@@ -95,12 +106,6 @@
                 </ul>
             </nav>
         </div>
-        <div v-else class="flex w-full p-12 justify-center">
-            <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
-                <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
-            </svg>
-            <span class="sr-only">Loading...</span>
-        </div>
+        <FileMissing v-else />
     </section>
 </template>

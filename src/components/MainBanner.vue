@@ -1,3 +1,7 @@
+<script setup lang="ts">
+    import ScrollParallax from '../components/ScrollParallax.vue'
+</script>
+
 <template>
     <div class="overflow-hidden w-full">
         <ScrollParallax :speed="0.5" class="bg-service-banner bg-cover bg-center aspect-square sm:aspect-[4/3] md:aspect-[8/5] lg:aspect-[2/1] xl:aspect-[8/3]">

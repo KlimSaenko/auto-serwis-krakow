@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import Card from './Card.vue';
 	import type { PropType } from 'vue';
     import type IBlogPost from '@/types/blogPost';
 

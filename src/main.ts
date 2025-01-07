@@ -3,6 +3,7 @@ import './main.css';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
 import { createApp } from 'vue';
+import { createServerHead } from '@unhead/vue';
 import router from './router';
 import { createI18n } from 'vue-i18n';
 import Translations from '@/vue-helpers/translations';
@@ -10,39 +11,59 @@ import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 import AdminInputListener from '@/vue-helpers/adminInputListener';
 
 import App from './App.vue';
-import ContactInfoHeader from './components/ContactInfoHeader.vue';
-import LanguageSelector from './components/LanguageSelector.vue';
-import Card from './components/cards/Card.vue';
-import GoogleMap from './components/GoogleMap.vue';
-import Footer from './components/Footer.vue';
-import MainBannerCards from './components/MainBannerCards.vue';
-import ScrollParallax from './components/ScrollParallax.vue';
-import CustomerReview from './components/cards/CustomerReview.vue';
-import ReviewsList from './components/ReviewsList.vue';
-import AppointmentModal from './components/AppointmentModal.vue';
-import Gallery from './components/Gallery.vue';
-import PostCardSimpled from './components/cards/PostCardSimpled.vue';
-import BenefitsList from './components/BenefitsList.vue';
+// import ContactInfoHeader from './components/ContactInfoHeader.vue';
+// import LanguageSelector from './components/LanguageSelector.vue';
+// import Card from './components/cards/Card.vue';
+// import GoogleMap from './components/GoogleMap.vue';
+// import Footer from './components/Footer.vue';
+// import MainBannerCards from './components/MainBannerCards.vue';
+// import ScrollParallax from './components/ScrollParallax.vue';
+// import CustomerReview from './components/cards/CustomerReview.vue';
+// import ReviewsList from './components/ReviewsList.vue';
+// import AppointmentModal from './components/AppointmentModal.vue';
+// import Gallery from './components/Gallery.vue';
+// import PostCardSimpled from './components/cards/PostCardSimpled.vue';
+// import BenefitsList from './components/BenefitsList.vue';
 
 const app = createApp(App);
+const appHead = createServerHead();
 
 const setupLocalePromise = setupLocale();
 
-app.component('ContactInfoHeader', ContactInfoHeader);
-app.component('LanguageSelector', LanguageSelector);
-app.component('Card', Card);
-app.component('GoogleMap', GoogleMap);
-app.component('Footer', Footer);
-app.component('MainBannerCards', MainBannerCards);
-app.component('ScrollParallax', ScrollParallax);
-app.component('CustomerReview', CustomerReview);
-app.component('ReviewsList', ReviewsList);
-app.component('AppointmentModal', AppointmentModal);
-app.component('Gallery', Gallery);
-app.component('PostCardSimpled', PostCardSimpled);
-app.component('BenefitsList', BenefitsList);
+// app.component('ContactInfoHeader', ContactInfoHeader);
+// app.component('LanguageSelector', LanguageSelector);
+// app.component('Card', Card);
+// app.component('GoogleMap', GoogleMap);
+// app.component('Footer', Footer);
+// app.component('MainBannerCards', MainBannerCards);
+// app.component('ScrollParallax', ScrollParallax);
+// app.component('CustomerReview', CustomerReview);
+// app.component('ReviewsList', ReviewsList);
+// app.component('AppointmentModal', AppointmentModal);
+// app.component('Gallery', Gallery);
+// app.component('PostCardSimpled', PostCardSimpled);
+// app.component('BenefitsList', BenefitsList);
 
+app.use(appHead);
 app.use(router);
+
+// useServerSeoMeta({
+//     title: "Krakow Service",
+// 	description: "Woah such a good description",
+// 	robots: "index, follow",
+// 	// googlebot: "index, follow",
+// 	// canonical: "https://domain.fr",
+// 	ogTitle: "Krakow Service",
+// 	ogDescription: "Woah such a good description.",
+// 	ogImage: "/src/assets/car-service-banner-dark.webp",
+// 	ogUrl: "https://domain.fr/",
+// 	// twitterCard: "summary_large_image",
+// 	// twitterImage: "https://domain.fr/banner_seo.png",
+// 	// twitterUrl: "https://domain.fr",
+// 	// twitterTitle: "A title page",
+// 	// twitterDescription: "Woah such a good description",
+// 	// twitterImageAlt: "Alt twitter"
+// });
 
 TransitionWaiter.Add();
 

@@ -1,26 +1,30 @@
 <script setup lang="ts">
     import LanguageSelector from './LanguageSelector.vue';
-    import { getConfigConst } from '@/vue-helpers/configValues';
-    import { inject, ref, watch, type Ref } from 'vue';
+    import { getConfigConst } from '@config/configValues';
+    import { inject, ref, watch } from 'vue';
     import AdminInputListener from '@/vue-helpers/adminInputListener';
+	import { openAppointmentModal } from '@/vue-helpers/useAppointmentModal';
 
-    const openAppointmentModal = inject<(description?: string) => void>('openAppointmentModal');
-	const isMenuExpanded = inject<Ref<boolean>>('isMenuExpanded') ?? ref(false);
+    const hidePageScroll = inject<(actuatorTag: string | undefined) => void>('hidePageScroll');
+    const allowPageScroll = inject<(actuatorTag: string | undefined) => void>('allowPageScroll');
 
+	const isMenuExpanded = ref(false);
     const isAdminAuthorized = ref(false);
 
     watch(AdminInputListener.IsAuthorized, async isAuthorized => {
         isAdminAuthorized.value = await isAuthorized;
     }, { immediate: true });
-    
-    function openAppointmentModalWithDescription(description: string = ''){
-        if (openAppointmentModal){
-            openAppointmentModal(description);
+
+    watch(isMenuExpanded, isMenuExpanded => {
+        if (isMenuExpanded && hidePageScroll) {
+            hidePageScroll('header');
+        } else if (!isMenuExpanded && allowPageScroll) {
+            allowPageScroll('header');
         }
-    }
+    }, { immediate: true });
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 	.menu-burger {
 		width: 32px;
 		height: 25.5px;
@@ -222,7 +226,7 @@
 
                 <ul class="max-md:p-4 max-md:mb-6 flex items-center md:ml-auto md:space-x-8">
                     <li class="inline-flex h-full">
-                        <button @click="openAppointmentModalWithDescription()" class="my-[2px] tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
+                        <button @click="openAppointmentModal()" class="my-[2px] tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
                             <span>{{ $t("header.onlineAppointment") }}</span>
                         </button>
                     </li>

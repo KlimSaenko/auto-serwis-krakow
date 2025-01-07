@@ -1,17 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "types": ["node"],
-  "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "nightwatch.conf.*", "playwright.config.*", "server/**/*.ts"],
+  "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "nightwatch.conf.*", "playwright.config.*", "server/**/*.ts", "config/configValues.ts"],
   "exclude": ["src/**/*", "src/**/*.vue"],
   "compilerOptions": {
-    "composite": true,
     "lib": ["ES6"],
     "module": "ES2020",
     "moduleResolution": "Node",
     // "rootDir": "server",
     "outDir": "dist",
     "strict": true,
-    "types": ["node"],
     "baseUrl": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true

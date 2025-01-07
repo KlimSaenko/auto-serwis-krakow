@@ -1,13 +1,13 @@
 <script setup lang="ts">
     import { useRoute } from 'vue-router';
-    import { inject, onMounted, ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import BenefitsList from '../components/BenefitsList.vue';
-    import { getConfigConst } from '@/vue-helpers/configValues';
+    import PostCardSimpled from '../components/cards/PostCardSimpled.vue';
+    import { getConfigConst } from '@config/configValues';
+	import { openAppointmentModal } from '@/vue-helpers/useAppointmentModal';
 
     const route = useRoute();
     const optionExpanded = ref(-1);
-
-    const openAppointmentModal = inject<(description?: string) => void>('openAppointmentModal');
     
     const services = getConfigConst('application.servicesTags') as { [key: string]: string };
 
@@ -22,13 +22,7 @@
 
     function computePricelistPopupHeight() {
         if (toPricelistPopup.value){
-            toPricelistPopup.value.forEach(el => el.parentElement?.setAttribute("style", `height: ${el.clientHeight}px`));
-        }
-    }
-
-    function openAppointmentModalWithDescription(description: string){
-        if (openAppointmentModal){
-            openAppointmentModal(description);
+            toPricelistPopup.value.forEach(el => el.parentElement?.setAttribute('style', `height: ${el.clientHeight}px`));
         }
     }
 </script>
@@ -99,7 +93,7 @@
                                                     {{ option['description'] }}
                                                 </p>
                                                 
-                                                <button @click="openAppointmentModalWithDescription(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white py-1.5 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
+                                                <button @click="openAppointmentModal(option['problemDescription'])" class="mt-5 mb-2 tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white py-1.5 px-3 md:px-4 rounded-md inline-flex items-center duration-150">
                                                     <span>{{ $t('customerServices.currentOptionAppoinment') }}</span>
                                                 </button>
                                             </div>
@@ -109,7 +103,7 @@
                                 <tbody class="group divide-gray-200 font-jost-medium text-lg text-white">
                                     <tr>
                                         <td colspan="2" class="p-0">
-                                            <button @click="openAppointmentModalWithDescription($t(`customerServices.${serviceTag}.commonProblemDescription`))" class="border border-[red]/95 rounded-b-xl w-full h-full justify-center tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] md:hover:bg-white active:bg-white px-6 py-4 inline-flex items-center duration-150">
+                                            <button @click="openAppointmentModal($t(`customerServices.${serviceTag}.commonProblemDescription`))" class="border border-[red]/95 rounded-b-xl w-full h-full justify-center tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] md:hover:bg-white active:bg-white px-6 py-4 inline-flex items-center duration-150">
                                                 <span class="text-balance">{{ $t(`customerServices.${serviceTag}.commonOptionAppoinment`) }}</span>
                                                 <svg class="ms-2 h-[1.6rem]" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15 8L19 12M19 12L15 16M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />

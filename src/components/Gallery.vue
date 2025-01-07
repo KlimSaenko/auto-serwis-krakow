@@ -56,7 +56,7 @@
     }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
     .fade-image-enter-active,
     .fade-image-leave-active {
         transition: opacity 0.2s ease-out;
@@ -135,7 +135,7 @@
 
         <transition name="fade-image" mode="out-in">
 			<div v-if="imagePreview?.ImgUrl" class="fixed inset-0 bg-zinc-950/65 z-[300]">
-                <div class="flex content-center justify-center pt-24 md:pt-36 p-4 md:p-8 md:pb-12 flex-wrap flex-col h-full w-full">
+                <div class="flex content-center justify-center pt-20 md:pt-32 p-4 md:p-8 flex-wrap flex-col h-full w-full">
                     <img :src="imagePreview.ImgUrl" loading="lazy" :alt="imagePreview.AltText" class="max-h-full max-w-full min-h-80 min-w-40 object-cover object-center rounded-2xl shadow-2xl" />
                     <!-- <label class="mt-5 font-jost-medium text-zinc-200 text-2xl text-center">{{ imagePreview.Label }}</label> -->
                 </div>

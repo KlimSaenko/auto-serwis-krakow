@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from 'vue-router';
-import { getConfigConst } from '@/vue-helpers/configValues';
+import { getConfigConst } from '@config/configValues';
 import TransitionWaiter from '@/vue-helpers/transitionWaiter';
 import ApiService from '@/vue-helpers/apiService';
 import AdminInputListener from '@/vue-helpers/adminInputListener';

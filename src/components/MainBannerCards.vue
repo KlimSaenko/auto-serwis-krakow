@@ -1,18 +1,10 @@
 <script setup lang="ts">
 	import Card from '../components/cards/Card.vue';
 	import LoopScroll from '../components/cards/LoopScroll.vue';
-	import { getConfigConst } from '@/vue-helpers/configValues';
-	import { inject } from 'vue';
-
-    const openAppointmentModal = inject<(description?: string) => void>('openAppointmentModal');
+	import { getConfigConst } from '@config/configValues';
+	import { openAppointmentModal } from '@/vue-helpers/useAppointmentModal';
 
 	const servicedCars = Object.values(import.meta.glob<string>('@car-brands/*-logo.(webp|svg|png)', { eager: true, import: 'default', query: '?url' }));
-    
-    function openAppointmentModalWithDescription(description: string = ''){
-        if (openAppointmentModal){
-            openAppointmentModal(description);
-        }
-    }
 </script>
 
 <template>
@@ -72,7 +64,7 @@
 				</a>
 
 				<div class="absolute bottom-9 left-1/2 -translate-x-1/2 z-10 rounded-full flex justify-center">
-					<button @click="openAppointmentModalWithDescription()" class="tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-full inline-flex items-center duration-150">
+					<button @click="openAppointmentModal()" class="tracking-wider text-gray-100 md:hover:text-[red] bg-[red] md:hover:bg-white active:text-[red] active:bg-white border border-[red] py-2 px-3 md:px-4 rounded-full inline-flex items-center duration-150">
 						<span class="font-jost-medium">{{ $t("header.onlineAppointment") }}</span>
 					</button>
 				</div>

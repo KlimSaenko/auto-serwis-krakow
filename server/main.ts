@@ -12,6 +12,8 @@ import { dirname } from 'path';
 import NodeCache from 'node-cache';
 import multer from 'multer';
 import crypto from 'crypto';
+import moment from 'moment';
+import { getConfigConst } from '@config/configValues.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,6 +44,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/admin', (req, res, next) => {
     verifyToken(req, res, next);
+});
+
+app.use(ViteExpress.static());
+
+ViteExpress.listen(app, port, () => {
+    console.log(`Server is running on port ${port}`);
 });
 
 
@@ -155,27 +163,22 @@ app.post('/api/admin/uploader', upload.single('image'), async (req: Request, res
 
 
 app.get('/api/getServerTime', async (req: Request, res: Response) => {
-    const timeElapsed = Date.now();
-    
-    res.json({ timeElapsed });
-});
-
-
-
-app.get('/api/getOpenHours', async (req: Request, res: Response) => {
-    const timeElapsed = Date.now();
-
     try {
-        res.json({ timeElapsed });
+        const openTime = moment(getConfigConst('corporateInfo.openTime'), 'hh:mm');
+        const closeTime = moment(getConfigConst('corporateInfo.closeTime'), 'hh:mm');
+        const currentTime = moment();
+        const isOpen = currentTime.isBetween(openTime, closeTime);
+
+        res.json({ isOpen, timeElapsed: currentTime.valueOf() });
     } catch (error) {
-        res.status(400).json({ error: 'Login failed' });
+        res.status(400).json({ error: 'Unknown issue' });
     }
 });
 
 
 
 app.get('/api/admin/verifyToken', async (req: Request, res: Response) => {
-    res.send();
+    res.status(204).send();
 });
 
 
@@ -220,12 +223,4 @@ app.get('/api/blog/p/:pageIndex', async (req: Request, res: Response) => {
         console.error('Error retrieving blog posts', err);
         res.status(500).json({ error: 'Error retrieving blog posts' });
     }
-});
-
-
-
-app.use(ViteExpress.static());
-
-ViteExpress.listen(app, port, () => {
-    console.log(`Server is running on port ${port}`);
 });

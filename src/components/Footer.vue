@@ -1,10 +1,17 @@
 <script setup lang="ts">
-  import { getConfigConst } from '@/vue-helpers/configValues';
+    import { getConfigConst } from '@config/configValues';
+    import ApiService from '@/vue-helpers/apiService';
+    import { ref } from 'vue';
+
+    const isOpen =  ref(false);
+    const loading = ref(true);
+
+    ApiService.GetServerTime().then(data => isOpen.value = data?.isOpen).finally(() => loading.value = false);
 </script>
 
 <template>
     <footer class="border-box bg-zinc-800">
-        <div class="pb-5 pt-10 mx-auto text-lg px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl font-jost">
+        <div class="pb-4 pt-10 mx-auto text-lg px-8 2xl:px-12 max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl font-jost">
             <div class="grid max-sm:mt-1 mt-3 mb-12 text-gray-300 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <div class="px-3">
                     <h2 class="font-jost-bold mb-5">
@@ -64,10 +71,20 @@
 
                 <div class="px-3">
                     <div class="flex p-5 h-full border-2 border-[red] rounded-lg justify-center items-center">
-                        <div class="leading-9 m-2">
-                            <h2 class="mb-3 text-xl text-gray-100 font-jost-bold">
-                                {{ $t("footer.openNow") }}
-                            </h2>
+                        <div class="flex flex-col leading-9 m-2 items-center text-center">
+                            <div class="text-gray-100">
+                                <div v-if="loading" class="flex w-full p-4 justify-center">
+                                    <svg class="animate-spin" width="36" height="36" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                                        <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+                                    </svg>
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <h2 v-else class="mb-3 text-xl font-jost-bold">
+                                    {{ isOpen ? $t("footer.openNow") : $t("footer.closeNow") }}
+                                </h2>
+                            </div>
+
                             <div class="flex items-center">
                                 <span class="font-normal">
                                     {{ $t("header.workingTime") }}
@@ -115,8 +132,8 @@
                 </div>
 
                 <div>
-                    <a href="/public/docs/karta-krakowska-frontauto.pdf" target="_blank">
-                        <img class="max-w-72 max-h-32 rounded-xl opacity-85" src="/public/logos/karta-krakowska.webp" alt="Auto Serwis Kraków СТО Краков - Kraków" title="Auto Serwis Kraków СТО Краков - Kraków">
+                    <a href="/docs/karta-krakowska-frontauto.pdf" target="_blank" rel="noopener noreferrer">
+                        <img class="max-w-72 max-h-32 rounded-xl opacity-85" src="/logos/karta-krakowska.webp" alt="Auto Serwis Kraków СТО Краков - Kraków" title="Auto Serwis Kraków СТО Краков - Kraków">
                     </a>
                 </div>
             </div>

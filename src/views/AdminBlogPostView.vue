@@ -1,7 +1,7 @@
 <script setup lang="ts">
-    import { getConfigConst } from '@/vue-helpers/configValues';
+    import { getConfigConst } from '@config/configValues';
     import { onBeforeRouteLeave, useRouter } from 'vue-router';
-    import { computed, ref, watch } from 'vue';
+    import { computed, readonly, ref, watch } from 'vue';
     import AdminInputListener from '@/vue-helpers/adminInputListener';
     import TextEditor from '@/components/TextEditor.vue';
     import { useI18n } from 'vue-i18n';
@@ -9,6 +9,13 @@
     import LanguageSelector from '@/components/LanguageSelector.vue';
     import { slugify } from 'transliteration';
     import type IBlogPost from '@/types/blogPost';
+    import PostCardSimpled from '../components/cards/PostCardSimpled.vue';
+    import FileMissing from '../components/FileMissing.vue';
+
+    const postCards = ref<IBlogPost[]>();
+    const loading = ref(true);
+
+    ApiService.GetBlogPosts(1, 3).then(blogData => postCards.value = blogData?.posts).finally(() => loading.value = false);
 
     const router = useRouter();
 
@@ -20,6 +27,7 @@
 
     const { t, tm } = useI18n();
 
+    const alreadyExists = ref(true);
     const postTitlePlaceholder = ref('');
     const previewMode = ref(true);
 
@@ -97,23 +105,25 @@
         if (postData){
             return {
                 title: ref<string>(postData.title ?? ''),
-                url: computed(() => postData.url ?? ''),
+                url: readonly(computed(() => postData.url ?? '')),
                 urlPlaceholder: ref<string>('dodge-car'),
-                timeUpdated: new Date(postData.timeUpdated ?? Date.now()),
+                timeUpdated: postData.timeUpdated ? new Date(postData.timeUpdated) : new Date(),
                 content: postData.content ?? ''
             };
         } else {
+            alreadyExists.value = false;
+
             const model =  {
                 title: ref<string>(''),
                 url: ref<string>(''),
                 urlPlaceholder: ref<string>('dodge-car'),
-                timeUpdated: new Date(Date.now()),
+                timeUpdated: new Date(),
                 content: ''
             };
 
-            ApiService.GetServerTime().then(date => {
-                if (date) {
-                    model.timeUpdated = date;
+            ApiService.GetServerTime().then(data => {
+                if (data?.time) {
+                    model.timeUpdated = data?.time;
                 }
             });
             
@@ -133,7 +143,7 @@
                 <h2 class="border-l-[7px] border-[red] ps-3 leading-none pr-2">{{ $t('blog.blogTitle') }}</h2>
             </div>
 
-            <div class="w-full my-10 overflow-hidden rounded-xl shadow-xl border bg-white">
+            <div class="w-full mt-10 mb-14 overflow-hidden rounded-xl shadow-xl border bg-white">
                 <div class="flex flex-row gap-2 px-6 py-2 bg-white rounded-t-xl shadow-md">
                     <p class="text-lg font-jost-medium text-zinc-600 select-none">{{ $t('admin.blog.adminModeLabel') }}:</p>
                 </div>
@@ -163,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="my-10">
+            <div v-if="!previewMode" class="my-10">
                 <LanguageSelector v-on:click-change-language="handleChangeLanguage" />
             </div>
 
@@ -176,7 +186,7 @@
                 </div>
                 <div class="flex px-6 py-4 text-lg bg-zinc-400/15">
                     <span class="text-zinc-600/90 select-none">https://frontauto.pl/blog/</span>
-                    <input type="text" class="bg-transparent ms-0.5 w-full outline-none placeholder-[#adb5bd]" v-model="model.url.value" :placeholder="model.urlPlaceholder.value" />
+                    <input type="text" class="bg-transparent ms-0.5 w-full outline-none placeholder-[#adb5bd]" v-model="model.url.value" :placeholder="model.urlPlaceholder.value" :readonly="alreadyExists" />
                 </div>
             </div>
 
@@ -192,24 +202,22 @@
                 'strike',
                 'underline',
                 'code',
-                'h1',
-                'h2',
-                'h3',
+                'fontSize',
                 'bulletList',
                 'orderedList',
                 'blockquote',
-                'codeBlock',
                 'horizontalRule',
                 'undo',
                 'redo',
                 'uploadImage',
+                'setColor',
                 'alignLeft',
                 'alignCenter',
                 'alignRight',
                 'alignJustify'
-            ]" :init-content="model.content" class="overflow-hidden rounded-xl shadow-xl border bg-white" />
+            ]" :init-content="model.content" class="blog-post rounded-xl shadow-xl border bg-white" />
             
-            <div v-show="previewMode" v-html="textEditorRef?.getHTML()"></div>
+            <div v-show="previewMode" v-html="textEditorRef?.getHTML()" class="blog-post"></div>
 
             <div class="mt-12 font-jost">
                 <div class="text-xl mb-4 font-jost flex justify-center text-center text-zinc-400">
@@ -235,11 +243,17 @@
 
             <h2 class="text-[2.5rem] md:text-5xl mt-24 mb-12 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ $t('blog.readAlsoTitle') }}</h2>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <PostCardSimpled />
-                <PostCardSimpled />
-                <PostCardSimpled class="max-md:hidden" />
+            <div v-if="loading" class="flex w-full p-12 justify-center">
+                <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                    <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+                </svg>
+                <span class="sr-only">Loading...</span>
             </div>
+            <div v-else-if="postCards" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <PostCardSimpled v-for="post in postCards" :init-content="post" />
+            </div>
+            <FileMissing v-else />
 
             <div class="mt-6 md:mt-8 flex justify-center">
                 <router-link :to="{ name: 'media', hash: '#blog' }" class="px-7 py-3 flex items-center text-zinc-500 cursor-pointer rounded-full md:hover:bg-zinc-200 md:hover:text-zinc-700 active:bg-zinc-200 active:text-zinc-700 duration-150">
@@ -251,7 +265,7 @@
             </div>
         </article>
 
-        <div v-if="!previewMode" class="fixed 2xl:right-7 2xl:bottom-7 right-5 bottom-5 max-sm:left-5 z-[901] p-5 sm:max-w-80 bg-white overflow-hidden rounded-xl shadow-lg shadow-black/15 border">
+        <div v-if="!previewMode" class="fixed 2xl:right-7 2xl:bottom-7 right-5 bottom-5 max-sm:left-5 z-[801] p-5 sm:max-w-80 bg-white overflow-hidden rounded-xl shadow-lg shadow-black/15 border">
             <div class="flex mb-5 items-center">
                 <svg v-if="postReady" class="w-9 h-9 me-4 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>

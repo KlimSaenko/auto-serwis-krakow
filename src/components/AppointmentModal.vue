@@ -1,15 +1,33 @@
 <script setup lang="ts">
-    import { ref, onMounted, watch, inject, type Ref } from 'vue';
-    import { getConfigConst } from '@/vue-helpers/configValues';
+    import { ref, onMounted, watch, inject } from 'vue';
+    import { getConfigConst } from '@config/configValues';
 	import appointmentSender from '@/vue-helpers/appointmentSender';
     import { CountryProperty, type CountryData, findOne as findCountry, all as getAllCountries } from 'country-codes-list';
     import Translations from '@/vue-helpers/translations';
+	import { isModalOpened, registerOpenFunc, registerCloseFunc, closeAppointmentModal } from '@/vue-helpers/useAppointmentModal';
     import useClickOutside from '@/vue-helpers/useClickOutside';
 	import { useI18n } from 'vue-i18n';
 
-	const isModalOpened = inject<Ref<boolean>>('isAppointmentModalOpened') ?? ref(false);
-    const closeAppointmentModal = inject<() => void>('closeAppointmentModal');
-	const preDescription = inject<Ref<string>>('appointmentModalDescription');
+    const hidePageScroll = inject<(actuatorTag: string | undefined) => void>('hidePageScroll');
+    const allowPageScroll = inject<(actuatorTag: string | undefined) => void>('allowPageScroll');
+
+	registerOpenFunc((description: string = '') => {
+		if (hidePageScroll){
+			hidePageScroll('appointment-modal');
+		}
+
+		processingForm.value = false;
+
+		if (description){
+			form.description.value = description;
+		}
+    });
+
+	registerCloseFunc(() => {
+		if (allowPageScroll){
+			allowPageScroll('appointment-modal');
+		}
+    });
 
     const isLocationSelectorOpen = ref(false);
     const currentLocation = ref<CountryData | null>(findCountry('countryCode' as CountryProperty, Translations.defaultLocale.region));
@@ -21,7 +39,7 @@
 		phone: ref<string>(''),
 		vinNumber: ref<string>(''),
 		licensePlate: ref<string>(''),
-		description: ref<string | undefined>(preDescription?.value)
+		description: ref<string | undefined>()
 	};
 
 	const processingForm = ref(false);
@@ -29,13 +47,6 @@
 
 	const customerNameValid = ref(true);
 	const customerContactInfoValid = ref(true);
-	
-	watch(isModalOpened, opened => {
-		if (opened){
-			form.description.value = preDescription?.value;
-			processingForm.value = false;
-		}
-	});
 
 	watch(form.customerName, customerName => {
 		if (!customerNameValid.value && customerName.trim()){
@@ -54,7 +65,6 @@
     const allCountries = getAllCountries().filter(value => value.region == 'Europe');
 
     const componentRef = ref();
-    const excludeRef = ref();
 
     watch(currentLocation, curLoc => {
 		if (curLoc?.countryCallingCode){
@@ -69,8 +79,7 @@
 
     useClickOutside(
 		componentRef,
-		closeCountrySelector,
-		excludeRef
+		closeCountrySelector
     );
 
     function closeCountrySelector(){
@@ -145,7 +154,7 @@
 	}
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 	.modal-fade-enter-active,
 	.modal-fade-leave-active {
 		transition: opacity .3s;
@@ -167,7 +176,7 @@
 
 						<i18n-t class="my-6" keypath="modal.appointmentDescription" scope="global" tag="p">
 							<template #privacyPolicyLabel>
-								<a href="" target="_blank" class="md:hover:underline cursor-pointer text-blue-600/80 lowercase">{{ $t('modal.privacyPolicyLabel') }}</a>  
+								<a :href="`/docs/data-policy-frontauto-${$i18n.locale}.pdf`" target="_blank" class="md:hover:underline cursor-pointer text-blue-600/80 lowercase">{{ $t('modal.privacyPolicyLabel') }}</a>  
 							</template>
 						</i18n-t>
 
@@ -194,7 +203,7 @@
 									</div>
 								</div>
 
-								<div v-if="isLocationSelectorOpen" ref="excludeRef" class="absolute font-jost max-h-52 left-0 top-full overflow-y-auto z-10 mt-1 text-[0.9rem] w-max rounded-md shadow-md bg-white ring-1 ring-zinc-800 ring-opacity-5 p-1 space-y-1">
+								<div v-if="isLocationSelectorOpen" class="absolute font-jost max-h-52 left-0 top-full overflow-y-auto z-10 mt-1 text-[0.9rem] w-max rounded-md shadow-md bg-white ring-1 ring-zinc-800 ring-opacity-5 p-1 space-y-1">
 									<ul class="grid grid-flow-row gap-1">
 										<li v-for="loc of allCountries.filter(value => value.countryCallingCode.startsWith(form.phoneCode.value ?? ''))" @click="currentLocation = loc" :aria-checked="currentLocation?.countryCode == loc.countryCode" class="flex items-center tracking-wide px-3 py-2 align-baseline text-gray-700 aria-checked:bg-zinc-200/60 aria-checked:text-zinc-800 md:hover:bg-zinc-200/60 md:hover:text-zinc-800 active:bg-zinc-200/60 active:text-zinc-800 cursor-pointer rounded-md">
 											<span :class="`fi-${ loc.countryCode.toLowerCase() }`" class="fi !bg-cover bg-white rounded-full h-4 !w-4 mr-3 ring-1 ring-zinc-800/10"></span>
@@ -242,9 +251,9 @@
 
 						<div class="mt-7 flex items-end">
 							<button type="submit" class="relative tracking-wider text-gray-100 md:hover:text-[red] active:text-[red] bg-[red] border border-[red] md:hover:bg-white active:bg-white font-jost-medium py-2 px-3 md:px-4 h-min rounded-lg inline-flex items-center duration-150">
-								<span :aria-hidden="processingForm" class="whitespace-nowrap aria-hidden:invisible">{{ $t("header.onlineAppointment") }}</span>
+								<span v-show="!processingForm" class="whitespace-nowrap aria-hidden:invisible">{{ $t("header.onlineAppointment") }}</span>
 
-								<div v-if="processingForm" class="flex w-full p-12 justify-center">
+								<div v-show="processingForm" class="flex w-full p-12 justify-center">
 									<svg class="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 										<path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
 										<path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />

@@ -1,9 +1,16 @@
 <script setup lang="ts">
-    import { getConfigConst } from '@/vue-helpers/configValues';
+    import { getConfigConst } from '@config/configValues';
     import { onBeforeRouteUpdate, useRoute } from 'vue-router';
     import { ref } from 'vue';
     import ApiService from '@/vue-helpers/apiService';
     import type IBlogPost from '@/types/blogPost';
+    import PostCardSimpled from '../components/cards/PostCardSimpled.vue';
+    import FileMissing from '../components/FileMissing.vue';
+
+    const postCards = ref<IBlogPost[]>();
+    const loading = ref(true);
+
+    ApiService.GetBlogPosts(1, 3).then(blogData => postCards.value = blogData?.posts).finally(() => loading.value = false);
 
     const route = useRoute();
     const currentUrl = window.location.href;
@@ -14,12 +21,12 @@
     const iconsPath = Object.values(import.meta.glob<string>('@icons/social/all.svg', { eager: true, import: 'default', query: '?url' }));
     
     const socialMediaList = Object.entries(socialMediaConfig)
-        .filter(([_, socialMediaInfo]) => socialMediaInfo?.shareLink)
+        .filter(([_, socialMediaInfo]) => socialMediaInfo?.shareLink as string)
         .map(([socialMediaName, socialMediaInfo]) => {
             return {
                 name: socialMediaName,
                 iconPath: iconsPath[0] + "#" + socialMediaName,
-                info: socialMediaInfo
+                shareLink: (socialMediaInfo.shareLink as string).replace('{SHARING_URL}', currentUrl)
             };
         });
 
@@ -42,7 +49,7 @@
                 <h4>{{ $t('admin.blog.dateUpdatedLabel') }} {{ new Date(model.timeUpdated ?? Date.now()).toLocaleDateString() }}</h4>
             </div>
 
-            <div v-html="model.content"></div>
+            <div v-html="model.content" class="blog-post"></div>
 
             <div class="mt-12 font-jost">
                 <div class="text-xl mb-4 font-jost flex justify-center text-center text-zinc-400">
@@ -50,7 +57,7 @@
                 </div>
 
                 <div class="flex flex-row gap-4 md:gap-6 justify-center">
-                    <a v-for="socialMedia of socialMediaList" :key="socialMedia.name" :href="`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`" target="_blank" class="relative group md:hover:bg-zinc-300 active:bg-zinc-300 rounded-full duration-200">
+                    <a v-for="socialMedia of socialMediaList" :key="socialMedia.name" :href="socialMedia.shareLink" target="_blank" class="relative group md:hover:bg-zinc-300 active:bg-zinc-300 rounded-full duration-200">
                         <div class="p-3 overflow-hidden cursor-pointer">
                             <svg width="28" height="28" class="text-zinc-600 md:text-zinc-500 md:group-hover:text-zinc-700 group-active:text-zinc-700">
                                 <use :href="socialMedia.iconPath" />
@@ -68,11 +75,17 @@
 
             <h2 class="text-[2.5rem] md:text-5xl mt-24 mb-12 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ $t('blog.readAlsoTitle') }}</h2>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <PostCardSimpled />
-                <PostCardSimpled />
-                <PostCardSimpled class="max-md:hidden" />
+            <div v-if="loading" class="flex w-full p-12 justify-center">
+                <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                    <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+                </svg>
+                <span class="sr-only">Loading...</span>
             </div>
+            <div v-else-if="postCards" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <PostCardSimpled v-for="post in postCards" :init-content="post" />
+            </div>
+            <FileMissing v-else />
 
             <div class="mt-6 md:mt-8 flex justify-center">
                 <router-link :to="{ name: 'media', hash: '#blog' }" class="px-7 py-3 flex items-center text-zinc-500 cursor-pointer rounded-full md:hover:bg-zinc-200 md:hover:text-zinc-700 active:bg-zinc-200 active:text-zinc-700 duration-150">

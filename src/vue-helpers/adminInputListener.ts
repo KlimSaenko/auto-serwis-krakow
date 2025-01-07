@@ -16,7 +16,7 @@ class AdminInputListener {
         const input = prompt('Please enter password:');
 
         if (input){
-            AdminInputListener.isAuthorized.value = ApiService.Login(input)
+            AdminInputListener.isAuthorized.value = ApiService.Login(input);
             
             return 'Login request has been sent';
         } else {

@@ -3,44 +3,42 @@
     import ContactInfoHeader from './components/ContactInfoHeader.vue';
 	import AppointmentModal from './components/AppointmentModal.vue';
     import Footer from './components/Footer.vue';
-    import { ref, provide, watch } from 'vue';
+    import { provide } from 'vue';
+    // import { useSeoMeta } from '@unhead/vue';
     import TransitionWaiter from '@/vue-helpers/transitionWaiter';
+    
+    provide('hidePageScroll', hidePageScroll);
+    provide('allowPageScroll', allowPageScroll);
 
-    const isAppointmentModalOpened = ref(false);
-	const appointmentModalDescription = ref('');
-	
-    const openAppointmentModal = (description: string = '') => {
-      	isAppointmentModalOpened.value = true;
-		appointmentModalDescription.value = description ?? '';
-    };
-	const closeAppointmentModal = () => {
-      	isAppointmentModalOpened.value = false;
-    };
+    const pageScrollActuatorsTags: { [key: string]: boolean } = {};
 
-    const isMenuExpanded = ref(false);
+    function hidePageScroll(actuatorTag: string | undefined) {
+        if (actuatorTag && pageScrollActuatorsTags[actuatorTag]){
+            return;
+        }
 
-    // let scrollTop = 0;
-
-    watch([isAppointmentModalOpened, isMenuExpanded], bodyOverlaps => {
         const body = document.body;
-        const alreadyOverlapped = body.classList.contains('no-scroll');
-        const currentlyOverlapped = bodyOverlaps.some(value => value);
         
-        if (currentlyOverlapped && !alreadyOverlapped){
-            // scrollTop = document.documentElement.scrollTop;
-            // body.style.setProperty('--st', -(scrollTop) + "px");
+        if (!body.classList.contains('no-scroll')){
             body.classList.add('no-scroll');
-        } else if (!currentlyOverlapped && alreadyOverlapped) {
-            body.classList.remove('no-scroll');
-            // window.scrollTo(0, scrollTop);
-        };
-    });
+        }
 
-    provide('isAppointmentModalOpened', isAppointmentModalOpened);
-    provide('openAppointmentModal', openAppointmentModal);
-	provide('closeAppointmentModal', closeAppointmentModal);
-	provide('appointmentModalDescription', appointmentModalDescription);
-    provide('isMenuExpanded', isMenuExpanded);
+        if (actuatorTag){
+            pageScrollActuatorsTags[actuatorTag] = true;
+        }
+    }
+
+    function allowPageScroll(actuatorTag: string | undefined) {
+        const body = document.body;
+        
+        if (!Object.values(pageScrollActuatorsTags).some(v => v === true) && body.classList.contains('no-scroll')){
+            body.classList.remove('no-scroll');
+        }
+
+        if (actuatorTag){
+            pageScrollActuatorsTags[actuatorTag] = false;
+        }
+    }
 
     function onTransitionStarted(){
         TransitionWaiter.Add();

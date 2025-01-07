@@ -2,7 +2,7 @@
     import GoogleServices from '@/vue-helpers/googleServices';
     import { useI18n } from 'vue-i18n';
     import { ref, watchEffect } from 'vue';
-	import { getConfigConst } from '@/vue-helpers/configValues';
+	import { getConfigConst } from '@config/configValues';
 
     const { locale } = useI18n();
 

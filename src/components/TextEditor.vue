@@ -1,4 +1,6 @@
 <script setup lang="ts">
+    import "vue3-colorpicker/style.css";
+
     import { EditorContent, useEditor } from '@tiptap/vue-3';
     import StarterKit from '@tiptap/starter-kit';
     import Underline from '@tiptap/extension-underline';
@@ -6,12 +8,14 @@
     import Color from '@tiptap/extension-color';
     import TextAlign from '@tiptap/extension-text-align';
     import Placeholder from '@tiptap/extension-placeholder';
-    import Image from '@tiptap/extension-image';
     import GlobalDragHandle from 'tiptap-extension-global-drag-handle';
     import ImageResize from 'tiptap-extension-resize-image';
-    import { onBeforeUnmount, ref } from 'vue';
+    import FontSize from 'tiptap-extension-font-size';
+    import { onBeforeUnmount, ref, watch } from 'vue';
     import { useI18n } from 'vue-i18n';
     import ApiService from '@/vue-helpers/apiService';
+    import { ColorPicker } from "vue3-colorpicker";
+    import useClickOutside from '@/vue-helpers/useClickOutside';
 
     const props = defineProps({
         initContent: {
@@ -22,7 +26,7 @@
             type: Array<String>,
             validator(list: string[]) {
                 for (let el of list) {
-                    if (['bold','italic','strike','underline','code','h1','h2','h3','bulletList','orderedList','blockquote','codeBlock','horizontalRule','undo','redo','uploadImage','alignLeft','alignCenter','alignRight','alignJustify']
+                    if (['bold','italic','strike','underline','code','fontSize','bulletList','orderedList','blockquote','horizontalRule','undo','redo','uploadImage','setColor','alignLeft','alignCenter','alignRight','alignJustify']
                         .indexOf(el) === -1
                     ) {
                         return false;
@@ -35,12 +39,31 @@
     });
 
     const hasContent = ref(true);
+    const fontSizeOpened = ref(false);
+    const colorPickerOpened = ref(false);
+    const fontSizeRef = ref();
+    const colorPickerRef = ref();
+    const pureColor = ref('#3f3f46');
 
     defineExpose({
         hasContent,
         getHTML,
         getText
     });
+
+    useClickOutside(
+        fontSizeRef,
+        () => {
+            fontSizeOpened.value = false;
+        }
+    );
+
+    useClickOutside(
+        colorPickerRef,
+        () => {
+            colorPickerOpened.value = false;
+        }
+    );
 
     const { t } = useI18n();
 
@@ -49,15 +72,15 @@
     const editor = useEditor({
         content: initContent ?? window.localStorage.getItem('editor-content'),
         extensions: [
-            StarterKit.configure({ heading: {}}),
-            TextStyle, 
-            Color,
+            StarterKit.configure({ bulletList: { keepMarks: true }, orderedList: { keepMarks: true } }),
+            TextStyle,
+            Color.configure({ types: ['textStyle'] }),
             Underline,
-            Image.configure({ allowBase64: true }),
             GlobalDragHandle,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
             Placeholder.configure({ placeholder: t('admin.blog.postContentPlaceholder'), emptyEditorClass: 'is-editor-empty', }),
-            ImageResize
+            ImageResize,
+            FontSize
         ],
         editorProps: {
             attributes: {
@@ -73,7 +96,18 @@
         },
         onUpdate({ editor }) {
             hasContent.value = !editor.isEmpty;
+        },
+        onSelectionUpdate({ editor }) {
+            const color = editor.getAttributes('textStyle').color;
+
+            if (color){
+                pureColor.value = color;
+            }
         }
+    });
+
+    watch(pureColor, color => {
+        editor.value?.chain().focus().setColor(color).run();
     });
 
     onBeforeUnmount(() => {
@@ -127,78 +161,66 @@
     }
 </script>
 
-<style lang="css">
-    .tiptap p.is-editor-empty:first-child::before {
-        color: #adb5bd;
-        content: attr(data-placeholder);
-        float: left;
-        height: 0;
-        pointer-events: none;
-    }
-
-    .tiptap p {
-        font-size: 1.25rem;
-        line-height: 1.75rem;
-    }
-</style>
-
 <template>
     <div class="font-jost">
         <div v-if="editor" class="font-jost-medium flex flex-row gap-2 p-2 items-center bg-white rounded-t-xl shadow-md hover:[&_button]:bg-zinc-200 [&_button]:px-1.5 [&_button]:py-1 [&_button]:h-7 [&_button_svg]:h-full [&_button]:rounded-lg leading-4">
             <button v-if="verifyMenuButton('bold')" :class="{ 'bg-zinc-200': editor.isActive('bold') }" @click="editor.chain().focus().toggleBold().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>text-bold</title>
+                    <title>Text Bold</title>
                     <path d="M17.194,10.962A6.271,6.271,0,0,0,12.844.248H4.3a1.25,1.25,0,0,0,0,2.5H5.313a.25.25,0,0,1,.25.25V21a.25.25,0,0,1-.25.25H4.3a1.25,1.25,0,1,0,0,2.5h9.963a6.742,6.742,0,0,0,2.93-12.786Zm-4.35-8.214a3.762,3.762,0,0,1,0,7.523H8.313a.25.25,0,0,1-.25-.25V3a.25.25,0,0,1,.25-.25Zm1.42,18.5H8.313a.25.25,0,0,1-.25-.25V13.021a.25.25,0,0,1,.25-.25h4.531c.017,0,.033,0,.049,0l.013,0h1.358a4.239,4.239,0,0,1,0,8.477Z"/>
                 </svg>
             </button>
 
             <button v-if="verifyMenuButton('italic')" :class="{ 'bg-zinc-200': editor.isActive('italic') }" @click="editor.chain().focus().toggleItalic().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>text-italic</title>
+                    <title>Text Italic</title>
                     <path d="M22.5.248H14.863a1.25,1.25,0,0,0,0,2.5h1.086a.25.25,0,0,1,.211.384L4.78,21.017a.5.5,0,0,1-.422.231H1.5a1.25,1.25,0,0,0,0,2.5H9.137a1.25,1.25,0,0,0,0-2.5H8.051a.25.25,0,0,1-.211-.384L19.22,2.98a.5.5,0,0,1,.422-.232H22.5a1.25,1.25,0,0,0,0-2.5Z"/>
                 </svg>
             </button>
     
             <button v-if="verifyMenuButton('strike')" :class="{ 'bg-zinc-200': editor.isActive('strike') }" @click="editor.chain().focus().toggleStrike().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>text-strike-through</title>
+                    <title>Text Strike Through</title>
                     <path d="M23.75,12.952A1.25,1.25,0,0,0,22.5,11.7H13.564a.492.492,0,0,1-.282-.09c-.722-.513-1.482-.981-2.218-1.432-2.8-1.715-4.5-2.9-4.5-4.863,0-2.235,2.207-2.569,3.523-2.569a4.54,4.54,0,0,1,3.081.764A2.662,2.662,0,0,1,13.615,5.5l0,.3a1.25,1.25,0,1,0,2.5,0l0-.268A4.887,4.887,0,0,0,14.95,1.755C13.949.741,12.359.248,10.091.248c-3.658,0-6.023,1.989-6.023,5.069,0,2.773,1.892,4.512,4,5.927a.25.25,0,0,1-.139.458H1.5a1.25,1.25,0,0,0,0,2.5H12.477a.251.251,0,0,1,.159.058,4.339,4.339,0,0,1,1.932,3.466c0,3.268-3.426,3.522-4.477,3.522-1.814,0-3.139-.405-3.834-1.173a3.394,3.394,0,0,1-.65-2.7,1.25,1.25,0,0,0-2.488-.246A5.76,5.76,0,0,0,4.4,21.753c1.2,1.324,3.114,2,5.688,2,4.174,0,6.977-2.42,6.977-6.022a6.059,6.059,0,0,0-.849-3.147.25.25,0,0,1,.216-.377H22.5A1.25,1.25,0,0,0,23.75,12.952Z"/>
                 </svg>
             </button>
     
             <button v-if="verifyMenuButton('underline')" :class="{ 'bg-zinc-200': editor.isActive('underline') }" @click="editor.chain().focus().toggleUnderline().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>text-underline</title>
+                    <title>Text Underline</title>
                     <path d="M22.5,21.248H1.5a1.25,1.25,0,0,0,0,2.5h21a1.25,1.25,0,0,0,0-2.5Z"/><path d="M1.978,2.748H3.341a.25.25,0,0,1,.25.25v8.523a8.409,8.409,0,0,0,16.818,0V3a.25.25,0,0,1,.25-.25h1.363a1.25,1.25,0,0,0,0-2.5H16.3a1.25,1.25,0,0,0,0,2.5h1.363a.25.25,0,0,1,.25.25v8.523a5.909,5.909,0,0,1-11.818,0V3a.25.25,0,0,1,.25-.25H7.7a1.25,1.25,0,1,0,0-2.5H1.978a1.25,1.25,0,0,0,0,2.5Z"/>
                 </svg>
             </button>
     
             <button v-if="verifyMenuButton('code')" :class="{ 'bg-zinc-200': editor.isActive('code') }" @click="editor.chain().focus().toggleCode().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>angle-brackets</title>
+                    <title>Angle Brackets</title>
                     <path d="M9.147,21.552a1.244,1.244,0,0,1-.895-.378L.84,13.561a2.257,2.257,0,0,1,0-3.125L8.252,2.823a1.25,1.25,0,0,1,1.791,1.744l-6.9,7.083a.5.5,0,0,0,0,.7l6.9,7.082a1.25,1.25,0,0,1-.9,2.122Z"/><path d="M14.854,21.552a1.25,1.25,0,0,1-.9-2.122l6.9-7.083a.5.5,0,0,0,0-.7l-6.9-7.082a1.25,1.25,0,0,1,1.791-1.744l7.411,7.612a2.257,2.257,0,0,1,0,3.125l-7.412,7.614A1.244,1.244,0,0,1,14.854,21.552Zm6.514-9.373h0Z"/>
                 </svg>
             </button>
 
             <div class="border-l border-[#333] h-5 mx-2"></div>
     
-            <button v-if="verifyMenuButton('h1')" :class="{ 'bg-zinc-200': editor.isActive('heading', { level: 1 }) }" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
-                H1
-            </button>
-    
-            <button v-if="verifyMenuButton('h2')" :class="{ 'bg-zinc-200': editor.isActive('heading', { level: 2 }) }" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
-                H2
-            </button>
-    
-            <button v-if="verifyMenuButton('h3')" :class="{ 'bg-zinc-200': editor.isActive('heading', { level: 3 }) }" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
-                H3
+            <button v-if="verifyMenuButton('fontSize')" @click="fontSizeOpened = true" :class="{ 'bg-zinc-200': fontSizeOpened }" class="relative" ref="fontSizeRef">
+                <div class="flex items-center">
+                    <span>{{ editor.getAttributes('textStyle').fontSize || '20px' }}</span>
+                    <svg class="w-2.5 h-2.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="m1 1 4 4 4-4" />
+                    </svg>
+                </div>
+
+                <div v-show="fontSizeOpened" class="absolute z-10 flex flex-col gap-0.5 rounded-md shadow-lg bg-white ring-1 ring-zinc-800/10 px-1 py-1.5 text-zinc-600">
+                    <button @click="editor.chain().focus().setFontSize(size).run()" v-for="size in ['16px','20px','24px']" :class="{ 'bg-zinc-200': editor.isActive('textStyle', { fontSize: size }) }" class="px-3 py-1 align-baseline max-md:focus:text-[red] cursor-pointer rounded-md">
+                        <span>{{ size }}</span>
+                    </button>
+                </div>
             </button>
     
             <div class="border-l border-[#333] h-5 mx-2"></div>
     
             <button v-if="verifyMenuButton('bulletList')" :class="{ 'bg-zinc-200': editor.isActive('bulletList') }" @click="editor.chain().focus().toggleBulletList().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>list-bullets</title>
+                    <title>List Bullets</title>
                     <circle cx="2.5" cy="3.998" r="2.5"/>
                     <path d="M8.5,5H23a1,1,0,0,0,0-2H8.5a1,1,0,0,0,0,2Z"/>
                     <circle cx="2.5" cy="11.998" r="2.5"/>
@@ -210,7 +232,7 @@
     
             <button v-if="verifyMenuButton('orderedList')" :class="{ 'bg-zinc-200': editor.isActive('orderedList') }" @click="editor.chain().focus().toggleOrderedList().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>list-numbers</title>
+                    <title>List Numbers</title>
                     <path d="M7.75,4.5h15a1,1,0,0,0,0-2h-15a1,1,0,0,0,0,2Z"/>
                     <path d="M22.75,11h-15a1,1,0,1,0,0,2h15a1,1,0,0,0,0-2Z"/>
                     <path d="M22.75,19.5h-15a1,1,0,0,0,0,2h15a1,1,0,0,0,0-2Z"/>
@@ -222,36 +244,29 @@
     
             <button v-if="verifyMenuButton('blockquote')" :class="{ 'bg-zinc-200': editor.isActive('blockquote') }" @click="editor.chain().focus().toggleBlockquote().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>close-quote</title>
+                    <title>Close Quote</title>
                     <path d="M18.559,3.932a4.942,4.942,0,1,0,0,9.883,4.609,4.609,0,0,0,1.115-.141.25.25,0,0,1,.276.368,6.83,6.83,0,0,1-5.878,3.523,1.25,1.25,0,0,0,0,2.5,9.71,9.71,0,0,0,9.428-9.95V8.873A4.947,4.947,0,0,0,18.559,3.932Z"/>
                     <path d="M6.236,3.932a4.942,4.942,0,0,0,0,9.883,4.6,4.6,0,0,0,1.115-.141.25.25,0,0,1,.277.368A6.83,6.83,0,0,1,1.75,17.565a1.25,1.25,0,0,0,0,2.5,9.711,9.711,0,0,0,9.428-9.95V8.873A4.947,4.947,0,0,0,6.236,3.932Z"/>
                 </svg>
             </button>
     
-            <button v-if="verifyMenuButton('codeBlock')" :class="{ 'bg-zinc-200': editor.isActive('codeBlock') }" @click="editor.chain().focus().toggleCodeBlock().run()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>angle-brackets</title>
-                    <path d="M9.147,21.552a1.244,1.244,0,0,1-.895-.378L.84,13.561a2.257,2.257,0,0,1,0-3.125L8.252,2.823a1.25,1.25,0,0,1,1.791,1.744l-6.9,7.083a.5.5,0,0,0,0,.7l6.9,7.082a1.25,1.25,0,0,1-.9,2.122Z"/><path d="M14.854,21.552a1.25,1.25,0,0,1-.9-2.122l6.9-7.083a.5.5,0,0,0,0-.7l-6.9-7.082a1.25,1.25,0,0,1,1.791-1.744l7.411,7.612a2.257,2.257,0,0,1,0,3.125l-7.412,7.614A1.244,1.244,0,0,1,14.854,21.552Zm6.514-9.373h0Z"/>
-                </svg>
-            </button>
-    
             <button v-if="verifyMenuButton('horizontalRule')" @click="editor.chain().focus().setHorizontalRule().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>horizontal-rule</title>
+                    <title>Horizontal Rule</title>
                     <path d="M5,13 C4.44771525,13 4,12.5522847 4,12 C4,11.4477153 4.44771525,11 5,11 L19,11 C19.5522847,11 20,11.4477153 20,12 C20,12.5522847 19.5522847,13 19,13 L5,13 Z"/>
                 </svg>
             </button>
     
             <button v-if="verifyMenuButton('undo')" @click="editor.chain().focus().undo().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>undo</title>
+                    <title>Undo</title>
                     <path d="M17.786,3.77A12.542,12.542,0,0,0,4.821,2.905a.249.249,0,0,1-.292-.045L1.937.269A.507.507,0,0,0,1.392.16a.5.5,0,0,0-.308.462v6.7a.5.5,0,0,0,.5.5h6.7a.5.5,0,0,0,.354-.854L6.783,5.115a.253.253,0,0,1-.068-.228.249.249,0,0,1,.152-.181,10,10,0,0,1,9.466,1.1,9.759,9.759,0,0,1,.094,15.809A1.25,1.25,0,0,0,17.9,23.631a12.122,12.122,0,0,0,5.013-9.961A12.125,12.125,0,0,0,17.786,3.77Z"/>
                 </svg>
             </button>
     
             <button v-if="verifyMenuButton('redo')" @click="editor.chain().focus().redo().run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <title>redo</title>
+                    <title>Redo</title>
                     <path d="M22.608.161a.5.5,0,0,0-.545.108L19.472,2.86a.25.25,0,0,1-.292.045A12.537,12.537,0,0,0,6.214,3.77,12.259,12.259,0,0,0,6.1,23.632a1.25,1.25,0,0,0,1.476-2.018A9.759,9.759,0,0,1,7.667,5.805a10,10,0,0,1,9.466-1.1.25.25,0,0,1,.084.409l-1.85,1.85a.5.5,0,0,0,.354.853h6.7a.5.5,0,0,0,.5-.5V.623A.5.5,0,0,0,22.608.161Z"/>
                 </svg>
             </button>
@@ -260,39 +275,60 @@
                 <label class="cursor-pointer">
                     <input type="file" accept="image/*" @change="onImagesUpload" multiple hidden />
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="mx-1.5">
-                        <title>redo</title>
+                        <title>Upload Image</title>
                         <path d="M0 0h24v24H0V0z" fill="none"/>
                         <path d="M18 20H4V6h9V4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9h-2v9zm-7.79-3.17l-1.96-2.36L5.5 18h11l-3.54-4.71zM20 4V1h-2v3h-3c.01.01 0 2 0 2h3v2.99c.01.01 2 0 2 0V6h3V4h-3z"/>
                     </svg>
                 </label>
+            </button>
+
+            <button v-if="verifyMenuButton('setColor')" :class="{ 'bg-zinc-200': colorPickerOpened }" @click="colorPickerOpened = true" class="relative" ref="colorPickerRef">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette w-4 h-4">
+                    <title>Pick Color</title>
+                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                </svg>
+
+                <div v-show="colorPickerOpened" class="absolute text-zinc-500 cursor-default">
+                    <ColorPicker is-widget v-model:pureColor="pureColor" format="hex" picker-type="chrome" shape="circle" :disable-history="true" :disable-alpha="true" :blur-close="true">
+                        <template v-slot:extra>
+                            <div class="flex gap-2 h-7">
+                                <div v-for="colorCode in ['#52525b', '#27272a', '#a1a1aa', 'red']" @click="pureColor = colorCode" :style="{ backgroundColor: colorCode }" class="rounded-sm flex-1 cursor-pointer"></div>
+                            </div>
+                        </template>
+                    </ColorPicker>
+                </div>
             </button>
     
             <div class="border-l border-[#333] h-5 mx-2"></div>
     
             <button v-if="verifyMenuButton('alignLeft')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'left' }) }" @click="editor.chain().focus().setTextAlign('left').run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>align left</title>
+                    <title>Align Left</title>
                     <path d="M3 10H16M3 14H21M3 18H16M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
             
             <button v-if="verifyMenuButton('alignCenter')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'center' }) }" @click="editor.chain().focus().setTextAlign('center').run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>align center</title>
+                    <title>Align Center</title>
                     <path d="M3 6H21M3 14H21M17 10H7M17 18H7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
             
             <button v-if="verifyMenuButton('alignRight')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'right' }) }" @click="editor.chain().focus().setTextAlign('right').run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>align right</title>
+                    <title>Align Right</title>
                     <path d="M8 10H21M3 14H21M8 18H21M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
 
             <button v-if="verifyMenuButton('alignJustify')" :class="{ 'bg-zinc-200': editor.isActive({ textAlign: 'justify' }) }" @click="editor.chain().focus().setTextAlign('justify').run()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>align justify</title>
+                    <title>Align Justify</title>
                     <path d="M3 10H21M3 14H21M3 18H21M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>

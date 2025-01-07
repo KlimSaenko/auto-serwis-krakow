@@ -198,3 +198,93 @@ body.no-scroll {
     -webkit-mask-position: center;
     -webkit-mask-size: contain;
 }
+
+
+/*
+Blog post styles
+*/
+
+
+.blog-post:first-child {
+    margin-top: 0;
+}
+
+.blog-post p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+.blog-post img {
+    margin: 0.5rem 0;
+    cursor: default !important;
+    border-radius: 1rem;
+}
+
+.blog-post p {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.blog-post h4,
+.blog-post h5,
+.blog-post h6 {
+    text-wrap: pretty;
+}
+
+.blog-post h4 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+.blog-post h5 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+.blog-post h6 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.blog-post ul,
+.blog-post ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+}
+
+.blog-post ul {
+    list-style: url('/src/assets/rounded-square.svg');
+}
+
+.blog-post ol {
+    list-style: decimal;
+}
+
+.blog-post li p {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding-left: 0.25em;
+}
+
+.blog-post blockquote {
+    border-left: 0.25rem solid rgba(255, 0, 0, 0.9);
+    margin: 1.25rem 0;
+    padding-left: 1rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.25rem;
+    background: #e8e8f8;
+    border-radius: 0.25rem;
+}
+
+.blog-post hr {
+    border: none;
+    border-top: 2px solid #d1d1d6;
+    border-radius: 2px;
+    cursor: pointer;
+    margin: 2rem 0;
+}
+
+.blog-post hr.ProseMirror-selectednode {
+    border-top: 2px solid #7867d8;
+}

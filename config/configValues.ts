@@ -1,4 +1,4 @@
-import constansRaw from '../../config/constans.json';
+import constansRaw from './constans.json';
 
 const constans: Record<string, any> = constansRaw;
 

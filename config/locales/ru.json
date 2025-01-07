@@ -3,7 +3,7 @@
         "home": "Главная",
         "services": "Услуги",
         "media": "Медиа",
-        "workingTime": "Пн - Пт: 8:30 - 18:30",
+        "workingTime": "Пн - Пт: 8:30 - 17:30",
         "onlineAppointment": "Онлайн запись",
         "menu": "Меню",
         "corporateInfo": "О нас"
@@ -62,6 +62,7 @@
     },
     "footer": {
         "openNow": "Сейчас открыты!",
+        "closeNow": "Пока закрыты...",
         "contacts": "Контакты",
         "quickLinks": "Быстрое меню",
         "home": "Главная",
@@ -271,7 +272,8 @@
     "notFound": {
         "pageNotFound": "Страница Не Найдена",
         "hintMessage": "Возможно, мы переместили или удалили её",
-        "backToHomeButton": "Вернуться на Главную"
+        "backToHomeButton": "Вернуться на Главную",
+        "filesMissing": "Ошибка загрузки. Пожалуйста, перезагрузите страницу и в случае повтора напишите нам на почту {email}."
     },
     "admin": {
         "blog": {
@@ -290,7 +292,9 @@
             "editPostMode": "Режим редактирования",
             "previewPostMode": "Режим просмотра",
             "postReadySuccess": "Изменения могут быть опубликованы",
-            "dateUpdatedLabel": "Обновлено"
+            "dateUpdatedLabel": "Обновлено",
+            "postReadyFault": "Статья не считается готовой пока необходимые поля не будут заполнены",
+            "applyChanges": "Сохранить"
         }
     }
 }

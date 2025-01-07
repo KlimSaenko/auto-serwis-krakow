@@ -16,6 +16,7 @@ export default defineConfig(({ command, mode }) => {
 			tailwindMangle.vite()
 		],
 		resolve: {
+			extensions: ['.js', '.json', '.vue', '.ts'],		
 			alias: [
 				{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
 				{ find: '@car-brands', replacement: fileURLToPath(new URL('./public/car-brands', import.meta.url)) },
