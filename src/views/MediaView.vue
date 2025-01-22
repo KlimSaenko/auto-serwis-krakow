@@ -12,7 +12,7 @@
 								return {
 									name: socialMediaName,
 									iconPath: iconsPath[0] + "#" + socialMediaName,
-									info: socialMediaInfo
+									businessProfileLink: socialMediaInfo.businessProfileLink
 								};
 							});
 </script>
@@ -30,7 +30,7 @@
 			</div>
 
 			<div class="font-jost flex flex-row flex-wrap gap-6 md:gap-14 justify-center">
-				<div v-for="socialMedia of socialMediaList" :key="socialMedia.name" class="group relative rounded-full">
+				<a v-for="socialMedia of socialMediaList" :key="socialMedia.name" :href="socialMedia.businessProfileLink" class="group relative rounded-full">
 					<div class="p-4 overflow-hidden cursor-pointer">
 						<svg width="42" height="42" class="text-zinc-600 md:text-zinc-600 md:group-hover:text-zinc-900 group-active:text-zinc-900 md:group-hover:scale-[1.3] group-active:scale-[1.3] duration-[250ms]">
 							<use :href="socialMedia.iconPath" />
@@ -42,7 +42,7 @@
 							{{ $t('blog.weOnSocial') }} <span class="first-letter:uppercase">&nbsp;{{ socialMedia.name }}</span>
 						</p>
 					</div>
-				</div>
+				</a>
 			</div>
 		</div>
 

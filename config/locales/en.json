@@ -1,24 +1,305 @@
 {
     "header": {
         "home": "Home",
-        "workingTime": "Mon - Fri: 8am - 6pm",
-        "onlineAppointment": "Online appointment"
+        "services": "Services",
+        "media": "Media",
+        "workingTime": "Mon - Fri: 8:30 AM - 5:30 PM",
+        "onlineAppointment": "Online Appointment",
+        "menu": "Menu",
+        "corporateInfo": "About Us"
     },
     "home": {
         "goToAbout": "About Us",
-        "aboutTitle": "About Us",
         "postsTitle": "Latest Posts",
-        "mainBannerTitle": "Best Service in Krakow",
-        "whatPeopleSayTitle": "What People Say"
-    },
-    "googleMap": {
-        "markerTitle": "Auto Serwis Kraków",
-        "addressLabel": "Address",
-        "contactsLabel": "Contacts",
-        "telLabel": "Tel",
-        "viewOnGoogleMaps": "View on Google Maps"
+        "mainBannerTitle": "Efficiency You Can Trust",
+        "whatPeopleSayTitle": "What People Say About Us",
+        "rightCardShowAll": "Show All",
+        "rightCardShowAllTooltip": "Go to Services",
+        "rightCardTitle": "Our Services",
+        "rightCardContent_1": "We provide professional maintenance, part replacement, diagnostics, and repairs:",
+        "rightCardServiceOptions": [
+            {
+                "name": "technical repair",
+                "isNew": false
+            },
+            {
+                "name": "body repair",
+                "isNew": false
+            },
+            {
+                "name": "tire fitting",
+                "isNew": false
+            },
+            {
+                "name": "car rental",
+                "isNew": true
+            }
+        ],
+        "serviceOptionsNewLabel": "New!",
+        "leftCardTitle": "Welcome",
+        "leftCardContent_1": "to our service station in Krakow! We offer high-quality maintenance and repair services for cars of all brands.",
+        "leftCardContent_2": "Our experienced mechanics and specialists are ready to help you with any car-related problems.",
+        "middleCardTitle": "We’re on the Map",
+        "middleCardContent_1": "Located in the heart of Krakow with convenient transport access.",
+        "middleCardGoToMapTooltip": "Go to Map",
+        "aboutTitle": "About Us",
+        "aboutContent_1": "We provide professional maintenance, part replacement, engine diagnostics and repair, brake systems, suspension, and many other car components. We work quickly, efficiently, and at affordable prices.",
+        "aboutAdvantages": [
+            "Transparent repair process. Upon request, we provide video and photo reports of completed work.",
+            "We stick to deadlines and understand you need your car back as soon as possible.",
+            "We only repair what’s necessary, no extra charges or unnecessary repairs.",
+            "Official warranty on repairs for up to 1 year.",
+            "Only experienced staff."
+        ],
+        "weAreHereTitle": "Service Station on the Map"
     },
     "customerReview": {
-        "goToComment": "Go to comment"
+        "goToComment": "Open Comment"
+    },
+    "postCard": {
+        "readMore": "Continue Reading"
+    },
+    "footer": {
+        "openNow": "We’re Open Now!",
+        "closeNow": "Currently Closed...",
+        "contacts": "Contacts",
+        "quickLinks": "Quick Links",
+        "home": "Home",
+        "services": "Services",
+        "media": "Media",
+        "allRightsReserved": "All Rights Reserved"
+    },
+    "modal": {
+        "appointmentTitle": "Online Appointment",
+        "appointmentDescription": "You can book an appointment online by filling in the required fields. Please review our {privacyPolicyLabel} before submitting.",
+        "privacyPolicyLabel": "data processing policy",
+        "contactsTitle": "Contacts",
+        "contactsDescription": "Here are our contact details. You can book with us via Telegram or by calling.",
+        "customerNameLabel": "Your Name",
+        "customerNameFieldPlaceholder": "You will be booked under this name",
+        "customerNumberLabel": "Your Phone Number",
+        "vinNumberLabel": "Your Vehicle's VIN",
+        "vinNumberFieldTooltip": "VIN is used for more accurate service cost estimation",
+        "licensePlateLabel": "Your Vehicle's License Plate",
+        "licensePlateFieldTooltip": "License plate is used for booking purposes",
+        "customerMessageLabel": "Problem Description",
+        "customerMessageFieldPlaceholder": "Describe your issue here",
+        "customerNameMissingError": "Please provide your name.",
+        "customerContactInfoMissingError": "Please provide your phone number for feedback.",
+        "apointmentSentMessageSuccess": "Appointment successfully submitted!",
+        "apointmentSentMessageFault": "Appointment submission failed. Please try again."
+    },
+    "customerServices": {
+        "ourServicesTitle": "Our Services",
+        "unitsReplacementTitle": "Parts and Units Replacement",
+        "unitsReplacementDescriptionShort": "Regular maintenance and timely replacement of worn components help avoid major breakdowns and expensive repairs.",
+        "currentOptionAppoinment": "Book This Service",
+        "tableNameLabel": "Service",
+        "tablePriceLabel": "Price",
+        "pricelistTitle": "Service Costs",
+        "goToPricelist": "Go to Pricelist",
+        "readBlogTitle": "Read Related Posts",
+        "diagnosis": {
+            "title": "Vehicle System Diagnostics",
+            "descriptionShort": "Comprehensive service focused on assessing the technical condition of the vehicle.",
+            "description_1": "Modern vehicles feature numerous complex systems, each requiring regular monitoring and maintenance to ensure safety and reliability.{newLine}The main goal of diagnostics is to identify faults and prevent potential problems. Our station checks all key vehicle systems: engine, brakes, suspension, steering, electrical systems, safety systems, and exhaust system. Specialized equipment and software provide mechanics with precise data about each system’s condition.",
+            "checkReasons": [
+                "increased oil consumption",
+                "smoke in the exhaust",
+                "unusual idle behavior",
+                "low power",
+                "increased fuel consumption"
+            ],
+            "commonProblemDescription": "Update in config!!!",
+            "commonOptionAppoinment": "Book Diagnostics",
+            "options": [
+                {
+                    "name": "Engine Diagnostics",
+                    "price": "from 120 PLN",
+                    "description": "Engine diagnostics include checking its performance in various modes, measuring compression, analyzing exhaust gases, and checking the ignition system. It is important to ensure that all components are working optimally to prevent serious breakdowns.",
+                    "problemDescription": "Increased fuel consumption"
+                },
+                {
+                    "name": "Brake System",
+                    "price": "from 150 PLN",
+                    "description": "The brake system is checked for wear on pads and discs, the condition of the hydraulic system, and braking efficiency. The suspension and steering are diagnosed for wear and damage to ensure safe and comfortable driving.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Vehicle Electrical System",
+                    "price": "from 140 PLN",
+                    "description": "Diagnostics of the brake system include checking the battery, alternator, starters, as well as all wires and sensors. Safety systems such as ABS, ESP, and airbags are also thoroughly inspected.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Exhaust System Diagnostics",
+                    "price": "from 120 PLN",
+                    "description": "Exhaust system diagnostics are essential not only for the proper functioning of the car but also for compliance with environmental standards. Checking the catalytic converter, lambda sensors, and system tightness helps reduce harmful emissions.",
+                    "problemDescription": "Unusual idle behavior"
+                }
+            ]
+        },
+        "unitsReplacement": {
+            "title": "Replacement of Components and Units",
+            "descriptionShort": "Regular maintenance and timely replacement of worn components help avoid major breakdowns and costly repairs.",
+            "description_1": "Replacing components and units of all vehicle systems is an important service that ensures the longevity and safety of the vehicle. Regular maintenance and timely replacement of worn components help avoid major breakdowns and costly repairs. {newLine} The first and most important unit is the engine. Replacement may be needed in cases of significant wear, cylinder or piston damage. It is also important to replace filters, spark plugs, and drive belts that directly affect engine performance.",
+            "checkReasons": [
+                "increased oil consumption",
+                "smoke in exhaust",
+                "unusual idle behavior",
+                "low power",
+                "increased fuel consumption"
+            ],
+            "commonProblemDescription": "Replace in config!!!",
+            "commonOptionAppoinment": "Schedule a part replacement",
+            "options": [
+                {
+                    "name": "Engine",
+                    "price": "from 120 PLN",
+                    "description": "Engine replacement may be necessary in cases of significant wear, cylinder or piston damage. It is also important to replace filters, spark plugs, and drive belts that directly affect engine performance.",
+                    "problemDescription": "Increased fuel consumption"
+                },
+                {
+                    "name": "Cooling System",
+                    "price": "from 150 PLN",
+                    "description": "The cooling system requires periodic replacement of the radiator, thermostat, and water pump. These components ensure the optimal operating temperature of the engine, preventing overheating.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Transmission",
+                    "price": "from 140 PLN",
+                    "description": "Transmission replacement may involve clutches, gearboxes, or driveshafts. This is necessary for smooth and reliable gear shifting and power transfer to the wheels.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Brake System",
+                    "price": "from 120 PLN",
+                    "description": "The brake system requires regular replacement of pads, discs, and brake fluid. The wear of these components directly affects driving safety. It is also important to monitor the condition of brake hoses and cylinders.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Suspension and Steering",
+                    "price": "from 120 PLN",
+                    "description": "Suspension and steering require replacement of shock absorbers, springs, ball joints, and tie rod ends. These elements ensure the vehicle's comfort and handling, and their wear can lead to reduced stability and maneuverability.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Electrical System",
+                    "price": "from 120 PLN",
+                    "description": "The electrical system includes many components such as the battery, alternator, starter, and various sensors. Their replacement is necessary for the reliable operation of all vehicle systems and prevention of malfunctions.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Exhaust System",
+                    "price": "from 120 PLN",
+                    "description": "The exhaust system requires the replacement of the muffler, catalytic converter, and lambda sensors. These components reduce noise and harmful emissions, complying with environmental standards.",
+                    "problemDescription": "Unusual idle behavior"
+                }
+            ]
+        },
+        "unitsRepair": {
+            "title": "Repair of Vehicle Units and Components",
+            "descriptionShort": "A critically important service that extends the lifespan of the vehicle and ensures its safe operation.",
+            "description_1": "Modern vehicles consist of many complex systems and components, each requiring regular maintenance and, if necessary, repair. Professional repair of vehicle units and components at a service station allows timely detection and elimination of malfunctions, extending the vehicle's lifespan and increasing its reliability on the road.",
+            "checkReasons": [
+                "increased oil consumption",
+                "smoke in exhaust",
+                "unusual idle behavior",
+                "low power",
+                "increased fuel consumption"
+            ],
+            "commonProblemDescription": "Replace in config!!!",
+            "commonOptionAppoinment": "Schedule a repair",
+            "options": [
+                {
+                    "name": "Engine Repair",
+                    "price": "from 120 PLN",
+                    "description": "Engine repair includes replacing worn pistons, cylinders, crankshaft, and other internal components. Regular inspection and repair of the cooling system, including the radiator, thermostat, and water pump, are also necessary to prevent engine overheating.",
+                    "problemDescription": "Increased fuel consumption"
+                },
+                {
+                    "name": "Transmission, including gearbox and clutch",
+                    "price": "from 150 PLN",
+                    "description": "Transmission repair may include replacing gears, bearings, clutch, and oil. These operations are necessary to ensure smooth gear shifting and effective power transfer from the engine to the wheels.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Brake System",
+                    "price": "from 140 PLN",
+                    "description": "One of the most critical vehicle components in terms of safety. Brake system repair may include replacing brake pads, discs, cylinders, and fluid. Wear of these components can lead to reduced braking efficiency and increased stopping distance.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Suspension and Steering",
+                    "price": "from 120 PLN",
+                    "description": "Replacing shock absorbers, springs, tie rod ends, and ball joints ensures vehicle comfort and handling, as well as prevents premature wear of tires and other components.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Electrical System",
+                    "price": "from 120 PLN",
+                    "description": "Includes many components such as the battery, alternator, starter, and various sensors. Repairing the electrical system is necessary to ensure the reliable operation of all vehicle systems, from ignition to lighting and engine control.",
+                    "problemDescription": "Unusual idle behavior"
+                },
+                {
+                    "name": "Exhaust System Repair",
+                    "price": "from 120 PLN",
+                    "description": "Includes replacing the muffler, catalytic converter, and lambda sensors. Helps reduce noise and emissions, complying with environmental standards.",
+                    "problemDescription": "Unusual idle behavior"
+                }
+            ]
+        }
+    },
+    "media": {
+        "galleryTitle": "Gallery",
+        "socialMediaTitle": "Find Us on Social Media",
+        "ourBlogTitle": "Our Blog",
+        "followUs": "Follow us for updates"
+    },
+    "blog": {
+        "blogTitle": "Blog",
+        "goToBlog": "Go to Blog",
+        "shareViaSocial": "Share via",
+        "readAlsoTitle": "Read also",
+        "shareViaSocialLabel": "Share on social media",
+        "weOnSocial": "We are on",
+        "goBackToBlog": "Go back to Blog"
+    },
+    "benefitsList": {
+        "title": "Why Choose Our Service",
+        "carShare": "We provide a car while yours is being repaired",
+        "lowPrices": "Transparent pricing for services",
+        "modernEquipment": "State-of-the-art equipment",
+        "qualityGuarantee": "Warranty on work and parts",
+        "customerZone": "Comfortable customer area",
+        "multilaguage": "Multilingual team"
+    },
+    "notFound": {
+        "pageNotFound": "Page Not Found",
+        "hintMessage": "It seems we have moved or deleted it",
+        "backToHomeButton": "Return to Home",
+        "filesMissing": "We are working on it."
+    },
+    "admin": {
+        "blog": {
+            "postTitleLabel": "Post Title",
+            "postTitlePlaceholderOptions": [
+                "Fuel System Repair: Common Problems and Solutions",
+                "Engine Overheating: Causes and Fixes",
+                "DIY Oil Change: A Step-by-Step Guide",
+                "The Importance of Regular Tire Balancing",
+                "Check Engine Light On? What It Could Mean",
+                "Troubleshooting Air Conditioner Issues: Stay Cool on the Road"
+            ],
+            "postContentPlaceholder": "Write here ...",
+            "adminModeLabel": "Admin Console",
+            "createPost": "Create Post",
+            "editPostMode": "Edit Mode",
+            "previewPostMode": "Preview Mode",
+            "postReadySuccess": "Changes can be published",
+            "dateUpdatedLabel": "Updated",
+            "postReadyFault": "The post is not considered ready until all required fields are filled out",
+            "applyChanges": "Save"
+        }
     }
 }

@@ -1,6 +1,6 @@
-import constansRaw from './constans.json';
+import constantsRaw from './constants.json';
 
-const constans: Record<string, any> = constansRaw;
+const constants: Record<string, any> = constantsRaw;
 
 export function getConfigConst (
     constPath: string
@@ -11,5 +11,5 @@ export function getConfigConst (
 
     return constPath.split('.')
         .filter(t => t !== '')
-        .reduce((prev, cur) => prev && prev[cur as keyof Record<string, any>], constans);
+        .reduce((prev, cur) => prev && prev[cur as keyof Record<string, any>], constants);
 }

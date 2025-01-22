@@ -116,7 +116,7 @@
                     <div class="border-l border-gray-100 h-4"></div>
 
                     <li>
-                        <a :href="(getConfigConst('corporateInfo.telegramLink') as string)" target="_blank" draggable="false" class="flex items-center select-text md:hover:text-gray-100 active:text-zinc-100">
+                        <a :href="(getConfigConst('application.socialMedia.telegram.businessProfileLink') as string)" target="_blank" draggable="false" class="flex items-center select-text md:hover:text-gray-100 active:text-zinc-100">
                             <svg class="mr-3" height="20" width="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z"/>
                             </svg>
@@ -207,7 +207,7 @@
                     </li>
 
                     <li class="py-2">
-                        <a :href="'tel:' + (getConfigConst('corporateInfo.telegramLink') as string)" target="_blank" draggable="false" class="flex items-center font-jost font-medium">
+                        <a :href="'tel:' + (getConfigConst('application.socialMedia.telegram.businessProfileLink') as string)" target="_blank" draggable="false" class="flex items-center font-jost font-medium">
                             <svg class="mr-3 min-w-5 text-zinc-500" height="20" width="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="m29.919 6.163-4.225 19.925c-.319 1.406-1.15 1.756-2.331 1.094l-6.438-4.744-3.106 2.988c-.344.344-.631.631-1.294.631l.463-6.556 11.931-10.781c.519-.462-.113-.719-.806-.256l-14.75 9.288-6.35-1.988c-1.381-.431-1.406-1.381.288-2.044l24.837-9.569c1.15-.431 2.156.256 1.781 2.013z"/>
                             </svg>

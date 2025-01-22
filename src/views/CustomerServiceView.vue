@@ -5,6 +5,14 @@
     import PostCardSimpled from '../components/cards/PostCardSimpled.vue';
     import { getConfigConst } from '@config/configValues';
 	import { openAppointmentModal } from '@/vue-helpers/useAppointmentModal';
+    import type IBlogPost from '@/types/blogPost';
+    import ApiService from '@/vue-helpers/apiService';
+    import FileMissing from '../components/FileMissing.vue';
+
+    const postCards = ref<IBlogPost[]>();
+    const loading = ref(true);
+
+    ApiService.GetBlogPosts(1, 3).then(blogData => postCards.value = blogData?.posts).finally(() => loading.value = false);
 
     const route = useRoute();
     const optionExpanded = ref(-1);
@@ -130,11 +138,17 @@
                 <div class="mt-28">
                     <h2 class="text-[2.5rem] md:text-5xl mb-14 font-jost-bold flex justify-center text-center text-zinc-700 leading-[1.2]">{{ $t('customerServices.readBlogTitle') }}</h2>
 
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <PostCardSimpled />
-                        <PostCardSimpled />
-                        <PostCardSimpled class="max-md:hidden" />
+                    <div v-if="loading" class="flex w-full p-12 justify-center">
+                        <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                            <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+                        </svg>
+                        <span class="sr-only">Loading...</span>
                     </div>
+                    <div v-else-if="postCards" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <PostCardSimpled v-for="post in postCards" :init-content="post" />
+                    </div>
+                    <FileMissing v-else />
                 </div>
             </article>
         </div>

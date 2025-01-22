@@ -1,0 +1,18 @@
+# DirectoryIndex /server/index.php
+RewriteEngine On
+
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+RewriteRule ^ /public%{REQUEST_URI} [END]
+
+RewriteRule ^ /server/index.php [END]
+
+#Wersja PHP zmieniona: 2025-01-19 02:47:10
+AddHandler application/x-httpd-php82 php
+
+<IfModule mod_headers.c>
+    Header add Access-Control-Allow-Origin "*"
+    Header add Access-Control-Allow-Headers "Content-Type, Authorization"
+    Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+    Header add Access-Control-Max-Age "86400"
+</IfModule>

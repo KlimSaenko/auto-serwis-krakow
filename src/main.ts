@@ -3,7 +3,7 @@ import './main.css';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
 import { createApp } from 'vue';
-import { createServerHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue';
 import router from './router';
 import { createI18n } from 'vue-i18n';
 import Translations from '@/vue-helpers/translations';
@@ -26,7 +26,7 @@ import App from './App.vue';
 // import BenefitsList from './components/BenefitsList.vue';
 
 const app = createApp(App);
-const appHead = createServerHead();
+const appHead = createHead();
 
 const setupLocalePromise = setupLocale();
 
@@ -46,24 +46,6 @@ const setupLocalePromise = setupLocale();
 
 app.use(appHead);
 app.use(router);
-
-// useServerSeoMeta({
-//     title: "Krakow Service",
-// 	description: "Woah such a good description",
-// 	robots: "index, follow",
-// 	// googlebot: "index, follow",
-// 	// canonical: "https://domain.fr",
-// 	ogTitle: "Krakow Service",
-// 	ogDescription: "Woah such a good description.",
-// 	ogImage: "/src/assets/car-service-banner-dark.webp",
-// 	ogUrl: "https://domain.fr/",
-// 	// twitterCard: "summary_large_image",
-// 	// twitterImage: "https://domain.fr/banner_seo.png",
-// 	// twitterUrl: "https://domain.fr",
-// 	// twitterTitle: "A title page",
-// 	// twitterDescription: "Woah such a good description",
-// 	// twitterImageAlt: "Alt twitter"
-// });
 
 TransitionWaiter.Add();
 

@@ -4,6 +4,7 @@ import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import tailwindMangle from 'unplugin-tailwindcss-mangle';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig(({ command, mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
@@ -13,10 +14,26 @@ export default defineConfig(({ command, mode }) => {
 		plugins: [
 			vue(),
 			vueJsx(),
+			viteStaticCopy({
+				targets: [
+					{
+						src: 'config/constants.json',
+						dest: '../config'
+					},
+					{
+						src: 'server/index.php',
+						dest: '../server'
+					},
+					{
+						src: ['server/blog_posts', '.htaccess'],
+						dest: '../'
+					}
+				]
+			}),
 			tailwindMangle.vite()
 		],
 		resolve: {
-			extensions: ['.js', '.json', '.vue', '.ts'],		
+			extensions: ['.js', '.json', '.vue', '.ts'],
 			alias: [
 				{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
 				{ find: '@car-brands', replacement: fileURLToPath(new URL('./public/car-brands', import.meta.url)) },
@@ -26,7 +43,7 @@ export default defineConfig(({ command, mode }) => {
 			]
 		},
 		build: {
-			outDir: "./dist",
+			outDir: "./dist/public",
 			assetsInlineLimit: 0,
 			rollupOptions: {
 				output: {

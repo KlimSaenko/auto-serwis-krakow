@@ -5,6 +5,7 @@
     const paredImages = ref<GalleryImage[][][]>([]); // 1st level - array (row) of images in gallery; 2nd - array of images in a row; 3rd - array of images in the single image window
 	const imagesIndex = ref(1);
     const imagePreview = ref<GalleryImage | undefined>(undefined);
+    const processingImages = ref(24);
 
     const imagesUrls = Object.values(import.meta.glob<string>('@/assets/gallery/*.(webp|png|jpeg|jpg)', { eager: true, import: 'default', query: '?url' }));
     const thumbnailsUrls = Object.values(import.meta.glob<string>('@/assets/gallery/thumbnails/tn_*.(webp|png|jpeg|jpg)', { eager: true, import: 'default', query: '?url' }));
@@ -14,14 +15,18 @@
 	function populateImages(){
         const allImagesRaw = getImagesData(imagesUrls);
         const allThumbnailsRaw = getImagesData(thumbnailsUrls).map(data => {
-            data.fileName = data.fileName.slice(3)
+            data.fileName = data.fileName.slice(3);
             return data;
         });
 
         const allImages = allImagesRaw
-            .map(imageData => new GalleryImage(imageData.url, imageData.fileName, allThumbnailsRaw.find(thumbnail => 
-                thumbnail.fileName === imageData.fileName
-            )?.url));
+            .map(imageData => {
+                const thumbnailUrl = allThumbnailsRaw.find(thumbnail => thumbnail.fileName === imageData.fileName)?.url;
+                const image = new GalleryImage(imageData.url, imageData.fileName, thumbnailUrl);
+                image.OnLoad = () => processingImages.value--;
+                
+                return image;
+            });
         
         paredImages.value = [
             [0, 1, 2, 3].map(index => [index, index + 8, index + 16].map(i => allImages[i])),
@@ -83,7 +88,7 @@
                 </button>
                 
                 <div class="max-sm:px-8 sm:px-2 md:px-4 2xl:px-16 w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-xl">
-                    <div v-for="(imageGroups, rowIndex) in paredImages" :aria-colspan="imagesIndex"
+                    <div v-show="processingImages <= 0" v-for="(imageGroups, rowIndex) in paredImages" :aria-colspan="imagesIndex"
                         :class="rowIndex === 0 ?
                                 `md:aria-[colspan='1']:grid-cols-[20fr,30fr,25fr,25fr] md:aria-[colspan='2']:grid-cols-[25fr,25fr,30fr,20fr] md:aria-[colspan='3']:grid-cols-[30fr,25fr,20fr,25fr] max-md:mb-3` :
                                 rowIndex === 1 ?
@@ -106,6 +111,13 @@
                                 <!-- <label class="absolute ms-2 bottom-3 inline-block text-sm text-white md:ml-5 md:text-lg drop-shadow-xl">{{ image?.Label }}</label> -->
                             </div>
                         </div>
+                    </div>
+                    <div v-show="processingImages > 0" class="flex w-full justify-center py-24">
+                        <svg class="animate-spin" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12H19C19 15.866 15.866 19 12 19V22Z" />
+                            <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" />
+                        </svg>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
 
